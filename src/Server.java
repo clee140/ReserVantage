@@ -73,6 +73,23 @@ public class Server implements Runnable {
 
             } else {
 
+                String userName = "userName";
+
+                Customer customer = new Customer(userName, userName + ".txt");
+                String choice = bufferedReader.readLine();
+
+                if (choice.equals("1")) {
+
+                    String appointment = bufferedReader.readLine();
+                    String message = customer.makeAppointment(appointment);
+
+                    writer.println(message);
+                    writer.flush();
+                    writer.close();
+
+                }
+
+
 
             }
 
