@@ -65,6 +65,22 @@ public class Server implements Runnable {
 
             }
 
+            if (userType.equals("Seller")) {
+
+
+
+
+
+            } else {
+
+
+            }
+
+
+
+
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
