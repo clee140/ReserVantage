@@ -57,12 +57,23 @@ public class Server implements Runnable {
                 pw.flush();
                 pw.close();
             } else {
+                boolean runAgain = true;
+                while (runAgain) {
+                    String userEmail = bufferedReader.readLine();
+                    String password = bufferedReader.readLine();
 
 
-
-
-
-
+                    if (user.validator("userDatabase.txt", userEmail, password)) {
+                        writer.write("true"); // Successful login.
+                        writer.println();
+                        writer.flush();
+                        runAgain = false;
+                    } else {
+                        writer.write("false"); // Unsuccessful login.
+                        writer.println();
+                        writer.flush();
+                    }
+                }
             }
 
             if (userType.equals("Seller")) {
