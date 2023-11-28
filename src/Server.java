@@ -62,6 +62,7 @@ public class Server implements Runnable {
                     String userEmail = bufferedReader.readLine();
                     String password = bufferedReader.readLine();
 
+
                     if (user.validator("userDatabase.txt", userEmail, password)) {
                         writer.write("true"); // Successful login.
                         writer.println();
