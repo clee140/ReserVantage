@@ -28,7 +28,7 @@ public class Client extends JComponent implements Runnable{
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
 
-        //Creates intial option panel
+        //Creates initial option panel
         welcomeMessageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         selectOptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         createAccountButton = new JButton("Create Account");
