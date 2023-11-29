@@ -169,13 +169,28 @@ public class Server implements Runnable {
 
 
 
+
                 } else if (choice.equals("6")) { // Handles view currently approved appointments.
-
-
+                    String approvedAppointments = seller.viewApprovedAppointments();
+                    writer.println(approvedAppointments);
+                    writer.flush();
                 } else if (choice.equals("7")) { // Handles view statistics.
+                    boolean validSort = false;
 
+                    while(!validSort) {
+                        String sort = bufferedReader.readLine();
+                        if (sort.equalsIgnoreCase("Yes") || sort.equalsIgnoreCase("No")) {
+                            validSort = true;
+                            writer.println(seller.viewStatistics(sort));
+                            writer.flush();
+                        } else {
+                            writer.println("Invalid response");
+                            writer.flush();
+                        }
+                    }
                 } else {
-
+                    writer.println("You have successfully logged out.");
+                    writer.flush();
                 }
 
 
