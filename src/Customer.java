@@ -102,6 +102,11 @@ public class Customer extends User {
                 appointment += lines.get(i) + "\n";
             }
         }
+
+        if (appointment.length() == 0) {
+            appointment = "No pending appointments.";
+        }
+
         return appointment;
     }
 
