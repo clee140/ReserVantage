@@ -60,7 +60,7 @@ public class Customer extends User {
 
     //Takes the appointment as parameter, checks if the appointment exists in the hotel,
     //and requests it for the customer.
-    public void makeAppointment(String appointment) {
+    public String makeAppointment(String appointment) {
         String appointmentList = viewCalendars();
         if (appointmentList.contains(appointment)) {
             FileWriter writer = null;
@@ -68,12 +68,12 @@ public class Customer extends User {
                 writer = new FileWriter("awaitingApproval.txt", true);
                 writer.write(appointment + "-" + userName + "\n");
                 writer.close();
-                System.out.println("Appointment request made.");
+                return "Appointment request made.";
             } catch (Exception e) {
-                e.printStackTrace();
+                return "ERROR";
             }
         } else {
-            System.out.println("Sorry, not appointment.");
+            return "Sorry, not appointment.";
         }
     }
 
