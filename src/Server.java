@@ -169,6 +169,7 @@ public class Server implements Runnable {
                     if (seller.getCustomerRequest().equals("No appointment requests")) {
                         writer.println(seller.getCustomerRequest()); // Sends message to Client.
                         writer.flush();
+
                     } else {
                         writer.println(seller.getCustomerRequest()); // Sends customer requests to Client.
                         writer.flush();
