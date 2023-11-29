@@ -18,7 +18,9 @@ public class Server implements Runnable {
         ) {
             // Creates a new user (seller or customer).
             User user = new User();
+
             String email = "";
+            String password = "";
 
             String userType = bufferedReader.readLine(); // Either (1) Seller or (2) Customer.
             String name = bufferedReader.readLine(); // Name of the user.
@@ -48,7 +50,7 @@ public class Server implements Runnable {
                     }
                 }
 
-                String password = bufferedReader.readLine(); // Receives password from Client.
+                password = bufferedReader.readLine(); // Receives password from Client.
                 PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("userDatabase.txt",
                         true)));
 
@@ -59,11 +61,10 @@ public class Server implements Runnable {
             } else {
                 boolean runAgain = true;
                 while (runAgain) {
-                    String userEmail = bufferedReader.readLine();
-                    String password = bufferedReader.readLine();
+                    email = bufferedReader.readLine();
+                    password = bufferedReader.readLine();
 
-
-                    if (user.validator("userDatabase.txt", userEmail, password)) {
+                    if (user.validator("userDatabase.txt", email, password)) {
                         writer.write("true"); // Successful login.
                         writer.println();
                         writer.flush();
@@ -77,6 +78,38 @@ public class Server implements Runnable {
             }
 
             if (userType.equals("Seller")) {
+                String storeName = bufferedReader.readLine();
+
+                Seller seller = new Seller(email, storeName, email + ".txt");
+                String choice = bufferedReader.readLine();
+
+                if (choice.equals("1")) { // Handles view current calendars.
+
+
+                } else if (choice.equals("2")) { // Handles create new calendar.
+
+
+                } else if (choice.equals("3")) { // Handles edit calendar.
+
+
+                } else if (choice.equals("4")) { // Handles delete calendar.
+
+
+                } else if (choice.equals("5")) { // Handles approve/decline appointments.
+
+
+                } else if (choice.equals("6")) { // Handles view currently approved appointments.
+
+
+                } else if (choice.equals("7")) { // Handles view statistics.
+
+                } else {
+
+                }
+
+
+
+
 
 
 
