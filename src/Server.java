@@ -181,25 +181,104 @@ public class Server implements Runnable {
 
             } else {
 
-                String userName = "userName";
+                boolean runner = true;
+                while (runner) {
+                    String userName = "userName"; //username needs to be imported in
 
-                Customer customer = new Customer(userName, userName + ".txt");
-                String choice = bufferedReader.readLine();
+                    Customer customer = new Customer(userName, userName + ".txt");
+                    String choice = bufferedReader.readLine();
 
-                if (choice.equals("1")) {
+                    if (choice.equals("1")) {
 
-                    String appointment = bufferedReader.readLine();
-                    String message = customer.makeAppointment(appointment);
+                        String appointment = bufferedReader.readLine();
+                        String message = customer.makeAppointment(appointment);
 
-                    writer.println(message);
-                    writer.flush();
-                    writer.close();
+                        writer.println(message);
+                        writer.flush();
 
+                    } else if (choice.equals("2")) {
+
+                        String appointment = bufferedReader.readLine();
+                        int response = Integer.parseInt(bufferedReader.readLine());
+
+
+                        boolean cancelled = customer.cancelAppointment(appointment, response);
+                        String message = "";
+                        if (cancelled) {
+                            message = "Appointment cancelled successfully.";
+                        } else {
+                            message = "Appointment cancellation failed. " +
+                                    "Sorry, not appointment.";
+                        }
+
+                        writer.println(message);
+                        writer.flush();
+
+                    } else if (choice.equals("3")) {
+
+                        String message = customer.viewCalendars();
+
+
+                        writer.println(message);
+                        writer.flush();
+
+                    } else if (choice.equals("4")) {
+
+                        String message = customer.viewApprovedAppointments();
+
+                        writer.println(message);
+                        writer.flush();
+
+                    } else if (choice.equals("5")) {
+
+                        String message = customer.viewAppointmentsWaitingApproval();
+
+                        writer.println(message);
+                        writer.flush();
+
+                    } else if (choice.equals("6")) {
+
+                        int sort = Integer.parseInt(bufferedReader.readLine());
+
+                        String message = customer.viewDashboard(sort);
+
+                        writer.println(message);
+                        writer.flush();
+
+                    } else if (choice.equals("7")) {
+
+                        String outFile = (userName + ".txt");
+                        try (BufferedReader reader = new BufferedReader(new FileReader(outFile))) {
+                            String desktop = System.getProperty("user.home") + "/Desktop/";
+                            String exportPath = desktop + outFile;
+                            try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(exportPath))) {
+                                String line;
+                                while ((line = reader.readLine()) != null) {
+                                    bufferedWriter.write(line);
+                                    bufferedWriter.newLine();
+                                }
+                                String message = "Your file has been exported! Please check your desktop to view the text file.";
+
+                                writer.println(message);
+                                writer.flush();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    } else if (choice.equals("8")) {
+
+                        writer.println("Thank you for using our app.");
+                        writer.flush();
+                        break;
+
+                    }
                 }
 
-
             }
-
 
         } catch (IOException e) {
             e.printStackTrace();
