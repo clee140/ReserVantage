@@ -166,10 +166,17 @@ public class Server implements Runnable {
                         writer.flush();
                     }
                 } else if (choice.equals("5")) { // Handles approve/decline appointments.
+                    if (seller.getCustomerRequest().equals("No appointment requests")) {
+                        writer.println(seller.getCustomerRequest()); // Sends message to Client.
+                        writer.flush();
+                    } else {
+                        writer.println(seller.getCustomerRequest()); // Sends customer requests to Client.
+                        writer.flush();
 
-
-
-
+                        String requestedAppointment = bufferedReader.readLine();
+                        String requestUsername = bufferedReader.readLine();
+                        seller.handleCustomerRequests(requestedAppointment, requestUsername);
+                    }
                 } else if (choice.equals("6")) { // Handles view currently approved appointments.
                     String approvedAppointments = seller.viewApprovedAppointments();
                     writer.println(approvedAppointments);
