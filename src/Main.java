@@ -362,7 +362,10 @@ public class Main {
                                         String requestAppt = scanner.nextLine();
                                         System.out.println("Customer username: ");
                                         String requestUsername = scanner.nextLine();
-                                        seller.handleCustomerRequests(requestAppt, requestUsername);
+                                        System.out.println("Approve (1) or decline (2)");
+                                        String action = scanner.nextLine();
+
+                                        seller.handleCustomerRequests(requestAppt, requestUsername, action);
                                     }
                                 }
                                 case 6 -> //View currently approved appointments
