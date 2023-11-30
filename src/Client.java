@@ -123,26 +123,8 @@ public class Client extends JComponent implements Runnable {
             //TODO: Where we do login credential stuff
         });
 
-        //If user presses the enter button on their keyboard
-        createEnterButton.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    //TODO: Login credential stuff pt 2
-                }
-            }
-        });
-
         loginEnterButton.addActionListener( e -> {
             //TODO: Where we do login credential stuff
-        });
-
-        //If user presses the enter button on their keyboard
-        loginEnterButton.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    //TODO: Login credential stuff pt 2
-                }
-            }
         });
     }
 }
