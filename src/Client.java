@@ -10,6 +10,8 @@ public class Client extends JComponent implements Runnable {
 
     //Login info panel - used for both create account and login
     JComboBox<String> sellerOrCustomer = new JComboBox();
+    JLabel nameLabel = new JLabel("Name: ");
+    JTextField nameText;
     JLabel loginInfoLabel = new JLabel("Please enter your email and password.");
     JLabel emailLabel = new JLabel("Email: ");
     JTextField emailText;
@@ -60,8 +62,8 @@ public class Client extends JComponent implements Runnable {
         sellerOrCustomer.addItem("Customer");
 
         //Creates create account frame
-        JFrame createAccountFrame = new JFrame("Account");
-        content = createAccountFrame.getContentPane();
+        JFrame accountFrame = new JFrame("Account");
+        content = accountFrame.getContentPane();
         SpringLayout layout = new SpringLayout();
         content.setLayout(layout);
 
@@ -72,17 +74,25 @@ public class Client extends JComponent implements Runnable {
         layout.putConstraint(SpringLayout.WEST, sellerOrCustomer, 5, SpringLayout.EAST, selectOptionLabel);
         layout.putConstraint(SpringLayout.NORTH, sellerOrCustomer, 5, SpringLayout.NORTH, content);
 
+        content.add(nameLabel);
+        nameText = new JTextField("", 20);
+        content.add(nameText);
+        layout.putConstraint(SpringLayout.WEST, nameLabel, 20, SpringLayout.WEST, content);
+        layout.putConstraint(SpringLayout.WEST, nameText, 5, SpringLayout.EAST, nameLabel);
+        layout.putConstraint(SpringLayout.NORTH, nameLabel, 10, SpringLayout.SOUTH, sellerOrCustomer);
+        layout.putConstraint(SpringLayout.NORTH, nameText, 10, SpringLayout.SOUTH, sellerOrCustomer);
+
         content.add(loginInfoLabel);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, loginInfoLabel, 5, SpringLayout.EAST, selectOptionLabel);
-        layout.putConstraint(SpringLayout.NORTH, loginInfoLabel, 20, SpringLayout.SOUTH, selectOptionLabel);
+        layout.putConstraint(SpringLayout.NORTH, loginInfoLabel, 50, SpringLayout.SOUTH, selectOptionLabel);
 
         content.add(emailLabel);
         emailText = new JTextField("", 33);
         content.add(emailText);
         layout.putConstraint(SpringLayout.WEST, emailLabel, 20, SpringLayout.WEST, content);
         layout.putConstraint(SpringLayout.WEST, emailText, 5, SpringLayout.EAST, emailLabel);
-        layout.putConstraint(SpringLayout.NORTH, emailLabel, 30, SpringLayout.SOUTH, loginInfoLabel);
-        layout.putConstraint(SpringLayout.NORTH, emailText, 30, SpringLayout.SOUTH, loginInfoLabel);
+        layout.putConstraint(SpringLayout.NORTH, emailLabel, 20, SpringLayout.SOUTH, loginInfoLabel);
+        layout.putConstraint(SpringLayout.NORTH, emailText, 20, SpringLayout.SOUTH, loginInfoLabel);
 
         content.add(passLabel);
         passText = new JTextField("", 30);
@@ -97,25 +107,27 @@ public class Client extends JComponent implements Runnable {
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, createEnterButton, 5, SpringLayout.HORIZONTAL_CENTER, content);
         layout.putConstraint(SpringLayout.NORTH, createEnterButton, 80, SpringLayout.SOUTH, emailLabel);
 
-        createAccountFrame.setSize(600, 300);
-        createAccountFrame.setLocationRelativeTo(null);
-        createAccountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        accountFrame.setSize(600, 300);
+        accountFrame.setLocationRelativeTo(null);
+        accountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         //User chooses between two options: Create Account or Login to Existing Account
         createAccountButton.addActionListener(e -> {
             frame.dispose();
-            createAccountFrame.setVisible(true);
+            accountFrame.setVisible(true);
         });
 
         Container finalContent = content;
         loginEnterButton = new JButton("Enter");
         loginButton.addActionListener(e -> {
             frame.dispose();
-            createAccountFrame.remove(createEnterButton);
+            accountFrame.remove(createEnterButton);
+            accountFrame.remove(nameLabel);
+            accountFrame.remove(nameText);
             finalContent.add(loginEnterButton);
             layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, loginEnterButton, 5, SpringLayout.HORIZONTAL_CENTER, finalContent);
             layout.putConstraint(SpringLayout.NORTH, loginEnterButton, 80, SpringLayout.SOUTH, emailLabel);
-            createAccountFrame.setVisible(true);
+            accountFrame.setVisible(true);
         });
 
         //If user clicks enter button
