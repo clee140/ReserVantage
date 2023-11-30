@@ -295,34 +295,37 @@ public class Seller extends User {
         Date date = new Date();
         boolean approved = false;
 
-        for (int i = 0; i < calendarFile.size(); i++) {
-            if (calendarFile.get(i).contains("-") && calendarFile.get(i).contains(",")) {
-                String[] formatAppointment = appointment.split("-");
-                if (calendarFile.get(i).equals(formatAppointment[0] + "-" + formatAppointment[1])) {
-                    String[] dash = calendarFile.get(i).split("-");
-                    String[] comma = dash[1].split(",");
+        if (action.equals("1")) {
+            for (int i = 0; i < calendarFile.size(); i++) {
+                if (calendarFile.get(i).contains("-") && calendarFile.get(i).contains(",")) {
+                    String[] formatAppointment = appointment.split("-");
+                    if (calendarFile.get(i).equals(formatAppointment[0] + "-" + formatAppointment[1])) {
+                        String[] dash = calendarFile.get(i).split("-");
+                        String[] comma = dash[1].split(",");
 
-                    if (comma[2].equals("1")) {
-                        System.out.println("Appointment declined!");
-                        customerRequest.add(calendarFile.get(i));
-                        break;
+                        String update = dash[0] + "-" + comma[0] + "," + comma[1] + "," + "1" + "," + comma[3] + ","
+                                + comma[4];
+                        customerRequest.add(appointment);
+                        calendarFile.set(i, update);
+                        approved = true;
+                        System.out.println("Appointment approved!");
                     }
-
-                    String update = dash[0] + "-" + comma[0] + "," + comma[1] + "," + "1" + "," + comma[3] + ","
-                            + comma[4];
-                    customerRequest.add(appointment);
-                    calendarFile.set(i, update);
-                    approved = true;
-                    System.out.println("Appointment approved!");
+                }
+                if (approved) {
+                    break;
                 }
             }
-            if (approved) {
-                break;
-            }
-        }
-
-        if (!approved) {
+        } else if (action.equals("2")) {
             System.out.println("Appointment declined!");
+            try (FileWriter writer = new FileWriter("awaitingApproval.txt", false)) {
+                for (int i = 0; i < customerRequest.size(); i++) {
+                    if (!customerRequest.get(i).equals(appointment)) {
+                        writer.write(customerRequest.get(i) + "\n");
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         if (approved) {

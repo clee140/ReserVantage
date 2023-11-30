@@ -355,13 +355,14 @@ public class Main {
                                         System.out.println(seller.getCustomerRequest());
                                     } else {
                                         System.out.println(seller.getCustomerRequest());
+                                        System.out.println("Customer username: ");
+                                        String requestUsername = scanner.nextLine();
                                         System.out.println("Please select an appointment to approve/decline: ");
                                         System.out.println("Enter the appointment exactly as it appears in the above appointment list." +
                                                 "\n[Calendar name]-[Appointment Title],[Max Attendees],[Approved Bookings],[Start Time]," +
                                                 "[End Time]-[Customer username]");
                                         String requestAppt = scanner.nextLine();
-                                        System.out.println("Customer username: ");
-                                        String requestUsername = scanner.nextLine();
+
                                         System.out.println("Approve (1) or decline (2)");
                                         String action = scanner.nextLine();
 
