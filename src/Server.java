@@ -102,8 +102,7 @@ public class Server implements Runnable {
                         String importChoice = bufferedReader.readLine(); // Indicates to create calendar with file or manually.
                         if (importChoice.equals("1")) { // Import file
                             String fileName = bufferedReader.readLine();
-                            String desktopPath = bufferedReader.readLine();
-                            seller.createCalendarWithFile(fileName + desktopPath); // Creates calendar with file.
+                            seller.createCalendarWithFile(System.getProperty("user.home") + "/Desktop/" + fileName); // Creates calendar with file.
                         } else if (importChoice.equals("2")) { // Manually create file.
                             boolean runAgain = true;
                             ArrayList<Appointment> apptList = new ArrayList<>(); // Holds the appointments.
@@ -151,20 +150,11 @@ public class Server implements Runnable {
 
                         String deletedCalendarName = bufferedReader.readLine();
                         seller.deleteCalendar(deletedCalendarName);
-                        boolean deleteCalendar = true;
-
-                        ArrayList<String> calendars = user.readFile(email + ".txt");
-                        for (int i = 0; i < calendars.size(); i++) {
-                            if (calendars.get(i).contains(deletedCalendarName)) {
-                                deleteCalendar = false;
-                            }
-                        }
-
-                        if (deleteCalendar) {
-                            writer.println("Calendar successfully deleted!"); // Indicates calendar was deleted.
+                        if (seller.deleteCalendar(deletedCalendarName).equals("Calendar deleted")) {
+                            writer.println("Calendar deleted!");
                             writer.flush();
                         } else {
-                            writer.println("Calendar unsuccessfully deleted!"); // Indicates calendar was not deleted.
+                            writer.println("Calendar not deleted!");
                             writer.flush();
                         }
                     } else if (choice.equals("5")) { // Handles approve/decline appointments.
@@ -180,6 +170,13 @@ public class Server implements Runnable {
                             String action = bufferedReader.readLine();
                             String requestUsername = bufferedReader.readLine();
                             seller.handleCustomerRequests(requestedAppointment, requestUsername, action);
+                            if (seller.handleCustomerRequests(requestedAppointment, requestUsername, action).equals("Approved")) {
+                                writer.println("Appointment approved!");
+                                writer.flush();
+                            } else {
+                                writer.println("Appointment declined!");
+                                writer.flush();
+                            }
                         }
                     } else if (choice.equals("6")) { // Handles view currently approved appointments.
                         String approvedAppointments = seller.viewApprovedAppointments();
@@ -205,7 +202,6 @@ public class Server implements Runnable {
                         runMenuAgain = false; // Exits the loop.
                     }
                 }
-
 
             } else {
 

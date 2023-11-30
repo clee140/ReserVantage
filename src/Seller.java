@@ -220,16 +220,18 @@ public class Seller extends User {
      *
      * @param calendarName represents the calendar to be deleted.
      */
-    public void deleteCalendar(String calendarName) {
+    public String deleteCalendar(String calendarName) {
         ArrayList<String> calendarFile = readFile(fileName);
         ArrayList<String> newCalendarFile = new ArrayList<>();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         boolean deleteMode = false;
+        String message = "Calendar not deleted";
 
         for (String line : calendarFile) {
             if (line.equals("Calendar name:" + calendarName)) {
                 deleteMode = true;
+                message = "Calendar deleted";
             } else if (deleteMode && line.equals("\n")) {
                 // Stop deleting when a new line is encountered
                 deleteMode = false;
@@ -239,7 +241,6 @@ public class Seller extends User {
             }
         }
         newCalendarFile.add("Edited: " + formatter.format(date) + "\n");
-        System.out.println("Calendar deleted.");
 
         // Write the new content back to the file
         try (FileWriter writer = new FileWriter(fileName)) {
@@ -249,6 +250,7 @@ public class Seller extends User {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return message;
     }
 
     /**
@@ -288,12 +290,13 @@ public class Seller extends User {
      * @param appointment      represents the appointment they want to handle.
      * @param customerUsername represents the customer who is making the appointment request.
      */
-    public void handleCustomerRequests(String appointment, String customerUsername, String action) {
+    public String handleCustomerRequests(String appointment, String customerUsername, String action) {
         ArrayList<String> calendarFile = readFile(fileName);
         ArrayList<String> customerRequest = new ArrayList<>();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         boolean approved = false;
+        String appointmentStatus = "";
 
         if (action.equals("1")) {
             for (int i = 0; i < calendarFile.size(); i++) {
@@ -308,7 +311,7 @@ public class Seller extends User {
                         customerRequest.add(appointment);
                         calendarFile.set(i, update);
                         approved = true;
-                        System.out.println("Appointment approved!");
+                        appointmentStatus = "Approved";
                     }
                 }
                 if (approved) {
@@ -316,7 +319,7 @@ public class Seller extends User {
                 }
             }
         } else if (action.equals("2")) {
-            System.out.println("Appointment declined!");
+            appointmentStatus = "Declined";
             try (FileWriter writer = new FileWriter("awaitingApproval.txt", false)) {
                 for (int i = 0; i < customerRequest.size(); i++) {
                     if (!customerRequest.get(i).equals(appointment)) {
@@ -366,6 +369,7 @@ public class Seller extends User {
                 }
             }
         }
+        return appointmentStatus;
     }
 
     /**
