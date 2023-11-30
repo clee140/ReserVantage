@@ -288,7 +288,7 @@ public class Seller extends User {
      * @param appointment      represents the appointment they want to handle.
      * @param customerUsername represents the customer who is making the appointment request.
      */
-    public void handleCustomerRequests(String appointment, String customerUsername) {
+    public void handleCustomerRequests(String appointment, String customerUsername, String action) {
         ArrayList<String> calendarFile = readFile(fileName);
         ArrayList<String> customerRequest = new ArrayList<>();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
