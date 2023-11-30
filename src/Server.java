@@ -10,7 +10,6 @@ public class Server implements Runnable {
         this.socket = socket;
     }
 
-
     @Override
     public void run() {
         try (
@@ -82,124 +81,129 @@ public class Server implements Runnable {
                 String storeName = bufferedReader.readLine();
 
                 Seller seller = new Seller(email, storeName, email + ".txt");
-                String choice = bufferedReader.readLine(); // Receives choice for action menu.
+                String choice = "";
+                boolean runMenuAgain = true;
+                while (runMenuAgain) {
+                    choice = bufferedReader.readLine(); // Receives choice for action menu.
 
-                if (choice.equals("1")) { // Handles view current calendars.
-                    String currentCalendars = seller.printCalendar();
+                    if (choice.equals("1")) { // Handles view current calendars.
+                        String currentCalendars = seller.printCalendar();
 
-                    if (currentCalendars.isEmpty()) { // Handles case where no calendars were created.
-                        writer.print("No current calendars!");
-                        writer.println();
-                        writer.flush();
-                    } else {
-                        writer.print(currentCalendars); // Sends current calendars to Client.
-                        writer.println();
-                        writer.flush();
-                    }
-                } else if (choice.equals("2")) { // Handles create new calendar.
-                    String importChoice = bufferedReader.readLine(); // Indicates to create calendar with file or manually.
-                    if (importChoice.equals("1")) { // Import file
-                        String fileName = bufferedReader.readLine();
-                        String desktopPath = bufferedReader.readLine();
-                        seller.createCalendarWithFile(fileName + desktopPath); // Creates calendar with file.
-                    } else if (importChoice.equals("2")) { // Manually create file.
-                        boolean runAgain = true;
-                        ArrayList<Appointment> apptList = new ArrayList<>(); // Holds the appointments.
-
-                        String calendarName = bufferedReader.readLine(); // Receives calendar name.
-                        String description = bufferedReader.readLine(); // Receives calendar description.
-
-                        while (runAgain) {
-                            String appointmentTile = bufferedReader.readLine(); // Receives appointment title
-                            int maxAttendees = Integer.parseInt(bufferedReader.readLine()); // Receives max attendees.
-                            int approvedBookings = Integer.parseInt(bufferedReader.readLine()); // Receives approved bookings.
-                            String startTime = bufferedReader.readLine(); // Receives start time.
-                            String endTime = bufferedReader.readLine(); // Receives end time.
-
-                            Appointment newAppt = new Appointment(appointmentTile, maxAttendees,
-                                    approvedBookings, startTime, endTime);
-                            apptList.add(newAppt);
-
-                            String newAppointment = bufferedReader.readLine(); // (1) add appointment. (2) no appointment.
-                            if (newAppointment.equals("2")) { // Indicates User does not have more appointments.
-                                runAgain = false;
-                            }
-                        }
-                        seller.createCalendar(calendarName, description, apptList); // Creates the new calendar.
-                    }
-                } else if (choice.equals("3")) { // Handles edit calendar.
-                    writer.print(seller.printCalendar()); // Sends created calendars to client.
-                    writer.println();
-                    writer.flush();
-
-                    String calendarName = bufferedReader.readLine();
-                    String oldApptTitle = bufferedReader.readLine();
-                    String apptTitle = bufferedReader.readLine();
-                    int maxAttendee = Integer.parseInt(bufferedReader.readLine());
-                    int approvedBookings = Integer.parseInt(bufferedReader.readLine());
-                    String startTime = bufferedReader.readLine();
-                    String endTime = bufferedReader.readLine();
-
-                    Appointment editedAppt = new Appointment(apptTitle, maxAttendee, approvedBookings, startTime, endTime);
-                    seller.editCalendar(calendarName, oldApptTitle, calendarName + "-" + editedAppt);
-                } else if (choice.equals("4")) { // Handles delete calendar.
-                    writer.print(seller.printCalendar()); // Sends created calendars to client.
-                    writer.println();
-                    writer.flush();
-
-                    String deletedCalendarName = bufferedReader.readLine();
-                    seller.deleteCalendar(deletedCalendarName);
-                    boolean deleteCalendar = true;
-
-                    ArrayList<String> calendars = user.readFile(email + ".txt");
-                    for (int i = 0; i < calendars.size(); i++) {
-                        if (calendars.get(i).contains(deletedCalendarName)) {
-                            deleteCalendar = false;
-                        }
-                    }
-
-                    if (deleteCalendar) {
-                        writer.println("Calendar successfully deleted!"); // Indicates calendar was deleted.
-                        writer.flush();
-                    } else {
-                        writer.println("Calendar unsuccessfully deleted!"); // Indicates calendar was not deleted.
-                        writer.flush();
-                    }
-                } else if (choice.equals("5")) { // Handles approve/decline appointments.
-                    if (seller.getCustomerRequest().equals("No appointment requests")) {
-                        writer.println(seller.getCustomerRequest()); // Sends message to Client.
-                        writer.flush();
-
-                    } else {
-                        writer.println(seller.getCustomerRequest()); // Sends customer requests to Client.
-                        writer.flush();
-
-                        String requestedAppointment = bufferedReader.readLine();
-                        String action = bufferedReader.readLine();
-                        String requestUsername = bufferedReader.readLine();
-                        seller.handleCustomerRequests(requestedAppointment, requestUsername, action);
-                    }
-                } else if (choice.equals("6")) { // Handles view currently approved appointments.
-                    String approvedAppointments = seller.viewApprovedAppointments();
-                    writer.println(approvedAppointments);
-                    writer.flush();
-                } else if (choice.equals("7")) { // Handles view statistics.
-                    boolean validSort = false;
-
-                    while(!validSort) {
-                        String sort = bufferedReader.readLine();
-                        if (sort.equalsIgnoreCase("Yes") || sort.equalsIgnoreCase("No")) {
-                            validSort = true;
-                            writer.println(seller.viewStatistics(sort));
+                        if (currentCalendars.isEmpty()) { // Handles case where no calendars were created.
+                            writer.print("No current calendars!");
+                            writer.println();
                             writer.flush();
                         } else {
-                            writer.println("Invalid response");
+                            writer.print(currentCalendars); // Sends current calendars to Client.
+                            writer.println();
                             writer.flush();
                         }
+                    } else if (choice.equals("2")) { // Handles create new calendar.
+                        String importChoice = bufferedReader.readLine(); // Indicates to create calendar with file or manually.
+                        if (importChoice.equals("1")) { // Import file
+                            String fileName = bufferedReader.readLine();
+                            String desktopPath = bufferedReader.readLine();
+                            seller.createCalendarWithFile(fileName + desktopPath); // Creates calendar with file.
+                        } else if (importChoice.equals("2")) { // Manually create file.
+                            boolean runAgain = true;
+                            ArrayList<Appointment> apptList = new ArrayList<>(); // Holds the appointments.
+
+                            String calendarName = bufferedReader.readLine(); // Receives calendar name.
+                            String description = bufferedReader.readLine(); // Receives calendar description.
+
+                            while (runAgain) {
+                                String appointmentTile = bufferedReader.readLine(); // Receives appointment title
+                                int maxAttendees = Integer.parseInt(bufferedReader.readLine()); // Receives max attendees.
+                                int approvedBookings = Integer.parseInt(bufferedReader.readLine()); // Receives approved bookings.
+                                String startTime = bufferedReader.readLine(); // Receives start time.
+                                String endTime = bufferedReader.readLine(); // Receives end time.
+
+                                Appointment newAppt = new Appointment(appointmentTile, maxAttendees,
+                                        approvedBookings, startTime, endTime);
+                                apptList.add(newAppt);
+
+                                String newAppointment = bufferedReader.readLine(); // (1) add appointment. (2) no appointment.
+                                if (newAppointment.equals("2")) { // Indicates User does not have more appointments.
+                                    runAgain = false;
+                                }
+                            }
+                            seller.createCalendar(calendarName, description, apptList); // Creates the new calendar.
+                        }
+                    } else if (choice.equals("3")) { // Handles edit calendar.
+                        writer.print(seller.printCalendar()); // Sends created calendars to client.
+                        writer.println();
+                        writer.flush();
+
+                        String calendarName = bufferedReader.readLine();
+                        String oldApptTitle = bufferedReader.readLine();
+                        String apptTitle = bufferedReader.readLine();
+                        int maxAttendee = Integer.parseInt(bufferedReader.readLine());
+                        int approvedBookings = Integer.parseInt(bufferedReader.readLine());
+                        String startTime = bufferedReader.readLine();
+                        String endTime = bufferedReader.readLine();
+
+                        Appointment editedAppt = new Appointment(apptTitle, maxAttendee, approvedBookings, startTime, endTime);
+                        seller.editCalendar(calendarName, oldApptTitle, calendarName + "-" + editedAppt);
+                    } else if (choice.equals("4")) { // Handles delete calendar.
+                        writer.print(seller.printCalendar()); // Sends created calendars to client.
+                        writer.println();
+                        writer.flush();
+
+                        String deletedCalendarName = bufferedReader.readLine();
+                        seller.deleteCalendar(deletedCalendarName);
+                        boolean deleteCalendar = true;
+
+                        ArrayList<String> calendars = user.readFile(email + ".txt");
+                        for (int i = 0; i < calendars.size(); i++) {
+                            if (calendars.get(i).contains(deletedCalendarName)) {
+                                deleteCalendar = false;
+                            }
+                        }
+
+                        if (deleteCalendar) {
+                            writer.println("Calendar successfully deleted!"); // Indicates calendar was deleted.
+                            writer.flush();
+                        } else {
+                            writer.println("Calendar unsuccessfully deleted!"); // Indicates calendar was not deleted.
+                            writer.flush();
+                        }
+                    } else if (choice.equals("5")) { // Handles approve/decline appointments.
+                        if (seller.getCustomerRequest().equals("No appointment requests")) {
+                            writer.println(seller.getCustomerRequest()); // Sends message to Client.
+                            writer.flush();
+
+                        } else {
+                            writer.println(seller.getCustomerRequest()); // Sends customer requests to Client.
+                            writer.flush();
+
+                            String requestedAppointment = bufferedReader.readLine();
+                            String action = bufferedReader.readLine();
+                            String requestUsername = bufferedReader.readLine();
+                            seller.handleCustomerRequests(requestedAppointment, requestUsername, action);
+                        }
+                    } else if (choice.equals("6")) { // Handles view currently approved appointments.
+                        String approvedAppointments = seller.viewApprovedAppointments();
+                        writer.println(approvedAppointments);
+                        writer.flush();
+                    } else if (choice.equals("7")) { // Handles view statistics.
+                        boolean validSort = false;
+
+                        while (!validSort) {
+                            String sort = bufferedReader.readLine();
+                            if (sort.equalsIgnoreCase("Yes") || sort.equalsIgnoreCase("No")) {
+                                validSort = true;
+                                writer.println(seller.viewStatistics(sort));
+                                writer.flush();
+                            } else {
+                                writer.println("Invalid response");
+                                writer.flush();
+                            }
+                        }
+                    } else {
+                        writer.println("You have successfully logged out.");
+                        writer.flush();
+                        runMenuAgain = false; // Exits the loop.
                     }
-                } else {
-                    writer.println("You have successfully logged out.");
-                    writer.flush();
                 }
 
 
@@ -312,7 +316,7 @@ public class Server implements Runnable {
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(8008);
 
-        while (true) {
+        while (true) { // Server is in a continuous loop.
             Socket socket = serverSocket.accept();
             Server server = new Server(socket);
             new Thread(server).start();
