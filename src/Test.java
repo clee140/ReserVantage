@@ -146,7 +146,7 @@ public class Test {
         System.out.println();
 
         //handleCustomerRequests(String appointment, String customerUsername)
-        seller.handleCustomerRequests("January-Christopher,18,0,9:00,10:00", "customerUsername");
+        seller.handleCustomerRequests("January-Christopher,18,0,9:00,10:00", "customerUsername", "");
         String handleCustomerRequestsActual = "";
         BufferedReader handleReader = new BufferedReader(new FileReader("awaitingApproval.txt"));
         line = "";
