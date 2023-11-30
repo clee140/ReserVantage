@@ -175,8 +175,9 @@ public class Server implements Runnable {
                         writer.flush();
 
                         String requestedAppointment = bufferedReader.readLine();
+                        String action = bufferedReader.readLine();
                         String requestUsername = bufferedReader.readLine();
-                        seller.handleCustomerRequests(requestedAppointment, requestUsername);
+                        seller.handleCustomerRequests(requestedAppointment, requestUsername, action);
                     }
                 } else if (choice.equals("6")) { // Handles view currently approved appointments.
                     String approvedAppointments = seller.viewApprovedAppointments();
