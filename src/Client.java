@@ -20,6 +20,11 @@ public class Client extends JComponent implements Runnable {
     JButton createEnterButton;
     JButton loginEnterButton;
 
+    //Customer options panel
+    JLabel customerOptionsLabel = new JLabel("Select an option from the customer menu below");
+    JComboBox<String> customerOptions = new JComboBox<>();
+    JButton customerProceedButton;
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Client());
     }
@@ -38,7 +43,7 @@ public class Client extends JComponent implements Runnable {
         createAccountButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         loginButton = new JButton("Login");
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JPanel initialOptionPanel = new JPanel();
+        JPanel initialOptionPanel = new JPanel(new GridBagLayout());
         initialOptionPanel.setLayout(new BoxLayout(initialOptionPanel, BoxLayout.PAGE_AXIS));
         initialOptionPanel.add(Box.createRigidArea(new Dimension(1, 20)));
         initialOptionPanel.add(welcomeMessageLabel);
@@ -130,13 +135,37 @@ public class Client extends JComponent implements Runnable {
             accountFrame.setVisible(true);
         });
 
+        //Creates customer options frame
+        JFrame customerFrame = new JFrame("Customer");
+        Container customerContent = customerFrame.getContentPane();
+        customerContent.setLayout(layout);
+
+        customerFrame.setSize(600, 300);
+        customerFrame.setLocationRelativeTo(null);
+        customerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         //If user clicks enter button
         createEnterButton.addActionListener( e -> {
             //TODO: Where we do login credential stuff
         });
 
+        customerProceedButton = new JButton("Proceed");
         loginEnterButton.addActionListener( e -> {
             //TODO: Where we do login credential stuff
+            String userTypeSelection = (String) sellerOrCustomer.getSelectedItem();
+            //code below is nested inside login check after verification
+                if (userTypeSelection.equals("Seller")) {
+
+                } else if (userTypeSelection.equals("Customer")) {
+                    accountFrame.dispose();
+                    //add customer panel options
+                    customerContent.add(customerProceedButton);
+                    customerContent.add(customerOptionsLabel);
+                    customerContent.add(customerOptions);
+                    customerFrame.setVisible(true);
+                } else {
+                    //???
+                }
         });
     }
 }
