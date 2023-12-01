@@ -104,13 +104,13 @@ public class Server implements Runnable {
                             String fileName = bufferedReader.readLine();
                             seller.createCalendarWithFile(System.getProperty("user.home") + "/Desktop/" + fileName); // Creates calendar with file.
                         } else if (importChoice.equals("2")) { // Manually create file.
-                            boolean runAgain = true;
                             ArrayList<Appointment> apptList = new ArrayList<>(); // Holds the appointments.
 
+                            String numAppointments = bufferedReader.readLine();
                             String calendarName = bufferedReader.readLine(); // Receives calendar name.
                             String description = bufferedReader.readLine(); // Receives calendar description.
 
-                            while (runAgain) {
+                            for (int i = 0; i < Integer.parseInt(numAppointments); i++) {
                                 String appointmentTile = bufferedReader.readLine(); // Receives appointment title
                                 int maxAttendees = Integer.parseInt(bufferedReader.readLine()); // Client needs to check if valid input before sending to Server.
                                 int approvedBookings = Integer.parseInt(bufferedReader.readLine()); // Client needs to check if valid input before sending to Server.
@@ -120,11 +120,6 @@ public class Server implements Runnable {
                                 Appointment newAppt = new Appointment(appointmentTile, maxAttendees,
                                         approvedBookings, startTime, endTime);
                                 apptList.add(newAppt);
-
-                                String newAppointment = bufferedReader.readLine(); // (1) add appointment. (2) no appointment.
-                                if (newAppointment.equals("2")) { // Indicates User does not have more appointments.
-                                    runAgain = false;
-                                }
                             }
                             seller.createCalendar(calendarName, description, apptList); // Creates the new calendar.
                         }
@@ -183,19 +178,9 @@ public class Server implements Runnable {
                         writer.println(approvedAppointments);
                         writer.flush();
                     } else if (choice.equals("7")) { // Handles view statistics.
-                        boolean validSort = false;
-
-                        while (!validSort) {
-                            String sort = bufferedReader.readLine();
-                            if (sort.equalsIgnoreCase("Yes") || sort.equalsIgnoreCase("No")) {
-                                validSort = true;
-                                writer.println(seller.viewStatistics(sort));
-                                writer.flush();
-                            } else {
-                                writer.println("Invalid response");
-                                writer.flush();
-                            }
-                        }
+                        String sort = bufferedReader.readLine();
+                        writer.println(seller.viewStatistics(sort));
+                        writer.flush();
                     } else {
                         writer.println("You have successfully logged out.");
                         writer.flush();
