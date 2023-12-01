@@ -22,6 +22,7 @@ public class Server implements Runnable {
             String email = "";
             String password = "";
 
+            String createAccount = bufferedReader.readLine(); // Receives input on creating or logging in to account.
             String userType = bufferedReader.readLine(); // Either (1) Seller or (2) Customer.
             String name = bufferedReader.readLine(); // Name of the user.
 
@@ -31,7 +32,6 @@ public class Server implements Runnable {
                 userType = "Customer"; // Sets user type to Customer.
             }
 
-            String createAccount = bufferedReader.readLine(); // Receives input on creating or logging in to account.
 
             if (createAccount.equals("true")) {
                 boolean runAgain = true;
@@ -112,8 +112,8 @@ public class Server implements Runnable {
 
                             while (runAgain) {
                                 String appointmentTile = bufferedReader.readLine(); // Receives appointment title
-                                int maxAttendees = Integer.parseInt(bufferedReader.readLine()); // Receives max attendees.
-                                int approvedBookings = Integer.parseInt(bufferedReader.readLine()); // Receives approved bookings.
+                                int maxAttendees = Integer.parseInt(bufferedReader.readLine()); // Client needs to check if valid input before sending to Server.
+                                int approvedBookings = Integer.parseInt(bufferedReader.readLine()); // Client needs to check if valid input before sending to Server.
                                 String startTime = bufferedReader.readLine(); // Receives start time.
                                 String endTime = bufferedReader.readLine(); // Receives end time.
 
@@ -136,8 +136,8 @@ public class Server implements Runnable {
                         String calendarName = bufferedReader.readLine();
                         String oldApptTitle = bufferedReader.readLine();
                         String apptTitle = bufferedReader.readLine();
-                        int maxAttendee = Integer.parseInt(bufferedReader.readLine());
-                        int approvedBookings = Integer.parseInt(bufferedReader.readLine());
+                        int maxAttendee = Integer.parseInt(bufferedReader.readLine()); // Client needs to check if valid before sending to Server.
+                        int approvedBookings = Integer.parseInt(bufferedReader.readLine()); // Client needs to check if valid before sending to Server.
                         String startTime = bufferedReader.readLine();
                         String endTime = bufferedReader.readLine();
 
