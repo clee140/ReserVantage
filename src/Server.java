@@ -29,58 +29,58 @@ public class Server implements Runnable {
             User user = new User();
 
             String email = "";
-            String password = "";
+            String userType = "";
 
             String createAccount = bufferedReader.readLine(); // Receives input on creating or logging in to account.
-            String userType = bufferedReader.readLine(); // Client sends (1) Seller or (2) Customer.
-            String name = bufferedReader.readLine(); // Name of the user.
-
-            if (userType.equals("1")) {
-                userType = "Seller"; // Sets user type to Seller.
-            } else {
-                userType = "Customer"; // Sets user type to Customer.
-            }
-
 
             if (createAccount.equals("true")) {
                 boolean runAgain = true;
 
                 while (runAgain) {
-                    email = bufferedReader.readLine();
+                    userType = bufferedReader.readLine(); // Client sends "Seller" or "Customer".
+                    String name = bufferedReader.readLine(); // Name of the user.
+                    email = bufferedReader.readLine(); // Email of the user.
+                    String password = bufferedReader.readLine(); // Password of the user.
                     if (user.usernameExists("userDatabase.txt", email)) {
-                        writer.write("true"); // Sends "true" to Client if username is accepted.
-                        writer.println();
+                        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("userDatabase.txt",
+                                true)));
+
+                        // Writes User info to userDatabase.txt file.
+                        pw.println(userType + "," + name + "," + email + "," + password);
+                        pw.flush();
+                        pw.close();
+
+                        writer.println("true"); // Sends "true" to Client if username is accepted.
                         writer.flush();
                         runAgain = false;
                     } else {
-                        writer.write("false"); // Sends "false" to Client if username is not accepted.
-                        writer.println();
+                        writer.println("false"); // Sends "false" to Client if username is not accepted.
                         writer.flush();
                     }
                 }
-
-                password = bufferedReader.readLine(); // Receives password from Client.
-                PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("userDatabase.txt",
-                        true)));
-
-                // Writes User info to userDatabase.txt file.
-                pw.println(userType + "," + name + "," + email + "," + password);
-                pw.flush();
-                pw.close();
-            } else {
+            } else { // User login option.
                 boolean runAgain = true;
                 while (runAgain) {
-                    email = bufferedReader.readLine();
-                    password = bufferedReader.readLine();
+                    userType = bufferedReader.readLine(); // Client sends "Client" or "Customer".
+                    String name = bufferedReader.readLine(); // Name of the user.
+                    email = bufferedReader.readLine(); // Email of the user.
+                    String loginPassword = bufferedReader.readLine(); // Password of the user.
 
-                    if (user.validator("userDatabase.txt", email, password)) {
-                        writer.write("true"); // Successful login.
-                        writer.println();
+                    if (user.validator("userDatabase.txt", email, loginPassword)) {
+                        writer.println("true"); // Successful login.
                         writer.flush();
+
+                        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("userDatabase.txt",
+                                true)));
+
+                        // Writes User info to userDatabase.txt file.
+                        pw.println(userType + "," + name + "," + email + "," + loginPassword);
+                        pw.flush();
+                        pw.close();
+
                         runAgain = false;
                     } else {
-                        writer.write("false"); // Unsuccessful login.
-                        writer.println();
+                        writer.println("false"); // Unsuccessful login.
                         writer.flush();
                     }
                 }
@@ -99,12 +99,10 @@ public class Server implements Runnable {
                         String currentCalendars = seller.printCalendar();
 
                         if (currentCalendars.isEmpty()) { // Handles case where no calendars were created.
-                            writer.print("No current calendars!");
-                            writer.println();
+                            writer.println("No current calendars!");
                             writer.flush();
                         } else {
-                            writer.print(currentCalendars); // Sends current calendars to Client.
-                            writer.println();
+                            writer.println(currentCalendars); // Sends current calendars to Client.
                             writer.flush();
                         }
                     } else if (choice.equals("2")) { // Handles create new calendar.
