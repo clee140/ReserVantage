@@ -41,7 +41,7 @@ public class Server implements Runnable {
                     String name = bufferedReader.readLine(); // Name of the user.
                     email = bufferedReader.readLine(); // Email of the user.
                     String password = bufferedReader.readLine(); // Password of the user.
-                    if (user.usernameExists("userDatabase.txt", email)) {
+                    if (!user.usernameExists("userDatabase.txt", email)) {
                         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("userDatabase.txt",
                                 true)));
 
