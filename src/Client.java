@@ -5,132 +5,136 @@ import java.net.Socket;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//TODO: Update passTextField to a JPasswordField
+//TODO: Create GUI for Seller and Customer Login
+
 public class Client extends JComponent implements Runnable {
-    JLabel welcomeMessageLabel = new JLabel("Welcome to the Hotel Manager!");
-    JLabel selectOptionLabel = new JLabel("Please select an option.");
-    JButton createAccountButton;
-    JButton loginButton;
+    private static final int port = 8008;
 
-    //Login info panel - used for both create account and login
-    JComboBox<String> sellerOrCustomer = new JComboBox();
-    JLabel nameLabel = new JLabel("Name: ");
-    JTextField nameText;
-    JLabel loginInfoLabel = new JLabel("Please enter your email and password.");
-    JLabel emailLabel = new JLabel("Email: ");
-    JTextField emailText;
-    JLabel passLabel = new JLabel("Password: ");
-    JTextField passText;
-    JButton createEnterButton;
-    JButton loginEnterButton;
-    JButton createBackButton;
-    JButton loginBackButton;
+    private boolean sendDataToServer(JButton button, String data) {
+        try {
+            Socket socket = new Socket("localhost", port);
+            BufferedReader bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter pw = new PrintWriter(socket.getOutputStream());
 
-    //Customer options panel
-    JLabel customerOptionsLabel = new JLabel("Select an option from the customer menu below");
-    JComboBox<String> customerOptions = new JComboBox<>();
-    JButton customerProceedButton;
-    JLabel exitMessage = new JLabel("Thank you for using the Hotel Manager. You have successfully logged out.");
-    JLabel closingMessage = new JLabel("This message will close in 5 seconds.");
-
-    //Client info
-    private static String name;             //Name of client
-    private static String email;            //Email of client
-    private static String pass;             //Password of client
-    private static String userTypeString;   //Either "seller" or "customer"
-    private static String createAccount;    //If client is creating an account, will be "true"
-
-    //Client/Server response
-    private static String clientMessage;
-    private static String serverResponse;
-
-    public static void main(String[] args) throws IOException {
-        Socket socket = new Socket("localhost", 8008);
-
-        BufferedReader bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        PrintWriter pw = new PrintWriter(socket.getOutputStream());
-
-        SwingUtilities.invokeLater(new Client());
-
-        //Sends output on creating or logging in to account
-        if (createAccount.equals("true")) {
-            pw.write(createAccount);
-            pw.println();
-
-            //Sends output on creating or logging in to account.
-            if (userTypeString.equals("Seller")) {
-                pw.write("1");
+            String clientMessage = "";
+            String serverResponse = "";
+            if (button.getText().equals("Enter")) {
+                pw.write("true");
                 pw.println();
-            } else { //userTypeString is customer
-                pw.write("2");
+
+                String[] info = data.split(",");
+                //Sends whether seller or customer
+                pw.write(info[0]);
                 pw.println();
-            }
 
-            //Sends name of user
-            pw.write(name);
-            pw.println();
-            pw.flush();
+                //Sends name of user
+                pw.write(info[1]);
+                pw.println();
+                pw.flush();
 
-            boolean validEmail = false;
-            do { //Loop for valid email
                 //Sends email
-                pw.write(email);
+                pw.write(info[2]);
+                pw.println();
+                pw.flush();
+
+                //Sends password
+                pw.write(info[3]);
                 pw.println();
                 pw.flush();
 
                 serverResponse = bfr.readLine();
                 if (serverResponse.equals("true")) {
-                    validEmail = true;
+                    return true;
                 } else { //response equals "false"
                     //GUI displays error message
                 }
-            } while (!validEmail);
-
-        } else { //Logging into an already existing account
-            pw.write("false");
-            pw.println();
-
-            boolean validLogin = false;
-            do {
-                //Sends email
-                pw.write(email);
+            } else { //Button is "Login"
+                pw.write("false");
                 pw.println();
 
+                String[] info = data.split(",");
+                //Sends whether seller or customer
+                pw.write(info[0]);
+                pw.println();
+
+                //Sends name of user
+                pw.write(info[1]);
+                pw.println();
+                pw.flush();
+
+                //Sends email
+                pw.write(info[2]);
+                pw.println();
+                pw.flush();
+
                 //Sends password
-                pw.write(pass);
+                pw.write(info[3]);
                 pw.println();
                 pw.flush();
 
                 serverResponse = bfr.readLine();
                 if (serverResponse.equals("true")) {
-                    validLogin = true;
+                    return true;
                 } else { //response equals "false"
-                    //TODO: GUI displays error message
+                    //GUI displays error message
                 }
-            } while (!validLogin);
+            }
 
-            //TODO: Stopped here
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+        //TODO: go back later and change this probably
+        return false;
     }
 
-    //Event dispatch thread
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Client());
+    }
+
     public void run() {
-        //Creates main JFrame
+        //Create JFrame
         JFrame frame = new JFrame("Hotel Manager");
         Container content = frame.getContentPane();
         content.setLayout(new BorderLayout());
 
-        //Creates intial option panel
+        //Create components
+        JLabel welcomeMessageLabel = new JLabel("Welcome to the Hotel Manager!");
+        JLabel selectOptionLabel = new JLabel("Please select an option.");
+        JButton createAccountButton = new JButton("Create Account");
+        JButton loginButton = new JButton("Login");
+
+        //Login info components - used for both create account and login
+        JComboBox<String> sellerOrCustomer = new JComboBox();
+        sellerOrCustomer.addItem("Seller");
+        sellerOrCustomer.addItem("Customer");
+        JLabel nameLabel = new JLabel("Name: ");
+        JTextField nameText = new JTextField("", 20);
+        JLabel loginInfoLabel = new JLabel("Please enter your email and password.");
+        JLabel emailLabel = new JLabel("Email: ");
+        JTextField emailText = new JTextField("", 20);
+        JLabel passLabel = new JLabel("Password: ");
+        JTextField passText = new JTextField("", 20);
+        JButton createEnterButton = new JButton("Enter");
+        JButton loginEnterButton = new JButton("Login");
+        JButton createBackButton = new JButton("Go Back");
+        JButton loginBackButton = new JButton("Go Back");
+
+        //Customer options components
+        JLabel customerOptionsLabel = new JLabel("Select an option from the customer menu below");
+        JComboBox<String> customerOptions = new JComboBox<>();
+        JButton customerProceedButton = new JButton("Proceed");
+        JLabel exitMessage = new JLabel("Thank you for using the Hotel Manager. You have successfully logged out.");
+        JLabel closingMessage = new JLabel("This message will close in 5 seconds.");
+
+        //Creates main panel
         welcomeMessageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        selectOptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        createAccountButton = new JButton("Create Account");
         createAccountButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        loginButton = new JButton("Login");
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         JPanel initialOptionPanel = new JPanel();
         initialOptionPanel.setLayout(new BoxLayout(initialOptionPanel, BoxLayout.PAGE_AXIS));
         initialOptionPanel.add(Box.createRigidArea(new Dimension(1, 20)));
         initialOptionPanel.add(welcomeMessageLabel);
-        initialOptionPanel.add(selectOptionLabel);
         initialOptionPanel.add(Box.createRigidArea(new Dimension(1, 20)));
         initialOptionPanel.add(createAccountButton);
         initialOptionPanel.add(Box.createRigidArea(new Dimension(1, 5)));
@@ -138,16 +142,10 @@ public class Client extends JComponent implements Runnable {
 
         //Adds initial option panel to frame
         content.add(initialOptionPanel, BorderLayout.CENTER);
-
-        //Displays main frame
         frame.setSize(400, 200);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
-
-        //Adding choices to the combo box
-        sellerOrCustomer.addItem("Seller");
-        sellerOrCustomer.addItem("Customer");
 
         //Creates create account panel
         JPanel infoPanel = new JPanel();
@@ -166,7 +164,6 @@ public class Client extends JComponent implements Runnable {
         namePanel.add(Box.createRigidArea(new Dimension(20, 0)));
         namePanel.add(nameLabel);
         namePanel.add(Box.createRigidArea(new Dimension(50, 0)));
-        nameText = new JTextField("", 20);
         nameText.setMaximumSize(new Dimension(200, 25));
         namePanel.add(nameText);
 
@@ -178,7 +175,6 @@ public class Client extends JComponent implements Runnable {
         emailPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         emailPanel.add(emailLabel);
         emailPanel.add(Box.createRigidArea(new Dimension(50, 0)));
-        emailText = new JTextField("", 20);
         emailText.setMaximumSize(new Dimension(300, 25));
         emailPanel.add(emailText);
 
@@ -187,30 +183,26 @@ public class Client extends JComponent implements Runnable {
         passPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         passPanel.add(passLabel);
         passPanel.add(Box.createRigidArea(new Dimension(50, 0)));
-        passText = new JTextField("", 20);
         passText.setMaximumSize(new Dimension(200, 25));
         passPanel.add(passText);
 
         JPanel createEnterPanel = new JPanel();
         createEnterPanel.setLayout(new BoxLayout(createEnterPanel, BoxLayout.LINE_AXIS));
         createEnterPanel.add(Box.createRigidArea(new Dimension(200, 0)));
-        createBackButton = new JButton("Go Back");
         createEnterPanel.add(createBackButton);
         createEnterPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        createEnterButton = new JButton("Enter");
         createEnterPanel.add(createEnterButton);
         createEnterPanel.add(Box.createRigidArea(new Dimension(1, 10)));
 
         JPanel loginEnterPanel = new JPanel();
         loginEnterPanel.setLayout(new BoxLayout(loginEnterPanel, BoxLayout.LINE_AXIS));
         loginEnterPanel.add(Box.createRigidArea(new Dimension(200, 0)));
-        loginBackButton = new JButton("Go Back");
         loginEnterPanel.add(loginBackButton);
         loginEnterPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        loginEnterButton = new JButton("Enter");
         loginEnterPanel.add(loginEnterButton);
         loginEnterPanel.add(Box.createRigidArea(new Dimension(1, 10)));
 
+        //Customer panel
         JPanel customerPanel = new JPanel();
         customerPanel.setLayout(new BoxLayout(customerPanel, BoxLayout.PAGE_AXIS));
         customerPanel.add(Box.createRigidArea(new Dimension(200, 10)));
@@ -229,11 +221,11 @@ public class Client extends JComponent implements Runnable {
         customerOptions.addItem("Exit and log out");
         customerPanel.add(customerOptions);
         customerPanel.add(Box.createRigidArea(new Dimension(1, 20)));
-        customerProceedButton = new JButton("Proceed");
         customerProceedButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         customerPanel.add(customerProceedButton);
         customerPanel.add(Box.createRigidArea(new Dimension(20, 0)));
 
+        //Exit panel
         JPanel exitLogOutPanel = new JPanel();
         exitLogOutPanel.setLayout(new BoxLayout(exitLogOutPanel, BoxLayout.PAGE_AXIS));
         exitLogOutPanel.add(Box.createRigidArea(new Dimension(200, 60)));
@@ -244,140 +236,190 @@ public class Client extends JComponent implements Runnable {
         exitLogOutPanel.add(closingMessage);
         exitLogOutPanel.add(Box.createRigidArea(new Dimension(200, 10)));
 
-        createBackButton.addActionListener(e -> {
-            content.removeAll();
-            content.setLayout(new BorderLayout());
-            content.add(initialOptionPanel);
-            frame.setSize(400, 200);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            updateUI();
-            frame.setVisible(true);
-        });
+        //Action listeners
+        ActionListener actionListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == createAccountButton) {
+                    content.removeAll(); //Removes initial option menu
 
-        loginBackButton.addActionListener(e -> {
-            content.removeAll();
-            content.setLayout(new BorderLayout());
-            content.add(initialOptionPanel);
-            frame.setSize(400, 200);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            updateUI();
-            frame.setVisible(true);
-        });
-
-        createAccountButton.addActionListener(e -> {
-            content.removeAll();
-            content.setLayout(new GridLayout(6, 1));
-            content.add(infoPanel);
-            content.add(namePanel);
-            content.add(loginInfoPanel);
-            content.add(emailPanel);
-            content.add(passPanel);
-            content.add(createEnterPanel);
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            updateUI();
-            frame.setVisible(true);
-        });
-
-        loginButton.addActionListener(e -> {
-            content.removeAll();
-            content.setLayout(new GridLayout(6, 1));
-            content.add(infoPanel);
-            content.add(namePanel);
-            content.add(loginInfoPanel);
-            content.add(emailPanel);
-            content.add(passPanel);
-            content.add(loginEnterPanel);
-            frame.setSize(600, 400);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            updateUI();
-            frame.setVisible(true);
-        });
-
-        createEnterButton.addActionListener(e -> {
-            name = nameText.getText();
-            email = emailText.getText();
-            pass = passText.getText();
-            userTypeString = (String) sellerOrCustomer.getSelectedItem();
-            createAccount = "true";
-
-            if (serverResponse.equals("false")) {
-                JOptionPane.showMessageDialog(null, "Email already exists! Please choose a different email",
-                        "Create Account", JOptionPane.ERROR_MESSAGE);
-
-                emailText.setText("");
-                passText.setText("");
-            }
-        });
-
-        loginEnterButton.addActionListener(e -> {
-            //TODO: Where we do login credential stuff
-            String userTypeSelection = (String) sellerOrCustomer.getSelectedItem();
-            //code below is nested inside login check after verification
-            if (userTypeSelection.equals("Seller")) {
-
-            } else if (userTypeSelection.equals("Customer")) {
-                content.removeAll();
-                content.setLayout(new GridLayout(2, 1));
-                content.add(customerPanel);
-                frame.setSize(600, 400);
-                frame.setLocationRelativeTo(null);
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                updateUI();
-                frame.setVisible(true);
-            }
-        });
-
-        customerProceedButton.addActionListener(e -> {
-            int customerMenuSelection = customerOptions.getSelectedIndex();
-            switch (customerMenuSelection) {
-                case 0:
-                    //option 1 here
-                    break;
-                case 1:
-                    //option 2 here
-                    break;
-                case 2:
-                    //option 3 here
-                    break;
-                case 3:
-                    //option 4 here
-                    break;
-                case 4:
-                    //option 5 here
-                    break;
-                case 5:
-                    //option 6 here
-                    break;
-                case 6:
-                    //option 7 here
-                    break;
-                case 7:
-                    content.removeAll();
-                    content.setLayout(new GridLayout(1, 1));
-                    content.add(exitLogOutPanel);
-                    frame.setSize(600, 200);
+                    //Adding create account panels
+                    content.setLayout(new GridLayout(6, 1));
+                    content.add(infoPanel);
+                    content.add(namePanel);
+                    content.add(loginInfoPanel);
+                    content.add(emailPanel);
+                    content.add(passPanel);
+                    content.add(createEnterPanel);
+                    frame.setSize(600, 400);
                     frame.setLocationRelativeTo(null);
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    updateUI();
                     frame.setVisible(true);
-                    //display exit message and end the program in 5 seconds
-                    Timer timer = new Timer(5000, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            frame.dispose();
+                } else if (e.getSource() == loginButton) {
+                    content.removeAll(); //Removes initial option menu
+
+                    //Adding login panels
+                    content.setLayout(new GridLayout(6, 1));
+                    content.add(infoPanel);
+                    content.add(namePanel);
+                    content.add(loginInfoPanel);
+                    content.add(emailPanel);
+                    content.add(passPanel);
+                    content.add(loginEnterPanel);
+                    frame.setSize(600, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                } else if (e.getSource() == createEnterButton) {
+                    //Gathering data to send to Server
+                    String userOrSeller = (String) sellerOrCustomer.getSelectedItem();
+                    String name = nameText.getText();
+                    String email = emailText.getText();
+                    String pass = passText.getText();
+
+                    //Sends info to Server
+                    boolean validEmail = sendDataToServer(createEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
+                    if (validEmail) {
+                        JOptionPane.showMessageDialog(null, "Account created!",
+                                "Create Account", JOptionPane.INFORMATION_MESSAGE); //Tells user account has been created
+
+                        //Resets all text fields
+                        nameText.setText("");
+                        emailText.setText("");
+                        passText.setText("");
+
+                        content.removeAll(); //Removes current panel
+
+                        //Returning user to initial option menu
+                        content.setLayout(new BorderLayout());
+                        content.add(initialOptionPanel);
+                        frame.setSize(400, 200);
+                        frame.setLocationRelativeTo(null);
+                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        frame.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Email already exists! Please choose a different email",
+                                "Create Account", JOptionPane.ERROR_MESSAGE); //Error message
+
+                        //Resets text fields so user can try again
+                        emailText.setText("");
+                        passText.setText("");
+                    }
+                } else if (e.getSource() == loginEnterButton) {
+                    //Gathering data to send to Server
+                    String userOrSeller = (String) sellerOrCustomer.getSelectedItem();
+                    String name = nameText.getText();
+                    String email = emailText.getText();
+                    String pass = passText.getText();
+
+                    //Sends info to Server
+                    boolean validLogin = sendDataToServer(loginEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
+                    if (validLogin) {
+                        JOptionPane.showMessageDialog(null, "Login successful!",
+                                "Create Account", JOptionPane.INFORMATION_MESSAGE); //Tells user login was successful
+
+                        //Resets text fields
+                        nameText.setText("");
+                        emailText.setText("");
+                        passText.setText("");
+
+                        //code below is nested inside login check after verification
+                        if (userOrSeller.equals("Seller")) {
+                            //TODO: Where Seller screen pops up
+                        } else if (userOrSeller.equals("Customer")) { //TODO: Customer screen pops up
+                            content.removeAll();
+                            content.setLayout(new GridLayout(2, 1));
+                            content.add(customerPanel);
+                            frame.setSize(600, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
                         }
-                    });
-                    timer.setRepeats(false);
-                    timer.start();
-                    break;
-                default:
-                    break;
+                    } else { //Invalid login
+                        JOptionPane.showMessageDialog(null, "Your email or password in incorrect!",
+                                "Login", JOptionPane.ERROR_MESSAGE); //Error message
+
+                        //Resets text fields so user can try again
+                        emailText.setText("");
+                        passText.setText("");
+                    }
+                } else if (e.getSource() == createBackButton) {
+                    content.removeAll(); //Clears the frame
+
+                    //Takes user back to initial option screen
+                    content.setLayout(new BorderLayout());
+                    content.add(initialOptionPanel);
+                    frame.setSize(400, 200);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                } else if (e.getSource() == loginBackButton) {
+                    content.removeAll(); //Clears the frame
+
+                    //Takes user back to initial option screen
+                    content.setLayout(new BorderLayout());
+                    content.add(initialOptionPanel);
+                    frame.setSize(400, 200);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                } else if (e.getSource() == customerProceedButton) {
+                    int customerMenuSelection = customerOptions.getSelectedIndex();
+                    switch (customerMenuSelection) {
+                        case 0:
+                            //option 1 here
+                            break;
+                        case 1:
+                            //option 2 here
+                            break;
+                        case 2:
+                            //option 3 here
+                            break;
+                        case 3:
+                            //option 4 here
+                            break;
+                        case 4:
+                            //option 5 here
+                            break;
+                        case 5:
+                            //option 6 here
+                            break;
+                        case 6:
+                            //option 7 here
+                            break;
+                        case 7:
+                            content.removeAll();
+                            content.setLayout(new GridLayout(1, 1));
+                            content.add(exitLogOutPanel);
+                            frame.setSize(600, 200);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
+                            //display exit message and end the program in 5 seconds
+                            Timer timer = new Timer(5000, new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    frame.dispose();
+                                }
+                            });
+                            timer.setRepeats(false);
+                            timer.start();
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
-        });
+        };
+
+        // Add action listeners to buttons
+        createAccountButton.addActionListener(actionListener);
+        createEnterButton.addActionListener(actionListener);
+        loginButton.addActionListener(actionListener);
+        loginEnterButton.addActionListener(actionListener);
+        createBackButton.addActionListener(actionListener);
+        loginBackButton.addActionListener(actionListener);
+        customerProceedButton.addActionListener(actionListener);
     }
 }
