@@ -23,7 +23,7 @@ public class Server implements Runnable {
             String password = "";
 
             String createAccount = bufferedReader.readLine(); // Receives input on creating or logging in to account.
-            String userType = bufferedReader.readLine(); // Either (1) Seller or (2) Customer.
+            String userType = bufferedReader.readLine(); // Client sends (1) Seller or (2) Customer.
             String name = bufferedReader.readLine(); // Name of the user.
 
             if (userType.equals("1")) {
