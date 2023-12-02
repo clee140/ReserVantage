@@ -250,9 +250,15 @@ public class Server implements Runnable {
 
                     } else if (choice.equals("6")) {
 
-                        int sort = Integer.parseInt(bufferedReader.readLine());
+                        String message = "";
+                        int yesNo = Integer.parseInt(bufferedReader.readLine());
 
-                        String message = customer.viewDashboard(sort);
+                        if (yesNo == 1) {
+                            int sort = Integer.parseInt(bufferedReader.readLine());
+                            message = customer.viewDashboard(sort);
+                        } else {
+                            message = customer.viewDashboard(2);
+                        }
 
                         writer.println(message);
                         writer.flush();
