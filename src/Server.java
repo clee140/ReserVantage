@@ -187,9 +187,7 @@ public class Server implements Runnable {
                         runMenuAgain = false; // Exits the loop.
                     }
                 }
-
             } else {
-
                 boolean runner = true;
                 while (runner) {
                     String userName = "userName"; //username needs to be imported in
