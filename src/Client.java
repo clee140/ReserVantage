@@ -138,6 +138,14 @@ public class Client extends JComponent implements Runnable {
         customerPanel.add(Box.createRigidArea(new Dimension(1, 10)));
         customerOptions.setMaximumSize(new Dimension(400, 25));
         customerOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        customerOptions.addItem("Make an appointment request");
+        customerOptions.addItem("Cancel an appointment request");
+        customerOptions.addItem("View store calendars");
+        customerOptions.addItem("View currently approved appointments");
+        customerOptions.addItem("View pending appointments");
+        customerOptions.addItem("View store statistics");
+        customerOptions.addItem("Export a file of your approved appointments");
+        customerOptions.addItem("Exit and log out");
         customerPanel.add(customerOptions);
         customerPanel.add(Box.createRigidArea(new Dimension(1, 20)));
         customerProceedButton = new JButton("Proceed");
@@ -198,11 +206,11 @@ public class Client extends JComponent implements Runnable {
             frame.setVisible(true);
         });
 
-        createEnterButton.addActionListener( e -> {
+        createEnterButton.addActionListener(e -> {
             //TODO: Where we do login credential stuff
         });
 
-        loginEnterButton.addActionListener( e -> {
+        loginEnterButton.addActionListener(e -> {
             //TODO: Where we do login credential stuff
             String userTypeSelection = (String) sellerOrCustomer.getSelectedItem();
             //code below is nested inside login check after verification
@@ -217,6 +225,39 @@ public class Client extends JComponent implements Runnable {
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 updateUI();
                 frame.setVisible(true);
+            }
+        });
+
+        customerProceedButton.addActionListener(e -> {
+            int customerMenuSelection = customerOptions.getSelectedIndex();
+            switch (customerMenuSelection) {
+                case 0:
+                    //option 1 here
+                    break;
+                case 1:
+                    //option 2 here
+                    break;
+                case 2:
+                    //option 3 here
+                    break;
+                case 3:
+                    //option 4 here
+                    break;
+                case 4:
+                    //option 5 here
+                    break;
+                case 5:
+                    //option 6 here
+                    break;
+                case 6:
+                    //option 7 here
+                    break;
+                case 7:
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.dispose();
+                    break;
+                default:
+                    break;
             }
         });
     }
