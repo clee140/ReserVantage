@@ -70,14 +70,6 @@ public class Server implements Runnable {
                         writer.println("true"); // Successful login.
                         writer.flush();
 
-                        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("userDatabase.txt",
-                                true)));
-
-                        // Writes User info to userDatabase.txt file.
-                        pw.println(userType + "," + name + "," + email + "," + loginPassword);
-                        pw.flush();
-                        pw.close();
-
                         runAgain = false;
                     } else {
                         writer.println("false"); // Unsuccessful login.
