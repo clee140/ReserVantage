@@ -27,6 +27,8 @@ public class Client extends JComponent implements Runnable {
     JLabel customerOptionsLabel = new JLabel("Select an option from the customer menu below");
     JComboBox<String> customerOptions = new JComboBox<>();
     JButton customerProceedButton;
+    JLabel exitMessage = new JLabel("Thank you for using the Hotel Manager. You have successfully logged out.");
+    JLabel closingMessage = new JLabel("This message will close in 5 seconds.");
 
     //Client info
     private static String name;             //Name of client
@@ -230,6 +232,16 @@ public class Client extends JComponent implements Runnable {
         customerPanel.add(customerProceedButton);
         customerPanel.add(Box.createRigidArea(new Dimension(20, 0)));
 
+        JPanel exitLogOutPanel = new JPanel();
+        exitLogOutPanel.setLayout(new BoxLayout(exitLogOutPanel, BoxLayout.PAGE_AXIS));
+        exitLogOutPanel.add(Box.createRigidArea(new Dimension(200, 60)));
+        exitMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exitLogOutPanel.add(exitMessage);
+        exitLogOutPanel.add(Box.createRigidArea(new Dimension(20, 10)));
+        closingMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exitLogOutPanel.add(closingMessage);
+        exitLogOutPanel.add(Box.createRigidArea(new Dimension(200, 10)));
+
         createBackButton.addActionListener(e -> {
             content.removeAll();
             content.setLayout(new BorderLayout());
@@ -343,8 +355,23 @@ public class Client extends JComponent implements Runnable {
                     //option 7 here
                     break;
                 case 7:
+                    content.removeAll();
+                    content.setLayout(new GridLayout(1, 1));
+                    content.add(exitLogOutPanel);
+                    frame.setSize(600, 200);
+                    frame.setLocationRelativeTo(null);
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    frame.dispose();
+                    updateUI();
+                    frame.setVisible(true);
+                    //display exit message and end the program in 5 seconds
+                    Timer timer = new Timer(5000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            frame.dispose();
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
                     break;
                 default:
                     break;
