@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.io.*;
+import java.net.Socket;
 
 public class Client extends JComponent implements Runnable {
     JLabel welcomeMessageLabel = new JLabel("Welcome to the Hotel Manager!");
@@ -27,8 +28,84 @@ public class Client extends JComponent implements Runnable {
     JComboBox<String> customerOptions = new JComboBox<>();
     JButton customerProceedButton;
 
-    public static void main(String[] args) {
+    //Client info
+    private static String name;             //Name of client
+    private static String email;            //Email of client
+    private static String pass;             //Password of client
+    private static String userTypeString;   //Either "seller" or "customer"
+    private static String createAccount;    //If client is creating an account, will be "true"
+
+    //Client/Server response
+    private static String clientMessage;
+    private static String serverResponse;
+
+    public static void main(String[] args) throws IOException {
+        Socket socket = new Socket("localhost", 8008);
+
+        BufferedReader bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        PrintWriter pw = new PrintWriter(socket.getOutputStream());
+
         SwingUtilities.invokeLater(new Client());
+
+        //Sends output on creating or logging in to account
+        if (createAccount.equals("true")) {
+            pw.write(createAccount);
+            pw.println();
+
+            //Sends output on creating or logging in to account.
+            if (userTypeString.equals("Seller")) {
+                pw.write("1");
+                pw.println();
+            } else { //userTypeString is customer
+                pw.write("2");
+                pw.println();
+            }
+
+            //Sends name of user
+            pw.write(name);
+            pw.println();
+            pw.flush();
+
+            boolean validEmail = false;
+            do { //Loop for valid email
+                //Sends email
+                pw.write(email);
+                pw.println();
+                pw.flush();
+
+                serverResponse = bfr.readLine();
+                if (serverResponse.equals("true")) {
+                    validEmail = true;
+                } else { //response equals "false"
+                    //GUI displays error message
+                }
+            } while (!validEmail);
+
+        } else { //Logging into an already existing account
+            pw.write("false");
+            pw.println();
+
+            boolean validLogin = false;
+            do {
+                //Sends email
+                pw.write(email);
+                pw.println();
+
+                //Sends password
+                pw.write(pass);
+                pw.println();
+                pw.flush();
+
+                serverResponse = bfr.readLine();
+                if (serverResponse.equals("true")) {
+                    validLogin = true;
+                } else { //response equals "false"
+                    //TODO: GUI displays error message
+                }
+            } while (!validLogin);
+
+            //TODO: Stopped here
+        }
     }
 
     //Event dispatch thread
@@ -193,13 +270,14 @@ public class Client extends JComponent implements Runnable {
 
         loginButton.addActionListener(e -> {
             content.removeAll();
-            content.setLayout(new GridLayout(5, 1));
+            content.setLayout(new GridLayout(6, 1));
             content.add(infoPanel);
+            content.add(namePanel);
             content.add(loginInfoPanel);
             content.add(emailPanel);
             content.add(passPanel);
             content.add(loginEnterPanel);
-            frame.setSize(600, 350);
+            frame.setSize(600, 400);
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             updateUI();
@@ -207,7 +285,19 @@ public class Client extends JComponent implements Runnable {
         });
 
         createEnterButton.addActionListener(e -> {
-            //TODO: Where we do login credential stuff
+            name = nameText.getText();
+            email = emailText.getText();
+            pass = passText.getText();
+            userTypeString = (String) sellerOrCustomer.getSelectedItem();
+            createAccount = "true";
+
+            if (serverResponse.equals("false")) {
+                JOptionPane.showMessageDialog(null, "Email already exists! Please choose a different email",
+                        "Create Account", JOptionPane.ERROR_MESSAGE);
+
+                emailText.setText("");
+                passText.setText("");
+            }
         });
 
         loginEnterButton.addActionListener(e -> {
