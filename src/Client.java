@@ -130,6 +130,21 @@ public class Client extends JComponent implements Runnable {
         loginEnterPanel.add(loginEnterButton);
         loginEnterPanel.add(Box.createRigidArea(new Dimension(1, 10)));
 
+        JPanel customerPanel = new JPanel();
+        customerPanel.setLayout(new BoxLayout(customerPanel, BoxLayout.PAGE_AXIS));
+        customerPanel.add(Box.createRigidArea(new Dimension(200, 10)));
+        customerOptionsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        customerPanel.add(customerOptionsLabel);
+        customerPanel.add(Box.createRigidArea(new Dimension(1, 10)));
+        customerOptions.setMaximumSize(new Dimension(400, 25));
+        customerOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        customerPanel.add(customerOptions);
+        customerPanel.add(Box.createRigidArea(new Dimension(1, 20)));
+        customerProceedButton = new JButton("Proceed");
+        customerProceedButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        customerPanel.add(customerProceedButton);
+        customerPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+
         createBackButton.addActionListener(e -> {
             content.removeAll();
             content.setLayout(new BorderLayout());
@@ -187,16 +202,6 @@ public class Client extends JComponent implements Runnable {
             //TODO: Where we do login credential stuff
         });
 
-        //Creates customer options frame
-        JFrame customerFrame = new JFrame("Customer");
-        Container customerContent = customerFrame.getContentPane();
-        customerContent.setLayout(new BorderLayout());
-
-        customerFrame.setSize(600, 300);
-        customerFrame.setLocationRelativeTo(null);
-        customerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        customerProceedButton = new JButton("Proceed");
         loginEnterButton.addActionListener( e -> {
             //TODO: Where we do login credential stuff
             String userTypeSelection = (String) sellerOrCustomer.getSelectedItem();
@@ -204,14 +209,14 @@ public class Client extends JComponent implements Runnable {
             if (userTypeSelection.equals("Seller")) {
 
             } else if (userTypeSelection.equals("Customer")) {
-                frame.dispose();
-                //add customer panel options
-                customerContent.add(customerProceedButton);
-                customerContent.add(customerOptionsLabel);
-                customerContent.add(customerOptions);
-                customerFrame.setVisible(true);
-            } else {
-                //???
+                content.removeAll();
+                content.setLayout(new GridLayout(2, 1));
+                content.add(customerPanel);
+                frame.setSize(600, 400);
+                frame.setLocationRelativeTo(null);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                updateUI();
+                frame.setVisible(true);
             }
         });
     }
