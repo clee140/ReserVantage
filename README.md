@@ -13,7 +13,7 @@ This program can be run by compiling and running the main method in the Main.jav
 
 Sruthi Lingam will submit the report on Brightspace and Christopher Lee will submit the repository on Vocareum workspace.
 
-## Main.java
+## Client.java
 The Main class handles all user input and output options from all classes. The user is first prompted to create an account, log in to an existing account, or quit the program. The login information is verified with a file of existing accounts before proceeding. Based on whether the user's login belongs to a seller or customer, the program will display a list of initial options to choose from.
 
 The Main class uses the methods in the Seller and Customer classes in order to complete the following options:
@@ -101,6 +101,7 @@ The seller class extends the User class and uses methods in the Calendar and App
     * Sellers can import a csv file with a calendar and the program will automatically create a calendar and a  corresponding appointment list. This new calendar will appear in the personal .txt file that the program creates for each Seller.
     * Sellers can also view a dashboard that lists out the statistics related to their stores. Sellers can view the appointments that were approved and sort the most popular appointment windows of their stores.
 
+## Server.java
 
 ## User.java
 The User class processes a user's login credentials and verifies whether they match with existing account information.

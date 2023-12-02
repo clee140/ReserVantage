@@ -3,6 +3,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * The Server class handles the Client requests and sends the requested information back to the Client. The Server
+ * handles the creation of the users, calling the methods from the Seller/Customer class, and verifying the
+ * appropriate information is sent.
+ *
+ * @author Christopher Lee and Sreekar Gudipati
+ * @version December 2, 2023
+ */
+
 public class Server implements Runnable {
     private Socket socket;
 
