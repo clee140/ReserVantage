@@ -19,6 +19,8 @@ public class Client extends JComponent implements Runnable {
     JTextField passText;
     JButton createEnterButton;
     JButton loginEnterButton;
+    JButton createBackButton;
+    JButton loginBackButton;
 
     //Customer options panel
     JLabel customerOptionsLabel = new JLabel("Select an option from the customer menu below");
@@ -43,7 +45,7 @@ public class Client extends JComponent implements Runnable {
         createAccountButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         loginButton = new JButton("Login");
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JPanel initialOptionPanel = new JPanel(new GridBagLayout());
+        JPanel initialOptionPanel = new JPanel();
         initialOptionPanel.setLayout(new BoxLayout(initialOptionPanel, BoxLayout.PAGE_AXIS));
         initialOptionPanel.add(Box.createRigidArea(new Dimension(1, 20)));
         initialOptionPanel.add(welcomeMessageLabel);
@@ -66,106 +68,151 @@ public class Client extends JComponent implements Runnable {
         sellerOrCustomer.addItem("Seller");
         sellerOrCustomer.addItem("Customer");
 
-        //Creates create account frame
-        JFrame accountFrame = new JFrame("Account");
-        content = accountFrame.getContentPane();
-        SpringLayout layout = new SpringLayout();
-        content.setLayout(layout);
+        //Creates create account panel
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.PAGE_AXIS));
+        infoPanel.add(Box.createRigidArea(new Dimension(1, 10)));
+        selectOptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        infoPanel.add(selectOptionLabel);
+        infoPanel.add(Box.createRigidArea(new Dimension(1, 10)));
+        sellerOrCustomer.setMaximumSize(new Dimension(100, 25));
+        sellerOrCustomer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        infoPanel.add(sellerOrCustomer);
+        infoPanel.add(Box.createRigidArea(new Dimension(1, 20)));
 
-        content.add(selectOptionLabel);
-        content.add(sellerOrCustomer);
-        layout.putConstraint(SpringLayout.EAST, selectOptionLabel, 5, SpringLayout.HORIZONTAL_CENTER, content);
-        layout.putConstraint(SpringLayout.NORTH, selectOptionLabel, 8, SpringLayout.NORTH, content);
-        layout.putConstraint(SpringLayout.WEST, sellerOrCustomer, 5, SpringLayout.EAST, selectOptionLabel);
-        layout.putConstraint(SpringLayout.NORTH, sellerOrCustomer, 5, SpringLayout.NORTH, content);
-
-        content.add(nameLabel);
+        JPanel namePanel = new JPanel();
+        namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.LINE_AXIS));
+        namePanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        namePanel.add(nameLabel);
+        namePanel.add(Box.createRigidArea(new Dimension(50, 0)));
         nameText = new JTextField("", 20);
-        content.add(nameText);
-        layout.putConstraint(SpringLayout.WEST, nameLabel, 20, SpringLayout.WEST, content);
-        layout.putConstraint(SpringLayout.WEST, nameText, 5, SpringLayout.EAST, nameLabel);
-        layout.putConstraint(SpringLayout.NORTH, nameLabel, 10, SpringLayout.SOUTH, sellerOrCustomer);
-        layout.putConstraint(SpringLayout.NORTH, nameText, 10, SpringLayout.SOUTH, sellerOrCustomer);
+        nameText.setMaximumSize(new Dimension(200, 25));
+        namePanel.add(nameText);
 
-        content.add(loginInfoLabel);
-        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, loginInfoLabel, 5, SpringLayout.EAST, selectOptionLabel);
-        layout.putConstraint(SpringLayout.NORTH, loginInfoLabel, 50, SpringLayout.SOUTH, selectOptionLabel);
+        JPanel loginInfoPanel = new JPanel();
+        loginInfoPanel.add(loginInfoLabel);
 
-        content.add(emailLabel);
-        emailText = new JTextField("", 33);
-        content.add(emailText);
-        layout.putConstraint(SpringLayout.WEST, emailLabel, 20, SpringLayout.WEST, content);
-        layout.putConstraint(SpringLayout.WEST, emailText, 5, SpringLayout.EAST, emailLabel);
-        layout.putConstraint(SpringLayout.NORTH, emailLabel, 20, SpringLayout.SOUTH, loginInfoLabel);
-        layout.putConstraint(SpringLayout.NORTH, emailText, 20, SpringLayout.SOUTH, loginInfoLabel);
+        JPanel emailPanel = new JPanel();
+        emailPanel.setLayout(new BoxLayout(emailPanel, BoxLayout.LINE_AXIS));
+        emailPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        emailPanel.add(emailLabel);
+        emailPanel.add(Box.createRigidArea(new Dimension(50, 0)));
+        emailText = new JTextField("", 20);
+        emailText.setMaximumSize(new Dimension(300, 25));
+        emailPanel.add(emailText);
 
-        content.add(passLabel);
-        passText = new JTextField("", 30);
-        content.add(passText);
-        layout.putConstraint(SpringLayout.WEST, passLabel, 20, SpringLayout.WEST, content);
-        layout.putConstraint(SpringLayout.WEST, passText, 5, SpringLayout.EAST, passLabel);
-        layout.putConstraint(SpringLayout.NORTH, passLabel, 20, SpringLayout.SOUTH, emailLabel);
-        layout.putConstraint(SpringLayout.NORTH, passText, 20, SpringLayout.SOUTH, emailLabel);
+        JPanel passPanel = new JPanel();
+        passPanel.setLayout(new BoxLayout(passPanel, BoxLayout.LINE_AXIS));
+        passPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        passPanel.add(passLabel);
+        passPanel.add(Box.createRigidArea(new Dimension(50, 0)));
+        passText = new JTextField("", 20);
+        passText.setMaximumSize(new Dimension(200, 25));
+        passPanel.add(passText);
 
+        JPanel createEnterPanel = new JPanel();
+        createEnterPanel.setLayout(new BoxLayout(createEnterPanel, BoxLayout.LINE_AXIS));
+        createEnterPanel.add(Box.createRigidArea(new Dimension(200, 0)));
+        createBackButton = new JButton("Go Back");
+        createEnterPanel.add(createBackButton);
+        createEnterPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         createEnterButton = new JButton("Enter");
-        content.add(createEnterButton);
-        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, createEnterButton, 5, SpringLayout.HORIZONTAL_CENTER, content);
-        layout.putConstraint(SpringLayout.NORTH, createEnterButton, 80, SpringLayout.SOUTH, emailLabel);
+        createEnterPanel.add(createEnterButton);
+        createEnterPanel.add(Box.createRigidArea(new Dimension(1, 10)));
 
-        accountFrame.setSize(600, 300);
-        accountFrame.setLocationRelativeTo(null);
-        accountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        JPanel loginEnterPanel = new JPanel();
+        loginEnterPanel.setLayout(new BoxLayout(loginEnterPanel, BoxLayout.LINE_AXIS));
+        loginEnterPanel.add(Box.createRigidArea(new Dimension(200, 0)));
+        loginBackButton = new JButton("Go Back");
+        loginEnterPanel.add(loginBackButton);
+        loginEnterPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        loginEnterButton = new JButton("Enter");
+        loginEnterPanel.add(loginEnterButton);
+        loginEnterPanel.add(Box.createRigidArea(new Dimension(1, 10)));
 
-        //User chooses between two options: Create Account or Login to Existing Account
-        createAccountButton.addActionListener(e -> {
-            frame.dispose();
-            accountFrame.setVisible(true);
+        createBackButton.addActionListener(e -> {
+            content.removeAll();
+            content.setLayout(new BorderLayout());
+            content.add(initialOptionPanel);
+            frame.setSize(400, 200);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            updateUI();
+            frame.setVisible(true);
         });
 
-        Container finalContent = content;
-        loginEnterButton = new JButton("Enter");
+        loginBackButton.addActionListener(e -> {
+            content.removeAll();
+            content.setLayout(new BorderLayout());
+            content.add(initialOptionPanel);
+            frame.setSize(400, 200);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            updateUI();
+            frame.setVisible(true);
+        });
+
+        createAccountButton.addActionListener(e -> {
+            content.removeAll();
+            content.setLayout(new GridLayout(6, 1));
+            content.add(infoPanel);
+            content.add(namePanel);
+            content.add(loginInfoPanel);
+            content.add(emailPanel);
+            content.add(passPanel);
+            content.add(createEnterPanel);
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            updateUI();
+            frame.setVisible(true);
+        });
+
         loginButton.addActionListener(e -> {
-            frame.dispose();
-            accountFrame.remove(createEnterButton);
-            accountFrame.remove(nameLabel);
-            accountFrame.remove(nameText);
-            finalContent.add(loginEnterButton);
-            layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, loginEnterButton, 5, SpringLayout.HORIZONTAL_CENTER, finalContent);
-            layout.putConstraint(SpringLayout.NORTH, loginEnterButton, 80, SpringLayout.SOUTH, emailLabel);
-            accountFrame.setVisible(true);
+            content.removeAll();
+            content.setLayout(new GridLayout(5, 1));
+            content.add(infoPanel);
+            content.add(loginInfoPanel);
+            content.add(emailPanel);
+            content.add(passPanel);
+            content.add(loginEnterPanel);
+            frame.setSize(600, 350);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            updateUI();
+            frame.setVisible(true);
+        });
+
+        createEnterButton.addActionListener( e -> {
+            //TODO: Where we do login credential stuff
         });
 
         //Creates customer options frame
         JFrame customerFrame = new JFrame("Customer");
         Container customerContent = customerFrame.getContentPane();
-        customerContent.setLayout(layout);
+        customerContent.setLayout(new BorderLayout());
 
         customerFrame.setSize(600, 300);
         customerFrame.setLocationRelativeTo(null);
         customerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        //If user clicks enter button
-        createEnterButton.addActionListener( e -> {
-            //TODO: Where we do login credential stuff
-        });
 
         customerProceedButton = new JButton("Proceed");
         loginEnterButton.addActionListener( e -> {
             //TODO: Where we do login credential stuff
             String userTypeSelection = (String) sellerOrCustomer.getSelectedItem();
             //code below is nested inside login check after verification
-                if (userTypeSelection.equals("Seller")) {
+            if (userTypeSelection.equals("Seller")) {
 
-                } else if (userTypeSelection.equals("Customer")) {
-                    accountFrame.dispose();
-                    //add customer panel options
-                    customerContent.add(customerProceedButton);
-                    customerContent.add(customerOptionsLabel);
-                    customerContent.add(customerOptions);
-                    customerFrame.setVisible(true);
-                } else {
-                    //???
-                }
+            } else if (userTypeSelection.equals("Customer")) {
+                frame.dispose();
+                //add customer panel options
+                customerContent.add(customerProceedButton);
+                customerContent.add(customerOptionsLabel);
+                customerContent.add(customerOptions);
+                customerFrame.setVisible(true);
+            } else {
+                //???
+            }
         });
     }
 }
