@@ -189,10 +189,13 @@ public class Server implements Runnable {
                 }
             } else {
                 boolean runner = true;
-                while (runner) {
-                    String userName = "userName"; //username needs to be imported in
 
-                    Customer customer = new Customer(userName, userName + ".txt");
+                String userName = email; //username needs to be imported in
+
+                Customer customer = new Customer(userName, userName + ".txt");
+
+                while (runner) {
+
                     String choice = bufferedReader.readLine();
 
                     if (choice.equals("1")) {
@@ -205,9 +208,18 @@ public class Server implements Runnable {
 
                     } else if (choice.equals("2")) {
 
-                        String appointment = bufferedReader.readLine();
                         int response = Integer.parseInt(bufferedReader.readLine());
 
+                        if (response == 1) {
+                            writer.println(customer.viewAppointmentsWaitingApproval());
+                            writer.flush();
+
+                        } else if (response == 2) {
+                            writer.println(customer.viewApprovedAppointments());
+                            writer.flush();
+                        }
+
+                        String appointment = bufferedReader.readLine();
 
                         boolean cancelled = customer.cancelAppointment(appointment, response);
                         String message = "";
@@ -245,9 +257,15 @@ public class Server implements Runnable {
 
                     } else if (choice.equals("6")) {
 
-                        int sort = Integer.parseInt(bufferedReader.readLine());
+                        String message = "";
+                        int yesNo = Integer.parseInt(bufferedReader.readLine());
 
-                        String message = customer.viewDashboard(sort);
+                        if (yesNo == 1) {
+                            int sort = Integer.parseInt(bufferedReader.readLine());
+                            message = customer.viewDashboard(sort);
+                        } else {
+                            message = customer.viewDashboard(2);
+                        }
 
                         writer.println(message);
                         writer.flush();
