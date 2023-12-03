@@ -126,6 +126,23 @@ public class Client extends JComponent implements Runnable {
         JButton customerProceedButton = new JButton("Proceed");
         JLabel exitMessage = new JLabel("Thank you for using the Hotel Manager. You have successfully logged out.");
         JLabel closingMessage = new JLabel("This message will close in 5 seconds.");
+        JLabel customerAppointmentRequest = new JLabel("<html>Enter the appointment you would like to request exactly as " +
+                "it appears in the appointment list:<br/> <br/> Format: [Calendar name]-[Appointment Title]," +
+                "[Max Attendees],[Approved Bookings],[Start Time],[End Time]</html>", SwingConstants.CENTER);
+        JTextField customerAppointmentText = new JTextField("", 45);
+        JButton customerAppointmentButton = new JButton("Make Appointment");
+        JLabel customerCancelAppointmentRequest = new JLabel("<html>Enter the appointment you would like to cancel " +
+                "exactly as it appears in the appointment list:<br/> <br/> Format: [Calendar name]-[Appointment Title]," +
+                "[Max Attendees],[Approved Bookings],[Start Time],[End Time]</html>");
+        JTextField customerCancelText = new JTextField("", 45);
+        JButton customerCancelButton = new JButton("Cancel Appointment");
+
+        JLabel customerSort = new JLabel("Choose a method to sort statistics dashboard");
+        JComboBox<String> customerSortOptions = new JComboBox<>();
+        JButton customerSortButton = new JButton("View Statistics");
+
+
+
 
         //Creates main panel
         welcomeMessageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -224,6 +241,32 @@ public class Client extends JComponent implements Runnable {
         customerProceedButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         customerPanel.add(customerProceedButton);
         customerPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+
+
+        // Customer make appointment request panel.
+        JPanel customerMakeAppointment = new JPanel();
+        customerMakeAppointment.add(customerAppointmentRequest);
+        customerMakeAppointment.add(customerAppointmentText);
+        customerMakeAppointment.add(customerAppointmentButton);
+
+        // Customer cancel appointment panel.
+        JPanel customerCancelAppointment = new JPanel();
+        customerCancelAppointment.add(new JLabel("")); // Replaced with appointments available to cancel.
+        customerCancelAppointment.add(customerCancelAppointmentRequest);
+        customerCancelAppointment.add(customerCancelText);
+        customerCancelAppointment.add(customerCancelButton);
+
+        // Customer view statistics panel.
+        JPanel customerViewStatistics = new JPanel();
+        customerViewStatistics.setLayout(new BoxLayout(customerViewStatistics, BoxLayout.Y_AXIS));
+        customerViewStatistics.add(customerSort);
+        customerSortOptions.setMaximumSize(new Dimension(400, 25));
+        customerSortOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        customerSortOptions.addItem("Most to Least Popular Stores");
+        customerSortOptions.addItem("Least to Most Popular Stores");
+        customerViewStatistics.add(customerSortOptions);
+        customerViewStatistics.add(customerSortButton);
+
 
         //Exit panel
         JPanel exitLogOutPanel = new JPanel();
@@ -327,9 +370,10 @@ public class Client extends JComponent implements Runnable {
                             //TODO: Where Seller screen pops up
                         } else if (userOrSeller.equals("Customer")) { //TODO: Customer screen pops up
                             content.removeAll();
+                            frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
                             content.add(customerPanel);
-                            frame.setSize(600, 400);
+                            frame.setSize(750, 400);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             updateUI();
@@ -367,24 +411,79 @@ public class Client extends JComponent implements Runnable {
                     int customerMenuSelection = customerOptions.getSelectedIndex();
                     switch (customerMenuSelection) {
                         case 0:
-                            //option 1 here
+                            content.removeAll();
+                            frame.repaint();
+                            content.setLayout(new GridLayout(2, 1));
+                            content.add(customerMakeAppointment);
+                            frame.setSize(750, 300);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
                             break;
                         case 1:
-                            //option 2 here
+                            JOptionPane.showConfirmDialog(null,
+                                    "Choose an appointment category to delete from: \n" +
+                                    "Yes - Appointments Awaiting Approval\nNo - Appointments Approved",
+                                    "Cancel Option", JOptionPane.YES_NO_OPTION);
+                            content.removeAll();
+                            frame.repaint();
+                            content.setLayout(new GridLayout(2, 1));
+                            content.add(customerCancelAppointment);
+                            frame.setSize(750, 300);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
                             break;
                         case 2:
+                            content.removeAll();
+                            frame.repaint();
+                            content.setLayout(new GridLayout(2, 1));
+                           // content.add(); // JLabel with the created calendars.
+                            frame.setSize(750, 300);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
                             //option 3 here
                             break;
                         case 3:
+                            content.removeAll();
+                            frame.repaint();
+                            content.setLayout(new GridLayout(2, 1));
+                            frame.setSize(750, 300);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
                             //option 4 here
                             break;
                         case 4:
-                            //option 5 here
+                            content.removeAll();
+                            frame.repaint();
+                            content.setLayout(new GridLayout(2, 1));
+                            frame.setSize(750, 300);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
                             break;
                         case 5:
                             //option 6 here
+                            content.removeAll();
+                            frame.repaint();
+                            content.setLayout(new GridLayout(2, 1));
+                            frame.setSize(750, 300);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
                             break;
                         case 6:
+                            JOptionPane.showMessageDialog(null,
+                                    "Your file has been exported! Please check your desktop to " +
+                                            "view the text file.", "File Export", JOptionPane.PLAIN_MESSAGE);
                             //option 7 here
                             break;
                         case 7:
