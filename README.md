@@ -14,9 +14,9 @@ This program can be run by compiling and running the main method in the Main.jav
 Sruthi Lingam will submit the report on Brightspace and Christopher Lee will submit the repository on Vocareum workspace.
 
 ## Client.java
-The Main class handles all user input and output options from all classes. The user is first prompted to create an account, log in to an existing account, or quit the program. The login information is verified with a file of existing accounts before proceeding. Based on whether the user's login belongs to a seller or customer, the program will display a list of initial options to choose from.
+The Client class extends JComponent and implements the Runnable interface.
 
-The Main class uses the methods in the Seller and Customer classes in order to complete the following options:
+
 
 ### Seller Options
 1. View current calendars
@@ -102,6 +102,13 @@ The seller class extends the User class and uses methods in the Calendar and App
     * Sellers can also view a dashboard that lists out the statistics related to their stores. Sellers can view the appointments that were approved and sort the most popular appointment windows of their stores.
 
 ## Server.java
+The Server class implements the Runnable interface, and runs all its functionality inside the run() method.
+
+Each thread begins with a validation of the user's login attempt until it's successful, followed by a separate while loop depending on
+whether the user is a customer or a seller. Once in a while loop, the server receives the action the user has chosen through a number choice,
+and the server performs the processing required for this choice and sends back the required data or message.
+
+The thread runs until the user chooses to logout.
 
 ## User.java
 The User class processes a user's login credentials and verifies whether they match with existing account information.
