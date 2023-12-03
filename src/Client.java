@@ -19,7 +19,7 @@ public class Client extends JComponent implements Runnable {
 
             String clientMessage = "";
             String serverResponse = "";
-            if (button.getText().equals("Enter")) {
+            if (button.getText().equals("Enter")) { //Creating an account
                 pw.write("true");
                 pw.println();
 
@@ -82,7 +82,7 @@ public class Client extends JComponent implements Runnable {
             }
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         //TODO: go back later and change this probably
         return false;
