@@ -492,8 +492,36 @@ public class Client extends JComponent implements Runnable {
         createAndBackPanel.setAlignmentX(LEFT_ALIGNMENT);
         appointmentInfoPanel.add(createAndBackPanel);
 
-        //TODO: Edit calendar panel
-
+        //Seller edit calendar panel
+        JLabel editCalendarTitleLabel = new JLabel("Name of calendar to edit: ");
+        JTextField editCalendarTitleField = new JTextField("", 20);
+        JLabel editCalendarApptLabel = new JLabel("Name of appointment: ");
+        JTextField editCalendarApptField = new JTextField("", 20);
+        JLabel editCalendarNewApptLabel = new JLabel("Enter the name of the new appointment: ");
+        JTextField editCalendarNewApptField = new JTextField("", 20);
+        JLabel editCalendarMaxLabel = new JLabel("Enter the new number of max attendees: ");
+        JTextField editCalendarMaxField = new JTextField("", 20);
+        JPanel editCalendarPanel = new JPanel();
+        editCalendarPanel.setLayout(new BoxLayout(editCalendarPanel, BoxLayout.PAGE_AXIS));
+        editCalendarPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        editCalendarTitleLabel.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarPanel.add(editCalendarTitleLabel);
+        editCalendarTitleField.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarTitleField.setMaximumSize(new Dimension(200, 25));
+        editCalendarPanel.add(editCalendarTitleField);
+        editCalendarApptLabel.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarPanel.add(editCalendarApptLabel);
+        editCalendarApptField.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarApptField.setMaximumSize(new Dimension(50, 25));
+        editCalendarNewApptLabel.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarPanel.add(editCalendarNewApptLabel);
+        editCalendarNewApptField.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarNewApptField.setMaximumSize(new Dimension(50, 25));
+        editCalendarMaxLabel.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarPanel.add(editCalendarMaxLabel);
+        editCalendarMaxField.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarMaxField.setMaximumSize(new Dimension(50, 25));
+        
         //TODO: Delete calendar panel
 
         //TODO: Approve/decline appointment requests panel
@@ -654,7 +682,7 @@ public class Client extends JComponent implements Runnable {
                             frame.setVisible(true);
                             break;
                         case 1:
-                             int customerCancelChoice = JOptionPane.showConfirmDialog(null,
+                            int customerCancelChoice = JOptionPane.showConfirmDialog(null,
                                     "Choose an appointment category to delete from: \n" +
                                             "Yes - Appointments Awaiting Approval\nNo - Appointments Approved",
                                     "Cancel Option", JOptionPane.YES_NO_OPTION);
@@ -895,7 +923,14 @@ public class Client extends JComponent implements Runnable {
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             frame.setVisible(true);
                             break;
-                        case 3:
+                        case 3: //Edit calendar
+                            content.removeAll();
+                            content.setLayout(new BorderLayout());
+                            content.add(editCalendarPanel);
+                            frame.setSize(600, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            frame.setVisible(true);
                             break;
                         case 4:
                             break;
