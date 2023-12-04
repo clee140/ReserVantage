@@ -49,7 +49,7 @@ public class Client extends JComponent implements Runnable {
                 } else { //response equals "false"
                     //GUI displays error message
                 }
-            } else { //Button is "Login"
+            } else if (button.getText().equals("Login")){ //Button is "Login"
                 pw.write("false");
                 pw.println();
 
@@ -78,6 +78,13 @@ public class Client extends JComponent implements Runnable {
                     return serverResponse;
                 } else { //response equals "false"
                     //GUI displays error message
+                }
+            } else if (button.getText().equals("Proceed")) {
+                if (data.equals("calendars")) {
+                    pw.write("calendars");
+                    pw.println();
+                    pw.flush();
+                    return bfr.readLine();
                 }
             }
         } catch (IOException e) {
@@ -671,6 +678,9 @@ public class Client extends JComponent implements Runnable {
                     int customerMenuSelection = customerOptions.getSelectedIndex();
                     switch (customerMenuSelection) {
                         case 0:
+                          //  String appointmentList = sendDataToServer(customerProceedButton, "calendars");
+                          //  JOptionPane.showMessageDialog(null, appointmentList, "Test", JOptionPane.PLAIN_MESSAGE);
+
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
@@ -771,6 +781,25 @@ public class Client extends JComponent implements Runnable {
                         default:
                             break;
                     }
+                } else if (e.getSource() == customerAppointmentButton) {
+                    String appointmentText = customerAppointmentText.getText();
+                    String getAppointmentStatus = sendDataToServer(customerAppointmentButton, appointmentText);
+                    if (getAppointmentStatus.equals("Appointment request made.")) {
+                        JOptionPane.showMessageDialog(null, "Appointment request made.",
+                                "Status", JOptionPane.PLAIN_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Appointment request unsuccessful.",
+                                "Status", JOptionPane.PLAIN_MESSAGE);
+                    }
+
+                    content.removeAll(); //Clears the frame
+                    frame.repaint();
+                    content.setLayout(new BorderLayout());
+                    content.add(customerPanel);
+                    frame.setSize(900, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
                 } else if (e.getSource() == customerAppointmentBackButton) {
                     content.removeAll(); //Clears the frame
                     frame.repaint();

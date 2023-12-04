@@ -197,8 +197,13 @@ public class Server implements Runnable {
 
                     String choice = bufferedReader.readLine();
 
-                    if (choice.equals("1")) {
+                    if (choice != null && choice.equals("calendars")) {
+                        String viewCalendars = customer.viewCalendars();
+                        writer.println(viewCalendars);
+                        writer.flush();
+                    }
 
+                    if (choice.equals("1")) {
                         String appointment = bufferedReader.readLine();
                         String message = customer.makeAppointment(appointment);
 
