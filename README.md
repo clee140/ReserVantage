@@ -16,7 +16,7 @@ Sruthi Lingam will submit the report on Brightspace and Christopher Lee will sub
 ## Client.java
 The Client class extends JComponent and implements the Runnable interface.
 
-
+The sendDataToServer() method is used to send data to the server. It takes 
 
 ### Seller Options
 1. View current calendars
