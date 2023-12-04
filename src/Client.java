@@ -134,6 +134,7 @@ public class Client extends JComponent implements Runnable {
                 "[Max Attendees],[Approved Bookings],[Start Time],[End Time]</html>", SwingConstants.CENTER);
         JTextField customerAppointmentText = new JTextField("", 45);
         JButton customerAppointmentButton = new JButton("Make Appointment");
+
         JLabel customerCancelAppointmentRequest = new JLabel("<html>Enter the appointment you would like to cancel " +
                 "exactly as it appears in the appointment list:<br/> <br/> Format: [Calendar name]-[Appointment Title]," +
                 "[Max Attendees],[Approved Bookings],[Start Time],[End Time]</html>");
@@ -266,10 +267,6 @@ public class Client extends JComponent implements Runnable {
         customerCancelAppointment.add(customerCancelText);
         customerCancelAppointment.add(customerCancelButton);
         customerCancelAppointment.add(customerCancelBackButton);
-        //  JOptionPane.showConfirmDialog(null,
-        //        "Choose an appointment category to delete from: \n" +
-        //              "Yes - Appointments Awaiting Approval\nNo - Appointments Approved",
-        //    "Cancel Option", JOptionPane.YES_NO_OPTION); // Fix
 
         // Customer view calendars panel.
         JPanel customerViewCalendars = new JPanel();
@@ -657,6 +654,10 @@ public class Client extends JComponent implements Runnable {
                             frame.setVisible(true);
                             break;
                         case 1:
+                             int customerCancelChoice = JOptionPane.showConfirmDialog(null,
+                                    "Choose an appointment category to delete from: \n" +
+                                            "Yes - Appointments Awaiting Approval\nNo - Appointments Approved",
+                                    "Cancel Option", JOptionPane.YES_NO_OPTION);
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
