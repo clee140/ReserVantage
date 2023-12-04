@@ -141,7 +141,13 @@ public class Client extends JComponent implements Runnable {
         JComboBox<String> customerSortOptions = new JComboBox<>();
         JButton customerSortButton = new JButton("View Statistics");
 
-
+        JButton customerAppointmentBackButton = new JButton("Go Back");
+        JButton customerCancelBackButton = new JButton("Go Back");
+        JButton customerViewCalendarsBackButton = new JButton("Go Back");
+        JButton customerViewApprovedAppointmentsBackButton = new JButton("Go Back");
+        JButton customerViewAppointmentsAwaitingBackButton = new JButton("Go Back");
+        JButton customerExportFileBackButton = new JButton("Go Back");
+        JButton customerViewStatisticsBackButton = new JButton("Go Back");
 
 
         //Creates main panel
@@ -248,6 +254,7 @@ public class Client extends JComponent implements Runnable {
         customerMakeAppointment.add(customerAppointmentRequest);
         customerMakeAppointment.add(customerAppointmentText);
         customerMakeAppointment.add(customerAppointmentButton);
+        customerMakeAppointment.add(customerAppointmentBackButton);
 
         // Customer cancel appointment panel.
         JPanel customerCancelAppointment = new JPanel();
@@ -255,18 +262,49 @@ public class Client extends JComponent implements Runnable {
         customerCancelAppointment.add(customerCancelAppointmentRequest);
         customerCancelAppointment.add(customerCancelText);
         customerCancelAppointment.add(customerCancelButton);
+        customerCancelAppointment.add(customerCancelBackButton);
+      //  JOptionPane.showConfirmDialog(null,
+        //        "Choose an appointment category to delete from: \n" +
+          //              "Yes - Appointments Awaiting Approval\nNo - Appointments Approved",
+            //    "Cancel Option", JOptionPane.YES_NO_OPTION); // Fix
+
+        // Customer view calendars panel.
+        JPanel customerViewCalendars = new JPanel();
+        customerViewCalendars.add(new JLabel("")); // Replace with calendars.
+        customerViewCalendars.add(customerViewCalendarsBackButton);
+
+        // Customer view approved appointments panel.
+        JPanel customerViewApprovedAppointments = new JPanel();
+        customerViewApprovedAppointments.add(new JLabel("")); // Replace with approved appointments.
+        customerViewApprovedAppointments.add(customerViewApprovedAppointmentsBackButton);
+
+        // Customer view appointments awaiting approval panel.
+        JPanel customerViewAppointmentsAwaiting = new JPanel();
+        customerViewAppointmentsAwaiting.add(new JLabel("")); // Replace with appointments awaiting approval.
+        customerViewAppointmentsAwaiting.add(customerViewAppointmentsAwaitingBackButton);
+
 
         // Customer view statistics panel.
         JPanel customerViewStatistics = new JPanel();
-        customerViewStatistics.setLayout(new BoxLayout(customerViewStatistics, BoxLayout.Y_AXIS));
+        customerViewStatistics.setLayout(new BoxLayout(customerViewStatistics, BoxLayout.PAGE_AXIS));
+
+        customerViewStatistics.add(Box.createRigidArea(new Dimension(200, 10)));
+        customerSort.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         customerViewStatistics.add(customerSort);
+        customerViewStatistics.add(Box.createRigidArea(new Dimension(1, 10)));
+
         customerSortOptions.setMaximumSize(new Dimension(400, 25));
         customerSortOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
         customerSortOptions.addItem("Most to Least Popular Stores");
         customerSortOptions.addItem("Least to Most Popular Stores");
         customerViewStatistics.add(customerSortOptions);
+        customerPanel.add(Box.createRigidArea(new Dimension(1, 20)));
+        customerSortButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         customerViewStatistics.add(customerSortButton);
-
+        customerPanel.add(Box.createRigidArea(new Dimension(1, 20)));
+        customerViewStatisticsBackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        customerViewStatistics.add(customerViewStatisticsBackButton);
 
         //Exit panel
         JPanel exitLogOutPanel = new JPanel();
@@ -422,10 +460,6 @@ public class Client extends JComponent implements Runnable {
                             frame.setVisible(true);
                             break;
                         case 1:
-                            JOptionPane.showConfirmDialog(null,
-                                    "Choose an appointment category to delete from: \n" +
-                                    "Yes - Appointments Awaiting Approval\nNo - Appointments Approved",
-                                    "Cancel Option", JOptionPane.YES_NO_OPTION);
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
@@ -440,7 +474,7 @@ public class Client extends JComponent implements Runnable {
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
-                           // content.add(); // JLabel with the created calendars.
+                            content.add(customerViewCalendars);
                             frame.setSize(750, 300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -452,6 +486,7 @@ public class Client extends JComponent implements Runnable {
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
+                            content.add(customerViewApprovedAppointments);
                             frame.setSize(750, 300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -463,6 +498,7 @@ public class Client extends JComponent implements Runnable {
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
+                            content.add(customerViewAppointmentsAwaiting);
                             frame.setSize(750, 300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -474,6 +510,7 @@ public class Client extends JComponent implements Runnable {
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
+                            content.add(customerViewStatistics);
                             frame.setSize(750, 300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -508,6 +545,69 @@ public class Client extends JComponent implements Runnable {
                         default:
                             break;
                     }
+                } else if (e.getSource() == customerAppointmentBackButton) {
+                    content.removeAll(); //Clears the frame
+                    frame.repaint();
+                    content.setLayout(new BorderLayout());
+                    content.add(customerPanel);
+                    frame.setSize(900, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                } else if (e.getSource() == customerCancelBackButton) {
+                    content.removeAll(); //Clears the frame
+                    frame.repaint();
+                    content.setLayout(new BorderLayout());
+                    content.add(customerPanel);
+                    frame.setSize(900, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                } else if (e.getSource() == customerViewCalendarsBackButton) {
+                    content.removeAll(); //Clears the frame
+                    frame.repaint();
+                    content.setLayout(new BorderLayout());
+                    content.add(customerPanel);
+                    frame.setSize(900, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                } else if (e.getSource() == customerViewApprovedAppointmentsBackButton) {
+                    content.removeAll(); //Clears the frame
+                    frame.repaint();
+                    content.setLayout(new BorderLayout());
+                    content.add(customerPanel);
+                    frame.setSize(900, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                } else if (e.getSource() == customerViewAppointmentsAwaitingBackButton) {
+                    content.removeAll(); //Clears the frame
+                    frame.repaint();
+                    content.setLayout(new BorderLayout());
+                    content.add(customerPanel);
+                    frame.setSize(900, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                } else if (e.getSource() == customerExportFileBackButton) {
+                    content.removeAll(); //Clears the frame
+                    frame.repaint();
+                    content.setLayout(new BorderLayout());
+                    content.add(customerPanel);
+                    frame.setSize(900, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                } else if (e.getSource() == customerViewStatisticsBackButton) {
+                    content.removeAll(); //Clears the frame
+                    frame.repaint();
+                    content.setLayout(new BorderLayout());
+                    content.add(customerPanel);
+                    frame.setSize(900, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
                 }
             }
         };
@@ -520,5 +620,12 @@ public class Client extends JComponent implements Runnable {
         createBackButton.addActionListener(actionListener);
         loginBackButton.addActionListener(actionListener);
         customerProceedButton.addActionListener(actionListener);
+        customerAppointmentBackButton.addActionListener(actionListener);
+        customerCancelBackButton.addActionListener(actionListener);
+        customerViewCalendarsBackButton.addActionListener(actionListener);
+        customerViewApprovedAppointmentsBackButton.addActionListener(actionListener);
+        customerViewAppointmentsAwaitingBackButton.addActionListener(actionListener);
+        customerExportFileBackButton.addActionListener(actionListener);
+        customerViewStatisticsBackButton.addActionListener(actionListener);
     }
 }
