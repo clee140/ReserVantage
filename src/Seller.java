@@ -160,7 +160,7 @@ public class Seller extends User {
             }
             bufferedReader.close();
         } catch (IOException e) {
-            System.out.println("No current appointments!");
+            return "";
         }
 
         String list = "";
