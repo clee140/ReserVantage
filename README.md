@@ -12,12 +12,20 @@ sellers and customers.
 This program can be run by first compiling and running Server.java and then Client.java. To have multiple users, run
 Client.java again, but Server.java MUST always be running.
 
-* The program saves all application data once the User exit and logs out of the program. 
-* The program achieves concurrency through the usage of threads, which allow the ability to handle multiple Users at once.
-* The program allows for Users to receive content updates as other Users make changes to the shared information. In order 
-to see the update, the User MUST navigate to a different page than their current one and then back to their original page.
+* Program Functionality
+  * The program saves all application data once the User exit and logs out of the program. 
+  * The program achieves concurrency through the usage of threads, which allow the ability to handle multiple Users at once.
+  * The program allows for Users to receive content updates as other Users make changes to the shared information. In order 
+  to see the update, the User MUST navigate to a different page then back to their original page.
 
 Sruthi Lingam will submit the report on Brightspace and Christopher Lee will submit the repository on Vocareum workspace.
+
+## Errors fixed from Project 4
+* All invalid inputs are handled within the GUI.
+* The Seller approve/decline appointment requests allow the Seller to choose whether to approve or decline an appointment.
+It also asks for the Customer information before asking for the appointment.
+* The deleted calendars are deleted from the Seller's view. If the Seller has one calendar, only the Seller's name, 
+store name, and a time-stamped edit message will remain in the Seller's view once it has been deleted. 
 
 ## Client.java
 The Client class handles the creation of the complex GUI for both the Seller and Customer and sending the appropriate
@@ -25,7 +33,6 @@ information to the Server class. For each Seller and Customer action options, a 
 either fields to enter information or user-requested information. For every button click in the GUI, the Client
 class will send the data to the Server class, where it is appropriately handled, and receive the requested information
 from the server.
-
 
 ### Seller Options
 1. View current calendars
