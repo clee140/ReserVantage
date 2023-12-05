@@ -1082,24 +1082,41 @@ public class Client extends JComponent implements Runnable {
                             break;
                     }
                 } else if (e.getSource() == customerAppointmentButton) {
+
+                    boolean passCheck = false;
+
                     String appointmentText = customerAppointmentText.getText();
-                    String getAppointmentStatus = sendDataToServer(customerAppointmentButton, "1," + appointmentText);
-                    if (getAppointmentStatus.equals("Appointment request made.")) {
-                        JOptionPane.showMessageDialog(null, "Appointment request made.",
-                                "Status", JOptionPane.INFORMATION_MESSAGE);
+
+                    if (customerAppointmentText.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Appointment needs to be filled!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else if (customerAppointmentText.getText().split("-").length != 2 ||
+                            customerAppointmentText.getText().split("-")[1].split(",").length != 5) {
+                        JOptionPane.showMessageDialog(null, "Appointment needs to be in the right format!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
                     } else {
-                        JOptionPane.showMessageDialog(null, "Appointment request unsuccessful.",
-                                "Status", JOptionPane.ERROR_MESSAGE);
+                        passCheck = true;
                     }
 
-                    content.removeAll(); //Clears the frame
-                    frame.repaint();
-                    content.setLayout(new BorderLayout());
-                    content.add(customerPanel);
-                    frame.setSize(900, 400);
-                    frame.setLocationRelativeTo(null);
-                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    frame.setVisible(true);
+                    if (passCheck) {
+                        String getAppointmentStatus = sendDataToServer(customerAppointmentButton, "1," + appointmentText);
+                        if (getAppointmentStatus.equals("Appointment request made.")) {
+                            JOptionPane.showMessageDialog(null, "Appointment request made.",
+                                    "Status", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Appointment request unsuccessful.",
+                                    "Status", JOptionPane.ERROR_MESSAGE);
+                        }
+
+                        content.removeAll(); //Clears the frame
+                        frame.repaint();
+                        content.setLayout(new BorderLayout());
+                        content.add(customerPanel);
+                        frame.setSize(900, 400);
+                        frame.setLocationRelativeTo(null);
+                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        frame.setVisible(true);
+                    }
                 } else if (e.getSource() == customerViewCancelButton) {
                     viewCancelOption = customerCancelOptions.getSelectedIndex();
                     String getCancelCalendar = "";
@@ -1120,29 +1137,46 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == customerCancelButton) {
+
+                    boolean passCheck = false;
+
                     String getCancelAppointment = customerCancelText.getText();
-                    if (viewCancelOption == 0) {
-                        viewCancelOption = 1;
+
+                    if (customerCancelText.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Appointment needs to be filled!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else if (customerCancelText.getText().split("-").length != 2 ||
+                            customerCancelText.getText().split("-")[1].split(",").length != 5) {
+                        JOptionPane.showMessageDialog(null, "Appointment needs to be in the right format!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
                     } else {
-                        viewCancelOption = 2;
+                        passCheck = true;
                     }
 
-                    String getCancelCalendar = sendDataToServer(customerCancelButton, "2," + viewCancelOption + "," + getCancelAppointment);
-                    if (getCancelCalendar.equals("Appointment cancelled successfully.")) {
-                        JOptionPane.showMessageDialog(null, "Appointment cancelled successfully.",
-                                "Status", JOptionPane.INFORMATION_MESSAGE);
-                        content.removeAll(); //Clears the frame
-                        frame.repaint();
-                        content.setLayout(new BorderLayout());
-                        content.add(customerPanel);
-                        frame.setSize(900, 400);
-                        frame.setLocationRelativeTo(null);
-                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        updateUI();
-                        frame.setVisible(true);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Appointment request unsuccessful.",
-                                "Status", JOptionPane.ERROR_MESSAGE);
+                    if (passCheck) {
+                        if (viewCancelOption == 0) {
+                            viewCancelOption = 1;
+                        } else {
+                            viewCancelOption = 2;
+                        }
+
+                        String getCancelCalendar = sendDataToServer(customerCancelButton, "2," + viewCancelOption + "," + getCancelAppointment);
+                        if (getCancelCalendar.equals("Appointment cancelled successfully.")) {
+                            JOptionPane.showMessageDialog(null, "Appointment cancelled successfully.",
+                                    "Status", JOptionPane.INFORMATION_MESSAGE);
+                            content.removeAll(); //Clears the frame
+                            frame.repaint();
+                            content.setLayout(new BorderLayout());
+                            content.add(customerPanel);
+                            frame.setSize(900, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Appointment request unsuccessful.",
+                                    "Status", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 } else if (e.getSource() == customerSortButton) {
                     viewSortOption = customerCancelOptions.getSelectedIndex();
