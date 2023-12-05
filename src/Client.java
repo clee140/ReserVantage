@@ -702,8 +702,29 @@ public class Client extends JComponent implements Runnable {
         deleteCalendarProceedButton.setAlignmentX(LEFT_ALIGNMENT);
         deleteCalendarBackButton.setAlignmentX(LEFT_ALIGNMENT);
 
-        //TODO: Approve/decline appointment requests panel
-
+        //Seller approve/decline appointment requests panel
+        JLabel approveLabel = new JLabel("Check the box beside an appointment request to approve it.");
+        JPanel approvePanel = new JPanel();
+        int numAppointments = 2; //update to reflect actual number of seller appointment requests pending approval
+        for (int i = 0; i < numAppointments; i++) {
+            JCheckBox checkBox = new JCheckBox(String.valueOf(numAppointments));
+            checkBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Perform actions based on checkbox state
+                    JCheckBox source = (JCheckBox) e.getSource();
+                    //let program know that the appointment selected has been approved here
+                    
+                }
+            });
+            approvePanel.add(checkBox);
+        }
+        approvePanel.setLayout(new BoxLayout(approvePanel, BoxLayout.PAGE_AXIS));
+        approvePanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        approvePanel.add(approveLabel);
+        
+        
+        
         //TODO: View statistics panel
 
         //TODO: Logout panel
