@@ -86,7 +86,7 @@ public class Server implements Runnable {
                     while (runMenuAgain) {
                         choice = bufferedReader.readLine(); // Receives choice for action menu.
 
-                        if (choice.equals("1")) { // Handles view current calendars.
+                        if (choice != null && choice.equals("1")) { // Handles view current calendars.
                             String currentCalendars = seller.printCalendar();
 
                             if (currentCalendars.isEmpty()) { // Handles case where no calendars were created.
@@ -96,7 +96,7 @@ public class Server implements Runnable {
                                 writer.println(currentCalendars); // Sends current calendars to Client.
                                 writer.flush();
                             }
-                        } else if (choice.equals("2")) { // Handles create new calendar.
+                        } else if (choice != null && choice.equals("2")) { // Handles create new calendar.
                             String importChoice = bufferedReader.readLine(); // Indicates to create calendar with file or manually.
                             if (importChoice.equals("1")) { // Import file
                                 String fileName = bufferedReader.readLine();
@@ -121,7 +121,7 @@ public class Server implements Runnable {
                                 }
                                 seller.createCalendar(calendarName, description, apptList); // Creates the new calendar.
                             }
-                        } else if (choice.equals("3")) { // Handles edit calendar.
+                        } else if (choice != null && choice.equals("3")) { // Handles edit calendar.
                             writer.print(seller.printCalendar()); // Sends created calendars to client.
                             writer.println();
                             writer.flush();
@@ -136,7 +136,7 @@ public class Server implements Runnable {
 
                             Appointment editedAppt = new Appointment(apptTitle, maxAttendee, approvedBookings, startTime, endTime);
                             seller.editCalendar(calendarName, oldApptTitle, calendarName + "-" + editedAppt);
-                        } else if (choice.equals("4")) { // Handles delete calendar.
+                        } else if (choice != null && choice.equals("4")) { // Handles delete calendar.
                             writer.print(seller.printCalendar()); // Sends created calendars to client.
                             writer.println();
                             writer.flush();
@@ -150,7 +150,7 @@ public class Server implements Runnable {
                                 writer.println("Calendar not deleted!");
                                 writer.flush();
                             }
-                        } else if (choice.equals("5")) { // Handles approve/decline appointments.
+                        } else if (choice != null && choice.equals("5")) { // Handles approve/decline appointments.
                             if (seller.getCustomerRequest().equals("No appointment requests")) {
                                 writer.println(seller.getCustomerRequest()); // Sends message to Client.
                                 writer.flush();
@@ -171,11 +171,11 @@ public class Server implements Runnable {
                                     writer.flush();
                                 }
                             }
-                        } else if (choice.equals("6")) { // Handles view currently approved appointments.
+                        } else if (choice != null && choice.equals("6")) { // Handles view currently approved appointments.
                             String approvedAppointments = seller.viewApprovedAppointments();
                             writer.println(approvedAppointments);
                             writer.flush();
-                        } else if (choice.equals("7")) { // Handles view statistics.
+                        } else if (choice != null && choice.equals("7")) { // Handles view statistics.
                             String sort = bufferedReader.readLine();
                             writer.println(seller.viewStatistics(sort));
                             writer.flush();
