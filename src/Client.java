@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 
 public class Client extends JComponent implements Runnable {
     private static final int port = 8008;
+
+    private String createAccount;
     private String userType;    //"Seller" or "Customer"
     private String name;        //Name of the user
     private String email;       //Email of the user
@@ -26,6 +28,7 @@ public class Client extends JComponent implements Runnable {
 
             String output = ""; //What the method is returning
             if (button.getText().equals("Enter")) { //Creating an account
+                createAccount = "true";
                 pw.write("true");
                 pw.println();
 
@@ -56,6 +59,7 @@ public class Client extends JComponent implements Runnable {
                     //GUI displays error message
                 }
             } else if (button.getText().equals("Login")){ //Button is "Login"
+                createAccount = "false";
                 pw.write("false");
                 pw.println();
 
@@ -98,6 +102,8 @@ public class Client extends JComponent implements Runnable {
 
                 if (userType.equals("Seller")) {
                     //Sending server name, email, and password
+                    pw.println(createAccount);
+                    pw.flush();
                     pw.println(name);
                     pw.flush();
                     pw.println(email);
@@ -127,6 +133,32 @@ public class Client extends JComponent implements Runnable {
                     bfr.readLine();
 
                     //TODO: Where options begin - will need to make a switch statement
+                    String[] temp = data.split(",");
+                    switch (temp[0]) {
+                        case ("calendars"): {
+                            pw.println("calendars");
+                            pw.flush();
+                            return bfr.readLine();
+                        } case ("cancel"): {
+                            pw.println("cancel");
+                            pw.flush();
+                            pw.println(temp[1]);
+                            pw.flush();
+                            return bfr.readLine();
+                        }
+                        case ("1"): {
+                            pw.println("1");
+                            pw.flush();
+                            pw.println(temp[1]);
+                            pw.flush();
+                            return bfr.readLine();
+                        } case ("2"): {
+                            pw.println("2");
+                            pw.flush();
+                            pw.println(temp[1]);
+                            pw.flush();
+                        }
+                    }
                 }
             }
             pw.close();
@@ -177,20 +209,26 @@ public class Client extends JComponent implements Runnable {
         JLabel exitMessage = new JLabel("Thank you for using the Hotel Manager. You have successfully logged out.");
         JLabel closingMessage = new JLabel("This message will close in 5 seconds.");
         JLabel customerAppointmentRequest = new JLabel("<html>Enter the appointment you would like to request exactly as " +
-                "it appears in the appointment list:<br/> <br/> Format: [Calendar name]-[Appointment Title]," +
+                "it appears in the appointment list:<br/> <br/> <br/> <br/> Format: [Calendar name]-[Appointment Title]," +
                 "[Max Attendees],[Approved Bookings],[Start Time],[End Time]</html>", SwingConstants.CENTER);
+        JLabel getAppointments = new JLabel();
         JTextField customerAppointmentText = new JTextField("", 45);
-        JButton customerAppointmentButton = new JButton("Make Appointment");
+        JButton customerAppointmentButton = new JButton("Proceed");
 
         JLabel customerCancelAppointmentRequest = new JLabel("<html>Enter the appointment you would like to cancel " +
-                "exactly as it appears in the appointment list:<br/> <br/> Format: [Calendar name]-[Appointment Title]," +
+                "exactly as it appears in the appointment list:<br/> <br/>  <br/> <br/> Format: [Calendar name]-[Appointment Title]," +
                 "[Max Attendees],[Approved Bookings],[Start Time],[End Time]</html>");
         JTextField customerCancelText = new JTextField("", 45);
-        JButton customerCancelButton = new JButton("Cancel Appointment");
+        JButton customerCancelButton = new JButton("Proceed");
+        JLabel customerCancelLabel = new JLabel();
+        JLabel customerViewCancelLabel = new JLabel("Choose an appointment category to delete from:");
+        JButton customerViewCancelButton = new JButton("Proceed");
+        JComboBox<String> customerCancelOptions = new JComboBox<>();
+
 
         JLabel customerSort = new JLabel("Choose a method to sort statistics dashboard");
         JComboBox<String> customerSortOptions = new JComboBox<>();
-        JButton customerSortButton = new JButton("View Statistics");
+        JButton customerSortButton = new JButton("Proceed");
 
         JButton customerAppointmentBackButton = new JButton("Go Back");
         JButton customerCancelBackButton = new JButton("Go Back");
@@ -303,14 +341,33 @@ public class Client extends JComponent implements Runnable {
         // Customer make appointment request panel.
         JPanel customerMakeAppointment = new JPanel();
         customerMakeAppointment.add(customerAppointmentRequest);
+        customerMakeAppointment.add(getAppointments, SwingConstants.CENTER);
         customerMakeAppointment.add(customerAppointmentText);
         customerMakeAppointment.add(customerAppointmentButton);
         customerMakeAppointment.add(customerAppointmentBackButton);
 
+        // Customer view cancel appointments panel.
+        JPanel customerViewCancelAppointmentsPanel = new JPanel();
+        customerViewCancelAppointmentsPanel.setLayout(new BoxLayout(customerViewCancelAppointmentsPanel, BoxLayout.PAGE_AXIS));
+        customerViewCancelAppointmentsPanel.add(Box.createRigidArea(new Dimension(200, 10)));
+        customerViewCancelLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        customerViewCancelAppointmentsPanel.add(customerViewCancelLabel);
+        customerViewCancelAppointmentsPanel.add(Box.createRigidArea(new Dimension(1, 10)));
+        customerCancelOptions.setMaximumSize(new Dimension(400, 25));
+        customerCancelOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        customerCancelOptions.addItem("Appointments Awaiting Approval");
+        customerCancelOptions.addItem("Appointments Approved");
+        customerViewCancelAppointmentsPanel.add(customerCancelOptions);
+        customerViewCancelAppointmentsPanel.add(Box.createRigidArea(new Dimension(1, 20)));
+        customerViewCancelButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        customerViewCancelAppointmentsPanel.add(customerViewCancelButton);
+        customerViewCancelAppointmentsPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+
+
         // Customer cancel appointment panel.
         JPanel customerCancelAppointment = new JPanel();
-        customerCancelAppointment.add(new JLabel("")); // Replaced with appointments available to cancel.
         customerCancelAppointment.add(customerCancelAppointmentRequest);
+        customerCancelAppointment.add(customerCancelLabel, SwingConstants.CENTER);
         customerCancelAppointment.add(customerCancelText);
         customerCancelAppointment.add(customerCancelButton);
         customerCancelAppointment.add(customerCancelBackButton);
@@ -718,12 +775,10 @@ public class Client extends JComponent implements Runnable {
                     int customerMenuSelection = customerOptions.getSelectedIndex();
                     switch (customerMenuSelection) {
                         case 0:
-                          //  String appointmentList = sendDataToServer(customerProceedButton, "calendars");
-                          //  JOptionPane.showMessageDialog(null, appointmentList, "Test", JOptionPane.PLAIN_MESSAGE);
-
+                            getAppointments.setText(sendDataToServer(customerProceedButton, "calendars,temp"));
                             content.removeAll();
                             frame.repaint();
-                            content.setLayout(new GridLayout(2, 1));
+                            content.setLayout(new GridLayout(1, 1));
                             content.add(customerMakeAppointment);
                             frame.setSize(750, 300);
                             frame.setLocationRelativeTo(null);
@@ -732,14 +787,10 @@ public class Client extends JComponent implements Runnable {
                             frame.setVisible(true);
                             break;
                         case 1:
-                            int customerCancelChoice = JOptionPane.showConfirmDialog(null,
-                                    "Choose an appointment category to delete from: \n" +
-                                            "Yes - Appointments Awaiting Approval\nNo - Appointments Approved",
-                                    "Cancel Option", JOptionPane.YES_NO_OPTION);
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
-                            content.add(customerCancelAppointment);
+                            content.add(customerViewCancelAppointmentsPanel);
                             frame.setSize(750, 300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -823,13 +874,13 @@ public class Client extends JComponent implements Runnable {
                     }
                 } else if (e.getSource() == customerAppointmentButton) {
                     String appointmentText = customerAppointmentText.getText();
-                    String getAppointmentStatus = sendDataToServer(customerAppointmentButton, appointmentText);
+                    String getAppointmentStatus = sendDataToServer(customerAppointmentButton, "1," + appointmentText);
                     if (getAppointmentStatus.equals("Appointment request made.")) {
                         JOptionPane.showMessageDialog(null, "Appointment request made.",
-                                "Status", JOptionPane.PLAIN_MESSAGE);
+                                "Status", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, "Appointment request unsuccessful.",
-                                "Status", JOptionPane.PLAIN_MESSAGE);
+                                "Status", JOptionPane.ERROR_MESSAGE);
                     }
 
                     content.removeAll(); //Clears the frame
@@ -839,6 +890,26 @@ public class Client extends JComponent implements Runnable {
                     frame.setSize(900, 400);
                     frame.setLocationRelativeTo(null);
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                } else if (e.getSource() == customerViewCancelButton) {
+                    int viewCancelOption = customerCancelOptions.getSelectedIndex();
+                    String getCancelCalendar = "";
+                    if (viewCancelOption == 0) {
+                        getCancelCalendar = sendDataToServer(customerAppointmentButton, "cancel,1");
+                    } else {
+                        getCancelCalendar = sendDataToServer(customerAppointmentButton, "cancel,2");
+                    }
+
+                    customerCancelLabel.setText(getCancelCalendar);
+
+                    content.removeAll(); //Clears the frame
+                    frame.repaint();
+                    content.setLayout(new BorderLayout());
+                    content.add(customerCancelAppointment);
+                    frame.setSize(900, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == customerAppointmentBackButton) {
                     content.removeAll(); //Clears the frame
@@ -1082,5 +1153,7 @@ public class Client extends JComponent implements Runnable {
         appointmentBackButton.addActionListener(actionListener);
         viewBackButton.addActionListener(actionListener);
         importBackButton.addActionListener(actionListener);
+        customerAppointmentButton.addActionListener(actionListener);
+        customerViewCancelButton.addActionListener(actionListener);
     }
 }

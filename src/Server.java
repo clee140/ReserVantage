@@ -190,6 +190,7 @@ public class Server implements Runnable {
 
                     Customer customer = new Customer(email, email + ".txt");
                     String choice = "";
+                    int response = 0;
 
                     while (runner) {
                         choice = bufferedReader.readLine();
@@ -200,6 +201,19 @@ public class Server implements Runnable {
                             writer.flush();
                         }
 
+                        if (choice.equals("cancel")) {
+                            String response1 = (bufferedReader.readLine());
+
+                            if (response1.equals("1")) {
+                                writer.println(customer.viewAppointmentsWaitingApproval());
+                                writer.flush();
+
+                            } else if (response1.equals("2")) {
+                                writer.println(customer.viewApprovedAppointments());
+                                writer.flush();
+                            }
+                        }
+
                         if (choice != null && choice.equals("1")) {
                             String appointment = bufferedReader.readLine();
                             String message = customer.makeAppointment(appointment);
@@ -208,18 +222,6 @@ public class Server implements Runnable {
                             writer.flush();
 
                         } else if (choice != null && choice.equals("2")) {
-
-                            int response = Integer.parseInt(bufferedReader.readLine());
-
-                            if (response == 1) {
-                                writer.println(customer.viewAppointmentsWaitingApproval());
-                                writer.flush();
-
-                            } else if (response == 2) {
-                                writer.println(customer.viewApprovedAppointments());
-                                writer.flush();
-                            }
-
                             String appointment = bufferedReader.readLine();
 
                             boolean cancelled = customer.cancelAppointment(appointment, response);
