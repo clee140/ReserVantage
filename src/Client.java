@@ -1506,6 +1506,31 @@ public class Client extends JComponent implements Runnable {
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     updateUI();
                     frame.setVisible(true);
+                } else if (e.getSource() == deleteCalendarProceedButton) {
+                    //show confirmation or error message here
+                } else if (e.getSource() == deleteCalendarBackButton) {
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
+                } else if (e.getSource() == approveProceedButton) {
+                    //after requests have been approved, next screen + confirmation message
+                } else if (e.getSource() == approveBackButton) {
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(selectApprovalCalendarPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
+                    //add all seller button options here!!!
                 } else if (e.getSource() == createCalendarBackButton) {
                     content.removeAll();
                     frame.repaint();
@@ -1528,7 +1553,6 @@ public class Client extends JComponent implements Runnable {
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frame.setVisible(true);
                 }
-                //add all seller button options here!!!
             }
         };
 
@@ -1569,6 +1593,10 @@ public class Client extends JComponent implements Runnable {
         selectApprovalBackButton.addActionListener(actionListener);
         editCalendarProceedButton.addActionListener(actionListener);
         editCalendarBackButton.addActionListener(actionListener);
+        deleteCalendarProceedButton.addActionListener(actionListener);
+        deleteCalendarBackButton.addActionListener(actionListener);
+        approveProceedButton.addActionListener(actionListener);
+        approveBackButton.addActionListener(actionListener);
 
         createCalendarBackButton.addActionListener(actionListener);
         anotherCalendarBackButton.addActionListener(actionListener);
