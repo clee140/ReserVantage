@@ -7,17 +7,25 @@
 
 ## Overview
 This program implements a marketplace calendar. The calendar allows for booking and managing appointments between
-sellers and customers. All testing is done within the Main class which validates user input to ensure it meets the method requirements and within the Test class which ensures the output is as expected.
+sellers and customers.
 
 This program can be run by first compiling and running Server.java and then Client.java. To have multiple users, run
 Client.java again, but Server.java MUST always be running.
 
+* The program saves all application data once the User exit and logs out of the program. 
+* The program achieves concurrency through the usage of threads, which allow the ability to handle multiple Users at once.
+* The program allows for Users to receive content updates as other Users make changes to the shared information. In order 
+to see the update, the User MUST navigate to a different page than their current one and then back to their original page.
+
 Sruthi Lingam will submit the report on Brightspace and Christopher Lee will submit the repository on Vocareum workspace.
 
 ## Client.java
-The Client class handles the creation of the .
+The Client class handles the creation of the complex GUI for both the Seller and Customer and sending the appropriate
+information to the Server class. For each Seller and Customer action options, a unique GUI will be displayed with
+either fields to enter information or user-requested information. For every button click in the GUI, the Client
+class will send the data to the Server class, where it is appropriately handled, and receive the requested information
+from the server.
 
-The sendDataToServer() method is used to send data to the server. It takes 
 
 ### Seller Options
 1. View current calendars
