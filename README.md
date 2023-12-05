@@ -9,7 +9,8 @@
 This program implements a marketplace calendar. The calendar allows for booking and managing appointments between
 sellers and customers. All testing is done within the Main class which validates user input to ensure it meets the method requirements and within the Test class which ensures the output is as expected.
 
-This program can be run by compiling and running the main method in the Main.java class.
+This program can be run by first compiling and running Server.java and then Client.java. To have multiple users, run
+Client.java again, but Server.java MUST always be running.
 
 Sruthi Lingam will submit the report on Brightspace and Christopher Lee will submit the repository on Vocareum workspace.
 
