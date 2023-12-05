@@ -1295,58 +1295,63 @@ public class Client extends JComponent implements Runnable {
 
                 } else if (e.getSource() == sellerProceedButton) {
 
-                        
-                    int sellerMenuSelection = sellerOptions.getSelectedIndex();
-                    switch (sellerMenuSelection) {
-                        case 1: //View current calendars
-                            viewCalendarsLabel.setText(sendDataToServer(sellerProceedButton, storeNameLabel.getText() + ",1"));
-                            content.removeAll(); //Clears the frame
-                            frame.repaint();
-                            content.setLayout(new BorderLayout());
-                            content.add(viewCalendarsPanel);
-                            frame.setSize(900, 400);
-                            frame.setLocationRelativeTo(null);
-                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            frame.setVisible(true);
-                            break;
-                        case 2: //Create new calendar
-                            content.removeAll(); //Clears the frame
-                            content.setLayout(new BorderLayout());
-                            content.add(createCalendarPanel);
-                            frame.setSize(400, 200);
-                            frame.setLocationRelativeTo(null);
-                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            frame.setVisible(true);
-                            break;
-                        case 3: //Edit calendar
-                            content.removeAll();
-                            content.setLayout(new BorderLayout());
-                            content.add(editCalendarPanel);
-                            frame.setSize(600, 400);
-                            frame.setLocationRelativeTo(null);
-                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            frame.setVisible(true);
-                            break;
-                        case 4: //Delete calendar
-                            content.removeAll();
-                            content.setLayout(new BorderLayout());
-                            content.add(deleteCalendarPanel);
-                            frame.setSize(600, 400);
-                            frame.setLocationRelativeTo(null);
-                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            frame.setVisible(true);
-                            break;
-                        case 5: //Approve or decline appointment requests
-                            content.removeAll();
-                            content.setLayout(new BorderLayout());
-                            content.add(selectApprovalCalendarPanel);
-                            frame.setSize(600, 600);
-                            frame.setLocationRelativeTo(null);
-                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            frame.setVisible(true);
-                            break;
-                        case 6:
-                            break;
+                    if (storeNameText.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Store name needs to be filled!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else {
+
+                        int sellerMenuSelection = sellerOptions.getSelectedIndex();
+                        switch (sellerMenuSelection) {
+                            case 1: //View current calendars
+                                viewCalendarsLabel.setText(sendDataToServer(sellerProceedButton, storeNameLabel.getText() + ",1"));
+                                content.removeAll(); //Clears the frame
+                                frame.repaint();
+                                content.setLayout(new BorderLayout());
+                                content.add(viewCalendarsPanel);
+                                frame.setSize(900, 400);
+                                frame.setLocationRelativeTo(null);
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                frame.setVisible(true);
+                                break;
+                            case 2: //Create new calendar
+                                content.removeAll(); //Clears the frame
+                                content.setLayout(new BorderLayout());
+                                content.add(createCalendarPanel);
+                                frame.setSize(400, 200);
+                                frame.setLocationRelativeTo(null);
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                frame.setVisible(true);
+                                break;
+                            case 3: //Edit calendar
+                                content.removeAll();
+                                content.setLayout(new BorderLayout());
+                                content.add(editCalendarPanel);
+                                frame.setSize(600, 400);
+                                frame.setLocationRelativeTo(null);
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                frame.setVisible(true);
+                                break;
+                            case 4: //Delete calendar
+                                content.removeAll();
+                                content.setLayout(new BorderLayout());
+                                content.add(deleteCalendarPanel);
+                                frame.setSize(600, 400);
+                                frame.setLocationRelativeTo(null);
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                frame.setVisible(true);
+                                break;
+                            case 5: //Approve or decline appointment requests
+                                content.removeAll();
+                                content.setLayout(new BorderLayout());
+                                content.add(selectApprovalCalendarPanel);
+                                frame.setSize(600, 600);
+                                frame.setLocationRelativeTo(null);
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                frame.setVisible(true);
+                                break;
+                            case 6:
+                                break;
+                        }
                     }
 
                 } else if (e.getSource() == sellerLogoutButton) {
