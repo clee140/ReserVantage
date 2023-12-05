@@ -85,7 +85,7 @@ public class Seller extends User {
         }
 
         ArrayList<String> createCalendar = new ArrayList<>();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date date = new Date();
         for (int i = 0; i < userInformation.size(); i++) {
             String[] sellerInput = userInformation.get(i).split(",");
@@ -125,7 +125,7 @@ public class Seller extends User {
     public void createCalendar(String calendarName, String calendarDescription,
                                ArrayList<Appointment> appointments) {
         FileOutputStream fileOutputStream = null;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date date = new Date();
 
         try {
@@ -197,7 +197,7 @@ public class Seller extends User {
      */
     public void editCalendar(String calendarName, String appointmentTitle, String updatedAppointment) {
         ArrayList<String> calendarFile = readFile(fileName);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date date = new Date();
         String list = "";
         String appointmentDetails = "";
@@ -239,7 +239,7 @@ public class Seller extends User {
     public String deleteCalendar(String calendarName) {
         ArrayList<String> calendarFile = readFile(fileName);
         ArrayList<String> newCalendarFile = new ArrayList<>();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date date = new Date();
         boolean deleteMode = false;
         String message = "Calendar not deleted";
@@ -309,7 +309,7 @@ public class Seller extends User {
     public String handleCustomerRequests(String appointment, String customerUsername, String action) {
         ArrayList<String> calendarFile = readFile(fileName);
         ArrayList<String> customerRequest = new ArrayList<>();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date date = new Date();
         boolean approved = false;
         String appointmentStatus = "";

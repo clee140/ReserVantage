@@ -992,11 +992,6 @@ public class Client extends JComponent implements Runnable {
                             break;
 
                         case 1: //Cancel an appointment request - TODO:Add presence check, type check
-                            int customerCancelChoice = JOptionPane.showConfirmDialog(null,
-                                    "Choose an appointment category to delete from: \n" +
-                                            "Yes - Appointments Awaiting Approval\nNo - Appointments Approved",
-                                    "Cancel Option", JOptionPane.YES_NO_OPTION);
-
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
