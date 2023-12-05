@@ -10,6 +10,10 @@ import java.awt.event.ActionListener;
 
 public class Client extends JComponent implements Runnable {
     private static final int port = 8008;
+    private String userType;    //"Seller" or "Customer"
+    private String name;        //Name of the user
+    private String email;       //Email of the user
+    private String password;    //Password of the user
 
     private String sendDataToServer(JButton button, String data) {
         try {
@@ -19,6 +23,8 @@ public class Client extends JComponent implements Runnable {
 
             String clientMessage = "";
             String serverResponse = "";
+
+            String output = ""; //What the method is returning
             if (button.getText().equals("Enter")) { //Creating an account
                 pw.write("true");
                 pw.println();
@@ -45,7 +51,7 @@ public class Client extends JComponent implements Runnable {
 
                 serverResponse = bfr.readLine();
                 if (serverResponse.equals("true")) {
-                    return serverResponse;
+                    output = serverResponse;
                 } else { //response equals "false"
                     //GUI displays error message
                 }
@@ -55,46 +61,80 @@ public class Client extends JComponent implements Runnable {
 
                 String[] info = data.split(",");
                 //Sends whether seller or customer
+                userType = info[0];
                 pw.write(info[0]);
                 pw.println();
 
                 //Sends name of user
+                name = info[1];
                 pw.write(info[1]);
                 pw.println();
                 pw.flush();
 
                 //Sends email
+                email = info[2];
                 pw.write(info[2]);
                 pw.println();
                 pw.flush();
 
                 //Sends password
+                password = info[3];
                 pw.write(info[3]);
                 pw.println();
                 pw.flush();
 
                 serverResponse = bfr.readLine();
                 if (serverResponse.equals("true")) {
-                    return serverResponse;
+                    output = serverResponse;
                 } else { //response equals "false"
                     //GUI displays error message
                 }
-            } else if (button.getText().equals("Proceed")) {
-                if (data.equals("calendars")) {
-                    pw.write("calendars");
-                    pw.println();
+            } else if (button.getText().equals("Proceed")) { //When the user selects an option in their option menu
+                //Sending to server that user has already logged in and their userType
+                pw.println("false");
+                pw.flush();
+                pw.println(userType);
+                pw.flush();
+
+                if (userType.equals("Seller")) {
+                    //Sending server name, email, and password
+                    pw.println(name);
                     pw.flush();
-                    return bfr.readLine();
+                    pw.println(email);
+                    pw.flush();
+                    pw.println(password);
+                    pw.flush();
+                    bfr.readLine();
+
+                    //TODO: Where options begin - will need to make a switch statement
+                    String[] info = data.split(",");
+                    pw.println(info[0]);
+                    pw.flush();
+
+                    pw.println(info[1]);
+                    pw.flush();
+
+                    output = bfr.readLine();
+                    //TODO: Code above is only for "View calendars"
+                } else { //User is a customer
+                    //Sending server name, email, and password
+                    pw.println(name);
+                    pw.flush();
+                    pw.println(email);
+                    pw.flush();
+                    pw.println(password);
+                    pw.flush();
+                    bfr.readLine();
+
+                    //TODO: Where options begin - will need to make a switch statement
                 }
             }
+            pw.close();
+            bfr.close();
+            return output;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //TODO: go back later and change this probably
-        return null;
-    }
-
-    private String sellerSendOptionToServer(int option, String data) {
         return null;
     }
 
@@ -362,7 +402,7 @@ public class Client extends JComponent implements Runnable {
         sellerProceedAndLogoutPanel.add(sellerLogoutButton);
         sellerPanel.add(sellerProceedAndLogoutPanel);
 
-        //View current calendars panel
+        //TODO: View current calendars panel - Fix formatting
         JLabel viewCalendarsLabel = new JLabel("");
         JButton viewBackButton = new JButton("Go Back");
         viewCalendarsLabel.setBounds(5, 5, 400, 400);
@@ -934,8 +974,9 @@ public class Client extends JComponent implements Runnable {
                     int sellerMenuSelection = sellerOptions.getSelectedIndex();
                     switch (sellerMenuSelection) {
                         case 1: //View current calendars
-                            viewCalendarsLabel.setText(sellerSendOptionToServer(1, storeNameText.getText()));
+                            viewCalendarsLabel.setText(sendDataToServer(sellerProceedButton, storeNameLabel.getText() + ",1"));
                             content.removeAll(); //Clears the frame
+                            frame.repaint();
                             content.setLayout(new BorderLayout());
                             content.add(viewCalendarsPanel);
                             frame.setSize(900, 400);
