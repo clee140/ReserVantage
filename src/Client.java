@@ -1195,6 +1195,8 @@ public class Client extends JComponent implements Runnable {
 
                 } else if (e.getSource() == createCalendarButton) {
 
+                } else if (e.getSource() == editCalendarProceedButton) {
+
                 } else if (e.getSource() == appointmentBackButton) {
                     //Clearing the textfields
                     appointmentTitleText.setText("");
