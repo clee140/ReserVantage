@@ -712,6 +712,7 @@ public class Client extends JComponent implements Runnable {
         selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
         selectApprovalCalendarPanel.add(selectApprovalCalendarLabel);
         selectApprovalCalendarPanel.add(selectApprovalCalendarField);
+        selectApprovalCalendarField.setMaximumSize(new Dimension(200, 25));
         selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
         selectApprovalCalendarPanel.add(selectApprovalProceedButton);
         selectApprovalCalendarPanel.add(selectApprovalBackButton);
@@ -992,8 +993,6 @@ public class Client extends JComponent implements Runnable {
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             updateUI();
                             frame.setVisible(true);
-
-
                             break;
                         default:
                             break;
@@ -1271,7 +1270,6 @@ public class Client extends JComponent implements Runnable {
                             content.removeAll();
                             content.setLayout(new BorderLayout());
                             content.add(selectApprovalCalendarPanel);
-                            content.add(approvePanel);
                             frame.setSize(600, 600);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -1313,7 +1311,26 @@ public class Client extends JComponent implements Runnable {
                     frame.setVisible(true);
                 } else if (e.getSource() == importBackButton) {
                     importFileText.setText("");
-
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
+                } else if (e.getSource() == selectApprovalProceedButton) {
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new BorderLayout());
+                    content.add(approvePanel);
+                    frame.setSize(700, 300);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                } else if (e.getSource() == selectApprovalBackButton) {
+                    importFileText.setText("");
                     content.removeAll();
                     frame.repaint();
                     content.setLayout(new GridLayout(2, 1));
@@ -1324,6 +1341,7 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 }
+                //add all seller button options here!!!
             }
         };
 
