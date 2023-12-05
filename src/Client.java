@@ -702,29 +702,53 @@ public class Client extends JComponent implements Runnable {
         deleteCalendarProceedButton.setAlignmentX(LEFT_ALIGNMENT);
         deleteCalendarBackButton.setAlignmentX(LEFT_ALIGNMENT);
 
-        //Seller approve/decline appointment requests panel
+        //Seller approve/decline appointment requests panel (pt 1 - choose calendar)
+        JLabel selectApprovalCalendarLabel = new JLabel("Enter the calendar name to access pending appointment requests: ");
+        JTextField selectApprovalCalendarField = new JTextField();
+        JButton selectApprovalProceedButton = new JButton("Proceed");
+        JButton selectApprovalBackButton = new JButton("Go Back");
+        JPanel selectApprovalCalendarPanel = new JPanel();
+        selectApprovalCalendarPanel.setLayout(new BoxLayout(selectApprovalCalendarPanel, BoxLayout.PAGE_AXIS));
+        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        selectApprovalCalendarPanel.add(selectApprovalCalendarLabel);
+        selectApprovalCalendarPanel.add(selectApprovalCalendarField);
+        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        selectApprovalCalendarPanel.add(selectApprovalProceedButton);
+        selectApprovalCalendarPanel.add(selectApprovalBackButton);
+        selectApprovalCalendarLabel.setAlignmentX(LEFT_ALIGNMENT + 0.1f);
+        selectApprovalCalendarField.setAlignmentX(LEFT_ALIGNMENT + 0.1f);
+        selectApprovalProceedButton.setAlignmentX(LEFT_ALIGNMENT);
+        selectApprovalBackButton.setAlignmentX(LEFT_ALIGNMENT);
+
+        //Seller approve/decline appointment requests panel (pt 2 - checkbox requests)
         JLabel approveLabel = new JLabel("Check the box beside an appointment request to approve it.");
         JPanel approvePanel = new JPanel();
+        JButton approveProceedButton = new JButton("Confirm Approvals");
+        JButton approveBackButton = new JButton("Go Back");
+        approvePanel.setLayout(new BoxLayout(approvePanel, BoxLayout.PAGE_AXIS));
+        approvePanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        approvePanel.add(approveLabel);
+        approvePanel.add(Box.createRigidArea(new Dimension(20, 20)));
         int numAppointments = 2; //update to reflect actual number of seller appointment requests pending approval
         for (int i = 0; i < numAppointments; i++) {
-            JCheckBox checkBox = new JCheckBox(String.valueOf(numAppointments));
+            JCheckBox checkBox = new JCheckBox(String.valueOf(i));
             checkBox.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // Perform actions based on checkbox state
                     JCheckBox source = (JCheckBox) e.getSource();
                     //let program know that the appointment selected has been approved here
-                    
+
                 }
             });
             approvePanel.add(checkBox);
+            checkBox.setAlignmentX(LEFT_ALIGNMENT + 0.1f);
         }
-        approvePanel.setLayout(new BoxLayout(approvePanel, BoxLayout.PAGE_AXIS));
         approvePanel.add(Box.createRigidArea(new Dimension(20, 20)));
-        approvePanel.add(approveLabel);
-        
-        
-        
+        approvePanel.add(approveProceedButton);
+        approvePanel.add(approveBackButton);
+        approveLabel.setAlignmentX(LEFT_ALIGNMENT + 0.1f);
+
         //TODO: View statistics panel
 
         //TODO: Logout panel
@@ -1243,7 +1267,15 @@ public class Client extends JComponent implements Runnable {
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             frame.setVisible(true);
                             break;
-                        case 5:
+                        case 5: //Approve or decline appointment requests
+                            content.removeAll();
+                            content.setLayout(new BorderLayout());
+                            content.add(selectApprovalCalendarPanel);
+                            content.add(approvePanel);
+                            frame.setSize(600, 600);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            frame.setVisible(true);
                             break;
                         case 6:
                             break;
