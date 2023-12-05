@@ -129,8 +129,8 @@ The thread runs until the user chooses to logout.
 ## User.java
 The User class processes a user's login credentials and verifies whether they match with existing account information.
 
-## Test.java
-This program is a test class for all the methods in the Seller.java and Customer.java classes, which are used in the Main.java class. This program tests to make sure the methods are running properly with valid input. There will be no invalid input to test for because the Main.java main method ensures the user is inputting proper input There will be some extra text when you run the program, as some methods print out text when called. To check to see if the method is working correctly, just check the lines that end in "test: "
+## Tests.md
+This file contains test cases that simulate user interactions with our program. Each test case is labeled and numbered to ensure readability.
 
 ## .txt Files
 * The program creates a .txt file called "userDatabase.txt" that stores if the User is a seller/customer, the User's name, username, and password. This allows the User to logout of their account and log back in.
