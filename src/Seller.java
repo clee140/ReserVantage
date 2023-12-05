@@ -67,7 +67,7 @@ public class Seller extends User {
      *
      * @param importFileName file path to Seller CSV file.
      */
-    public void createCalendarWithFile(String importFileName) {
+    public String createCalendarWithFile(String importFileName) {
         ArrayList<String> calendar = readFile(importFileName);
         ArrayList<String> createCalendar = new ArrayList<>();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -95,8 +95,9 @@ public class Seller extends User {
                 writer.write(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            return "Unsuccessful";
         }
+        return "Successful";
     }
 
     /**
