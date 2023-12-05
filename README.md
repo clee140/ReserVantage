@@ -7,16 +7,32 @@
 
 ## Overview
 This program implements a marketplace calendar. The calendar allows for booking and managing appointments between
-sellers and customers. All testing is done within the Main class which validates user input to ensure it meets the method requirements and within the Test class which ensures the output is as expected.
+sellers and customers.
 
-This program can be run by compiling and running the main method in the Main.java class.
+This program can be run by first compiling and running Server.java and then Client.java. To have multiple users, run
+Client.java again, but Server.java MUST always be running.
+
+* Program Functionality
+  * The program saves all application data once the User exit and logs out of the program. 
+  * The program achieves concurrency through the usage of threads, which allow the ability to handle multiple Users at once.
+  * The program allows for Users to receive content updates as other Users make changes to the shared information. In order 
+  to see the update, the User MUST navigate to a different page then back to their original page.
 
 Sruthi Lingam will submit the report on Brightspace and Christopher Lee will submit the repository on Vocareum workspace.
 
-## Client.java
-The Client class extends JComponent and implements the Runnable interface.
+## Errors fixed from Project 4
+* All invalid inputs are handled within the GUI.
+* The Seller approve/decline appointment requests allow the Seller to choose whether to approve or decline an appointment.
+It also asks for the Customer information before asking for the appointment.
+* The deleted calendars are deleted from the Seller's view. If the Seller has one calendar, only the Seller's name, 
+store name, and a time-stamped edit message will remain in the Seller's view once it has been deleted. 
 
-The sendDataToServer() method is used to send data to the server. It takes 
+## Client.java
+The Client class handles the creation of the complex GUI for both the Seller and Customer and sending the appropriate
+information to the Server class. For each Seller and Customer action options, a unique GUI will be displayed with
+either fields to enter information or user-requested information. For every button click in the GUI, the Client
+class will send the data to the Server class, where it is appropriately handled, and receive the requested information
+from the server.
 
 ### Seller Options
 1. View current calendars
@@ -113,8 +129,8 @@ The thread runs until the user chooses to logout.
 ## User.java
 The User class processes a user's login credentials and verifies whether they match with existing account information.
 
-## Test.java
-This program is a test class for all the methods in the Seller.java and Customer.java classes, which are used in the Main.java class. This program tests to make sure the methods are running properly with valid input. There will be no invalid input to test for because the Main.java main method ensures the user is inputting proper input There will be some extra text when you run the program, as some methods print out text when called. To check to see if the method is working correctly, just check the lines that end in "test: "
+## Tests.md
+This file contains test cases that simulate user interactions with our program. Each test case is labeled and numbered to ensure readability.
 
 ## .txt Files
 * The program creates a .txt file called "userDatabase.txt" that stores if the User is a seller/customer, the User's name, username, and password. This allows the User to logout of their account and log back in.

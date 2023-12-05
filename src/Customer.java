@@ -4,12 +4,12 @@ import java.util.*;
 /**
  * The customer class extends the User class and uses methods in the Calendar and Appointment classes to handle all
  * customer-side calendar/appointment functionality and customer requests.
- *
+ * <p>
  * CORE:
  * Customers can view all the created calendars for stores.
  * Customers can make or cancel appointment requests.
  * Customers can view a list of their currently approved appointments, and the appointments waiting for approval.
- *
+ * <p>
  * SELECTIONS:
  * Customers can view a dashboard with store and seller information.
  * Data will include a list of stores by number of customers and the most popular appointment windows by store.
@@ -52,7 +52,7 @@ public class Customer extends User {
             ArrayList<String> sellerFile = readFile(calendarFile[1]);
 
             for (int j = 0; j < sellerFile.size(); j++) {
-                calendars += sellerFile.get(j) + "\n";
+                calendars += sellerFile.get(j) + "<br/> <br/>";
             }
         }
         return calendars;
@@ -80,15 +80,26 @@ public class Customer extends User {
     //Checks through the customer's file and returns all the approved appointments.
     public String viewApprovedAppointments() {
         String appointment = "";
-        ArrayList<String> customer = readFile(userName + ".txt");
-        if (customer.size() == 0) {
-            return "No approved appointments.";
-        } else {
-            for (int i = 0; i < customer.size(); i++) {
-                appointment += customer.get(i) + "\n";
+        ArrayList<String> userInformation = new ArrayList<>();
+
+        try {
+            FileReader fileReader = new FileReader(userName + ".txt");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String user = bufferedReader.readLine();
+
+            while (user != null) {
+                userInformation.add(user);
+                user = bufferedReader.readLine();
             }
-            return appointment;
+            bufferedReader.close();
+        } catch (IOException e) {
+            return ("No calendar appointments made!");
         }
+
+        for (int i = 0; i < userInformation.size(); i++) {
+            appointment += userInformation.get(i) + "<br> </br>";
+        }
+        return appointment;
     }
 
     //Checks through the awaitingApproval.txt file and returns all appointments belonging to the customer.
@@ -99,7 +110,7 @@ public class Customer extends User {
         for (int i = 0; i < lines.size(); i++) {
             String[] splitter = lines.get(i).split("-");
             if (splitter[2].equals(userName)) {
-                appointment += lines.get(i) + "\n";
+                appointment += lines.get(i) + "<br> </br>";
             }
         }
 
@@ -132,18 +143,12 @@ public class Customer extends User {
                 for (int j = 0; j < temp.size(); j++) {
                     writer.write(temp.get(j) + "\n");
                 }
-                System.out.println("Appointment cancelled.");
                 writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            if (!found) {
-                System.out.println("Sorry, not appointment.");
-            }
-
-            return true;
-
+            return found;
         } else if (response == 2) { //customer file
             ArrayList<String> lines = readFile(userName + ".txt");
             boolean found = false;
@@ -168,13 +173,9 @@ public class Customer extends User {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("Appointment cancelled.");
                 }
             }
-            if (!found) {
-                System.out.println("Sorry, no appointment found.");
-            }
-            return false;
+            return found;
 
         } else {
             System.out.println("Sorry, invalid response.");
@@ -214,13 +215,13 @@ public class Customer extends User {
         if (sort == 1) { // Most to least
             for (String seller : sellers) {
                 if (seller.contains("Store name:")) {
-                    dashboard += seller + "\n";
+                    dashboard += seller + "<br> </br>";
                 } else {
                     String[] dash = seller.split("-");
                     String[] comma = dash[1].split(",");
                     String approvedBooking = comma[2];
                     if (approvedBooking.equals("1")) {
-                        dashboard += seller + "\n";
+                        dashboard += seller + "<br> </br>";
                     } else {
                         temp.add(seller);
                     }
@@ -229,18 +230,18 @@ public class Customer extends User {
 
 
             for (String s : temp) {
-                dashboard += s + "\n";
+                dashboard += s + "<br> </br>";
             }
         } else if (sort == 2) { // Least to most
             for (String seller : sellers) {
                 if (seller.contains("Store name:")) {
-                    dashboard += seller + "\n";
+                    dashboard += seller + "<br> </br>";
                 } else {
                     String[] dash = seller.split("-");
                     String[] comma = dash[1].split(",");
                     String approvedBooking = comma[2];
                     if (approvedBooking.equals("0")) {
-                        dashboard += seller + "\n";
+                        dashboard += seller + "<br> </br>";
                     } else {
                         temp.add(seller);
                     }
@@ -249,7 +250,7 @@ public class Customer extends User {
 
 
             for (String s : temp) {
-                dashboard += s + "\n";
+                dashboard += s + "<br> </br>";
             }
         }
         return dashboard;

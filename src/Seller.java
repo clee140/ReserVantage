@@ -67,13 +67,28 @@ public class Seller extends User {
      *
      * @param importFileName file path to Seller CSV file.
      */
-    public void createCalendarWithFile(String importFileName) {
-        ArrayList<String> calendar = readFile(importFileName);
+    public String createCalendarWithFile(String importFileName) {
+        ArrayList<String> userInformation = new ArrayList<>();
+
+        try {
+            FileReader fileReader = new FileReader(importFileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String user = bufferedReader.readLine();
+
+            while (user != null) {
+                userInformation.add(user);
+                user = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            return "Unsuccessful";
+        }
+
         ArrayList<String> createCalendar = new ArrayList<>();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
-        for (int i = 0; i < calendar.size(); i++) {
-            String[] sellerInput = calendar.get(i).split(",");
+        for (int i = 0; i < userInformation.size(); i++) {
+            String[] sellerInput = userInformation.get(i).split(",");
             createCalendar.add("Store name:" + sellerInput[0] + "\n");
             createCalendar.add("Calendar name:" + sellerInput[1] + "\n");
             createCalendar.add("Description:" + sellerInput[2] + "\n");
@@ -94,8 +109,9 @@ public class Seller extends User {
             for (String line : createCalendar) {
                 writer.write(line);
             }
+            return "Successful";
         } catch (IOException e) {
-            e.printStackTrace();
+            return "Unsuccessful";
         }
     }
 
@@ -160,12 +176,12 @@ public class Seller extends User {
             }
             bufferedReader.close();
         } catch (IOException e) {
-            System.out.println("No current appointments!");
+            return "";
         }
 
         String list = "";
         for (int i = 0; i < calendar.size(); i++) {
-            list += calendar.get(i) + "\n";
+            list += calendar.get(i) + "<br> </br>";
         }
         return list;
     }
@@ -271,13 +287,13 @@ public class Seller extends User {
             }
             bufferedReader.close();
         } catch (IOException e) {
-            return "No appointment requests" + "\n";
+            return "No appointment requests";
         }
 
         String customers = "";
 
         for (int i = 0; i < customerRequest.size(); i++) {
-            customers += customerRequest.get(i) + "\n";
+            customers += customerRequest.get(i) + "<br> </br>";
         }
         return customers;
     }
@@ -410,7 +426,7 @@ public class Seller extends User {
         String popularAppointments = "";
         String standardAppointments = "";
 
-        stats += "Approved appointments: \n" + viewApprovedAppointments() + "\n";
+        stats += "Approved appointments: <br> </br>" + viewApprovedAppointments() + "<br> </br>";
 
         if (sortDashboard.equalsIgnoreCase("yes")) {
             for (int i = 0; i < calendarList.size(); i++) {
@@ -419,9 +435,9 @@ public class Seller extends User {
 
                     String[] approvedAppointments = list[1].split(",");
                     if (Integer.parseInt(approvedAppointments[2]) > 0) {
-                        popularAppointments += "Popular: " + calendarList.get(i) + "\n";
+                        popularAppointments += "Popular: " + calendarList.get(i) + "<br> </br>";
                     } else {
-                        standardAppointments += "Standard: " + calendarList.get(i) + "\n";
+                        standardAppointments += "Standard: " + calendarList.get(i) + "<br> </br>";
                     }
                 }
             }
