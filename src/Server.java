@@ -100,7 +100,8 @@ public class Server implements Runnable {
                             String importChoice = bufferedReader.readLine(); // Indicates to create calendar with file or manually.
                             if (importChoice.equals("1")) { // Import file
                                 String fileName = bufferedReader.readLine();
-                                seller.createCalendarWithFile(System.getProperty("user.home") + "/Desktop/" + fileName); // Creates calendar with file.
+                                writer.println(seller.createCalendarWithFile(System.getProperty("user.home") + "/Desktop/" + fileName)); // Creates calendar with file.
+                                writer.flush();
                             } else if (importChoice.equals("2")) { // Manually create file.
                                 ArrayList<Appointment> apptList = new ArrayList<>(); // Holds the appointments.
 

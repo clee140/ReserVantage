@@ -15,7 +15,7 @@ Client.java again, but Server.java MUST always be running.
 Sruthi Lingam will submit the report on Brightspace and Christopher Lee will submit the repository on Vocareum workspace.
 
 ## Client.java
-The Client class extends JComponent and implements the Runnable interface.
+The Client class handles the creation of the .
 
 The sendDataToServer() method is used to send data to the server. It takes 
 
