@@ -18,6 +18,15 @@ public class Client extends JComponent implements Runnable {
     private int viewCancelOption = 0;
     private int viewSortOption = 0;
 
+    public boolean isInteger(String value) {
+        try {
+            Integer.parseInt(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     private String sendDataToServer(JButton button, String data) {
         try {
             Socket socket = new Socket("localhost", port);
@@ -789,10 +798,18 @@ public class Client extends JComponent implements Runnable {
                     frame.setVisible(true);
                 } else if (e.getSource() == createEnterButton) {
                     //Gathering data to send to Server
+
                     String userOrSeller = (String) sellerOrCustomer.getSelectedItem();
                     String name = nameText.getText();
                     String email = emailText.getText();
                     String pass = passText.getText();
+
+                    //Presence check on all fields
+                    if (name.isEmpty() || email.isEmpty() || pass.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "All fields need to be filled!",
+                                "Create Account", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    }
+
 
                     //Sends info to Server
                     String validEmail = sendDataToServer(createEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
@@ -829,11 +846,17 @@ public class Client extends JComponent implements Runnable {
                     String email = emailText.getText();
                     String pass = passText.getText();
 
+                    //Presence check on all fields
+                    if (name.isEmpty() || email.isEmpty() || pass.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "All fields need to be filled!",
+                                "Login", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    }
+
                     //Sends info to Server
                     String validLogin = sendDataToServer(loginEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
                     if (validLogin.equals("true")) {
                         JOptionPane.showMessageDialog(null, "Login successful!",
-                                "Create Account", JOptionPane.INFORMATION_MESSAGE); //Tells user login was successful
+                                "Login", JOptionPane.INFORMATION_MESSAGE); //Tells user login was successful
 
                         //Resets text fields
                         nameText.setText("");
@@ -864,7 +887,7 @@ public class Client extends JComponent implements Runnable {
                             frame.setVisible(true);
                         }
                     } else { //Invalid login
-                        JOptionPane.showMessageDialog(null, "Your email or password in incorrect!",
+                        JOptionPane.showMessageDialog(null, "Your email or password is incorrect!",
                                 "Login", JOptionPane.ERROR_MESSAGE); //Error message
 
                         //Resets text fields so user can try again
@@ -894,6 +917,7 @@ public class Client extends JComponent implements Runnable {
                 } else if (e.getSource() == customerProceedButton) {
                     int customerMenuSelection = customerOptions.getSelectedIndex();
                     switch (customerMenuSelection) {
+
                         case 0:
                             String temp = sendDataToServer(customerProceedButton, "calendars,temp");
                             getAppointments.setText("<html>" + temp + "</html");
@@ -907,7 +931,13 @@ public class Client extends JComponent implements Runnable {
                             updateUI();
                             frame.setVisible(true);
                             break;
-                        case 1:
+
+                        case 1: //Cancel an appointment request - TODO:Add presence check, type check
+                            int customerCancelChoice = JOptionPane.showConfirmDialog(null,
+                                    "Choose an appointment category to delete from: \n" +
+                                            "Yes - Appointments Awaiting Approval\nNo - Appointments Approved",
+                                    "Cancel Option", JOptionPane.YES_NO_OPTION);
+                        
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
@@ -1186,46 +1216,86 @@ public class Client extends JComponent implements Runnable {
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frame.setVisible(true);
                 } else if (e.getSource() == createAppointmentButton) {
-                    //Getting all the info
-                    String apptTitle = appointmentTitleText.getText();
-                    int maxAttendees = Integer.parseInt(maxAttendeesText.getText());
-                    int approvedBookings = Integer.parseInt(approvedBookingsText.getText());
-                    String startTime = startTimeText.getText();
-                    String endTime = endTimeText.getText();
+
+                    boolean passCheck = false;
+
+                    //Presence check
+                    if (appointmentTitleText.getText().isEmpty() || maxAttendeesText.getText().isEmpty()
+                            || approvedBookingsText.getText().isEmpty()
+                            || startTimeText.getText().isEmpty() || endTimeText.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "All fields need to be filled!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else if (!isInteger(maxAttendeesText.getText()) || !isInteger(approvedBookingsText.getText())) {
+                        JOptionPane.showMessageDialog(null, "Ensure max attendees and approved bookings are integers",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all field needs to be right data type
+                        maxAttendeesText.setText("");
+                        approvedBookingsText.setText("");
+                        //Range check on approved bookings text
+                    } else if (Integer.parseInt(approvedBookingsText.getText()) < 0 || Integer.parseInt(approvedBookingsText.getText()) > 1) {
+                        JOptionPane.showMessageDialog(null, "Approved bookings must be 0 or 1!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user about range
+                        approvedBookingsText.setText("");
+
+                        //Format check on start and end time
+                    } else if (!startTimeText.getText().matches("\\d{2}:\\d{2}")) {
+                        JOptionPane.showMessageDialog(null, "Ensure the time format is correct!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user about format
+                        startTimeText.setText("");
+
+                    } else if (!endTimeText.getText().matches("\\d{2}:\\d{2}")) {
+                        JOptionPane.showMessageDialog(null, "Ensure the time format is correct!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user about format
+                        endTimeText.setText("");
+                    } else {
+                        passCheck = true;
+                    }
 
                     //Clearing the textfields
-                    appointmentTitleText.setText("");
-                    maxAttendeesText.setText("");
-                    approvedBookingsText.setText("");
-                    startTimeText.setText("");
-                    endTimeText.setText("");
-
-                    //Creating appointment object
-                    Appointment newAppt = new Appointment(apptTitle, maxAttendees, approvedBookings, startTime, endTime);
-
-                    //Adding appointment to calendar page
-                    if (appointmentListLabel.getText().length() > 14) {
-                        appointmentListLabel.setText(appointmentListLabel.getText().substring(0, 13));
+                    if (!passCheck) {
+                        appointmentTitleText.setText("");
+                        maxAttendeesText.setText("");
+                        approvedBookingsText.setText("");
+                        startTimeText.setText("");
+                        endTimeText.setText("");
                     }
 
-                    if (appointmentListLabel1.getText().length() > 1) {
-                        appointmentListLabel1.setText(appointmentListLabel1.getText().substring(0, appointmentListLabel1.getText().length() - 7) + "<br/>" + newAppt + "</html>");
-                    } else {
-                        appointmentListLabel1.setText(appointmentListLabel1.getText() + "<html><br/>" + newAppt + "</html>");
+                    if (passCheck) {
+
+                        String apptTitle = appointmentTitleText.getText();
+                        int maxAttendees = Integer.parseInt(maxAttendeesText.getText());
+                        int approvedBookings = Integer.parseInt(approvedBookingsText.getText());
+                        String startTime = startTimeText.getText();
+                        String endTime = endTimeText.getText();
+
+                        //Creating appointment object
+                        Appointment newAppt = new Appointment(apptTitle, maxAttendees, approvedBookings, startTime, endTime);
+
+                        //Adding appointment to calendar page
+                        if (appointmentListLabel.getText().length() > 14) {
+                            appointmentListLabel.setText(appointmentListLabel.getText().substring(0, 13));
+                        }
+
+                        if (appointmentListLabel1.getText().length() > 1) {
+                            appointmentListLabel1.setText(appointmentListLabel1.getText().substring(0, appointmentListLabel1.getText().length() - 7) + "<br/>" + newAppt + "</html>");
+                        } else {
+                            appointmentListLabel1.setText(appointmentListLabel1.getText() + "<html><br/>" + newAppt + "</html>");
+                        }
+
+
+                        //Bringing user back to calendar page
+                        content.removeAll(); //Clears the frame
+                        frame.repaint();
+                        content.setLayout(new BorderLayout());
+                        content.add(manualCalendarPanel);
+                        frame.setSize(700, 500);
+                        frame.setLocationRelativeTo(null);
+                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        frame.setVisible(true);
                     }
-
-
-                    //Bringing user back to calendar page
-                    content.removeAll(); //Clears the frame
-                    frame.repaint();
-                    content.setLayout(new BorderLayout());
-                    content.add(manualCalendarPanel);
-                    frame.setSize(700, 500);
-                    frame.setLocationRelativeTo(null);
-                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    frame.setVisible(true);
 
                 } else if (e.getSource() == sellerProceedButton) {
+
+                        
                     int sellerMenuSelection = sellerOptions.getSelectedIndex();
                     switch (sellerMenuSelection) {
                         case 1: //View current calendars
@@ -1278,6 +1348,7 @@ public class Client extends JComponent implements Runnable {
                         case 6:
                             break;
                     }
+
                 } else if (e.getSource() == sellerLogoutButton) {
 
                 } else if (e.getSource() == createCalendarButton) {
