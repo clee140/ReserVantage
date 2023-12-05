@@ -68,12 +68,27 @@ public class Seller extends User {
      * @param importFileName file path to Seller CSV file.
      */
     public String createCalendarWithFile(String importFileName) {
-        ArrayList<String> calendar = readFile(importFileName);
+        ArrayList<String> userInformation = new ArrayList<>();
+
+        try {
+            FileReader fileReader = new FileReader(importFileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String user = bufferedReader.readLine();
+
+            while (user != null) {
+                userInformation.add(user);
+                user = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            return "Unsuccessful";
+        }
+
         ArrayList<String> createCalendar = new ArrayList<>();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
-        for (int i = 0; i < calendar.size(); i++) {
-            String[] sellerInput = calendar.get(i).split(",");
+        for (int i = 0; i < userInformation.size(); i++) {
+            String[] sellerInput = userInformation.get(i).split(",");
             createCalendar.add("Store name:" + sellerInput[0] + "\n");
             createCalendar.add("Calendar name:" + sellerInput[1] + "\n");
             createCalendar.add("Description:" + sellerInput[2] + "\n");
@@ -94,10 +109,10 @@ public class Seller extends User {
             for (String line : createCalendar) {
                 writer.write(line);
             }
+            return "Successful";
         } catch (IOException e) {
             return "Unsuccessful";
         }
-        return "Successful";
     }
 
     /**
