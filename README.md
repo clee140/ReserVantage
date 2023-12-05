@@ -18,7 +18,8 @@ Client.java again, but Server.java MUST always be running.
   * The program allows for Users to receive content updates as other Users make changes to the shared information. In order 
   to see the update, the User MUST navigate to a different page then back to their original page.
 
-Sruthi Lingam will submit the report on Brightspace and Christopher Lee will submit the repository on Vocareum workspace.
+Sruthi Lingam will submit the report on Brightspace and Christopher Lee will submit the repository on Vocareum workspace
+and the video presentation on Brightspace.
 
 ## Errors fixed from Project 4
 * All invalid inputs are handled within the GUI.
