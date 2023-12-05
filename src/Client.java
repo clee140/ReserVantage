@@ -104,8 +104,6 @@ public class Client extends JComponent implements Runnable {
 
                 if (userType.equals("Seller")) {
                     //Sending server name, email, and password
-                    pw.println(createAccount);
-                    pw.flush();
                     pw.println(name);
                     pw.flush();
                     pw.println(email);
