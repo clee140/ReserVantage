@@ -937,7 +937,7 @@ public class Client extends JComponent implements Runnable {
                                     "Choose an appointment category to delete from: \n" +
                                             "Yes - Appointments Awaiting Approval\nNo - Appointments Approved",
                                     "Cancel Option", JOptionPane.YES_NO_OPTION);
-                        
+
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
@@ -1416,6 +1416,19 @@ public class Client extends JComponent implements Runnable {
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     updateUI();
                     frame.setVisible(true);
+                } else if (e.getSource() == editCalendarProceedButton) {
+                    //show confirmation or error message here
+                } else if (e.getSource() == editCalendarBackButton) {
+                    importFileText.setText("");
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
                 }
                 //add all seller button options here!!!
             }
@@ -1453,5 +1466,10 @@ public class Client extends JComponent implements Runnable {
         customerSortButton.addActionListener(actionListener);
         customerViewStatsBackButton.addActionListener(actionListener);
         customerExitButton.addActionListener(actionListener);
+
+        selectApprovalProceedButton.addActionListener(actionListener);
+        selectApprovalBackButton.addActionListener(actionListener);
+        editCalendarProceedButton.addActionListener(actionListener);
+        editCalendarBackButton.addActionListener(actionListener);
     }
 }
