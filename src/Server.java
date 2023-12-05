@@ -190,7 +190,7 @@ public class Server implements Runnable {
 
                     Customer customer = new Customer(email, email + ".txt");
                     String choice = "";
-                    int response = 0;
+                    String response1 = "";
 
                     while (runner) {
                         choice = bufferedReader.readLine();
@@ -201,8 +201,8 @@ public class Server implements Runnable {
                             writer.flush();
                         }
 
-                        if (choice.equals("cancel")) {
-                            String response1 = (bufferedReader.readLine());
+                        if (choice != null && choice.equals("cancel")) {
+                            response1 = (bufferedReader.readLine());
 
                             if (response1.equals("1")) {
                                 writer.println(customer.viewAppointmentsWaitingApproval());
@@ -223,8 +223,9 @@ public class Server implements Runnable {
 
                         } else if (choice != null && choice.equals("2")) {
                             String appointment = bufferedReader.readLine();
+                            String response = bufferedReader.readLine();
 
-                            boolean cancelled = customer.cancelAppointment(appointment, response);
+                            boolean cancelled = customer.cancelAppointment(appointment, Integer.parseInt(response));
                             String message = "";
                             if (cancelled) {
                                 message = "Appointment cancelled successfully.";
@@ -237,35 +238,23 @@ public class Server implements Runnable {
                             writer.flush();
 
                         } else if (choice != null && choice.equals("3")) {
-
                             String message = customer.viewCalendars();
-
-
                             writer.println(message);
                             writer.flush();
-
                         } else if (choice != null && choice.equals("4")) {
-
                             String message = customer.viewApprovedAppointments();
-
                             writer.println(message);
                             writer.flush();
-
                         } else if (choice != null && choice.equals("5")) {
-
                             String message = customer.viewAppointmentsWaitingApproval();
-
                             writer.println(message);
                             writer.flush();
-
                         } else if (choice != null && choice.equals("6")) {
-
                             String message = "";
                             int yesNo = Integer.parseInt(bufferedReader.readLine());
 
                             if (yesNo == 1) {
-                                int sort = Integer.parseInt(bufferedReader.readLine());
-                                message = customer.viewDashboard(sort);
+                                message = customer.viewDashboard(yesNo);
                             } else {
                                 message = customer.viewDashboard(2);
                             }
@@ -273,8 +262,8 @@ public class Server implements Runnable {
                             writer.println(message);
                             writer.flush();
                         } else if (choice != null && choice.equals("7")) {
-
                             String outFile = (email + ".txt");
+                            String message = "";
                             try (BufferedReader reader = new BufferedReader(new FileReader(outFile))) {
                                 String desktop = System.getProperty("user.home") + "/Desktop/";
                                 String exportPath = desktop + outFile;
@@ -284,15 +273,19 @@ public class Server implements Runnable {
                                         bufferedWriter.write(line);
                                         bufferedWriter.newLine();
                                     }
-                                    String message = "Your file has been exported! Please check your desktop to view the text file.";
+                                    message = "Your file has been exported! Please check your desktop to view the text file.";
 
                                     writer.println(message);
                                     writer.flush();
                                 } catch (IOException e) {
-                                    e.printStackTrace();
+                                    message = "unsuccessful";
+                                    writer.println(message);
+                                    writer.flush();
                                 }
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                message = "unsuccessful";
+                                writer.println(message);
+                                writer.flush();
                             }
                         } else if (choice != null && choice.equals("8")) {
                             writer.println("Thank you for using our app.");

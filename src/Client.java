@@ -16,6 +16,8 @@ public class Client extends JComponent implements Runnable {
     private String name;        //Name of the user
     private String email;       //Email of the user
     private String password;    //Password of the user
+    private int viewCancelOption = 0;
+    private int viewSortOption = 0;
 
     private String sendDataToServer(JButton button, String data) {
         try {
@@ -58,7 +60,7 @@ public class Client extends JComponent implements Runnable {
                 } else { //response equals "false"
                     //GUI displays error message
                 }
-            } else if (button.getText().equals("Login")){ //Button is "Login"
+            } else if (button.getText().equals("Login")) { //Button is "Login"
                 createAccount = "false";
                 pw.write("false");
                 pw.println();
@@ -139,7 +141,8 @@ public class Client extends JComponent implements Runnable {
                             pw.println("calendars");
                             pw.flush();
                             return bfr.readLine();
-                        } case ("cancel"): {
+                        }
+                        case ("cancel"): {
                             pw.println("cancel");
                             pw.flush();
                             pw.println(temp[1]);
@@ -152,11 +155,42 @@ public class Client extends JComponent implements Runnable {
                             pw.println(temp[1]);
                             pw.flush();
                             return bfr.readLine();
-                        } case ("2"): {
+                        }
+                        case ("2"): {
                             pw.println("2");
+                            pw.flush();
+                            pw.println(temp[2]);
                             pw.flush();
                             pw.println(temp[1]);
                             pw.flush();
+                            return bfr.readLine();
+                        }
+                        case ("4"): {
+                            pw.println("4");
+                            pw.flush();
+                            return bfr.readLine();
+                        }
+                        case ("5"): {
+                            pw.println("5");
+                            pw.flush();
+                            return bfr.readLine();
+                        }
+                        case ("6"): {
+                            pw.println("6");
+                            pw.flush();
+                            pw.println(temp[1]);
+                            pw.flush();
+                            return bfr.readLine();
+                        }
+                        case ("7"): {
+                            pw.println("7");
+                            pw.flush();
+                            return bfr.readLine();
+                        }
+                        case ("8"): {
+                            pw.println("8");
+                            pw.flush();
+                            return bfr.readLine();
                         }
                     }
                 }
@@ -209,15 +243,15 @@ public class Client extends JComponent implements Runnable {
         JLabel exitMessage = new JLabel("Thank you for using the Hotel Manager. You have successfully logged out.");
         JLabel closingMessage = new JLabel("This message will close in 5 seconds.");
         JLabel customerAppointmentRequest = new JLabel("<html>Enter the appointment you would like to request exactly as " +
-                "it appears in the appointment list:<br/> <br/> <br/> <br/> Format: [Calendar name]-[Appointment Title]," +
+                "it appears in the appointment list. <br/> <br/> Format: [Calendar name]-[Appointment Title]," +
                 "[Max Attendees],[Approved Bookings],[Start Time],[End Time]</html>", SwingConstants.CENTER);
         JLabel getAppointments = new JLabel();
         JTextField customerAppointmentText = new JTextField("", 45);
         JButton customerAppointmentButton = new JButton("Proceed");
 
         JLabel customerCancelAppointmentRequest = new JLabel("<html>Enter the appointment you would like to cancel " +
-                "exactly as it appears in the appointment list:<br/> <br/>  <br/> <br/> Format: [Calendar name]-[Appointment Title]," +
-                "[Max Attendees],[Approved Bookings],[Start Time],[End Time]</html>");
+                "exactly as it appears in the appointment list. <br/> <br/> Format: [Calendar name]-[Appointment Title]," +
+                "[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Username]</html>");
         JTextField customerCancelText = new JTextField("", 45);
         JButton customerCancelButton = new JButton("Proceed");
         JLabel customerCancelLabel = new JLabel();
@@ -225,10 +259,14 @@ public class Client extends JComponent implements Runnable {
         JButton customerViewCancelButton = new JButton("Proceed");
         JComboBox<String> customerCancelOptions = new JComboBox<>();
 
+        JLabel customerViewCalendarsLabel = new JLabel();
+        JLabel customerViewApprovedAppointmentsLabel = new JLabel();
+        JLabel customerViewPendingAppointmentsLabel = new JLabel();
 
         JLabel customerSort = new JLabel("Choose a method to sort statistics dashboard");
         JComboBox<String> customerSortOptions = new JComboBox<>();
         JButton customerSortButton = new JButton("Proceed");
+        JLabel customerViewStatsLabel = new JLabel();
 
         JButton customerAppointmentBackButton = new JButton("Go Back");
         JButton customerCancelBackButton = new JButton("Go Back");
@@ -237,6 +275,7 @@ public class Client extends JComponent implements Runnable {
         JButton customerViewAppointmentsAwaitingBackButton = new JButton("Go Back");
         JButton customerExportFileBackButton = new JButton("Go Back");
         JButton customerViewStatisticsBackButton = new JButton("Go Back");
+        JButton customerViewStatsBackButton = new JButton("Go Back");
 
 
         //Creates main panel
@@ -374,30 +413,26 @@ public class Client extends JComponent implements Runnable {
 
         // Customer view calendars panel.
         JPanel customerViewCalendars = new JPanel();
-        customerViewCalendars.add(new JLabel("")); // Replace with calendars.
+        customerViewCalendars.add(customerViewCalendarsLabel);
         customerViewCalendars.add(customerViewCalendarsBackButton);
 
         // Customer view approved appointments panel.
         JPanel customerViewApprovedAppointments = new JPanel();
-        customerViewApprovedAppointments.add(new JLabel("")); // Replace with approved appointments.
+        customerViewApprovedAppointments.add(customerViewApprovedAppointmentsLabel);
         customerViewApprovedAppointments.add(customerViewApprovedAppointmentsBackButton);
 
         // Customer view appointments awaiting approval panel.
         JPanel customerViewAppointmentsAwaiting = new JPanel();
-        customerViewAppointmentsAwaiting.add(new JLabel("")); // Replace with appointments awaiting approval.
+        customerViewAppointmentsAwaiting.add(customerViewPendingAppointmentsLabel);
         customerViewAppointmentsAwaiting.add(customerViewAppointmentsAwaitingBackButton);
-
 
         // Customer view statistics panel.
         JPanel customerViewStatistics = new JPanel();
         customerViewStatistics.setLayout(new BoxLayout(customerViewStatistics, BoxLayout.PAGE_AXIS));
-
         customerViewStatistics.add(Box.createRigidArea(new Dimension(200, 10)));
         customerSort.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         customerViewStatistics.add(customerSort);
         customerViewStatistics.add(Box.createRigidArea(new Dimension(1, 10)));
-
         customerSortOptions.setMaximumSize(new Dimension(400, 25));
         customerSortOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
         customerSortOptions.addItem("Most to Least Popular Stores");
@@ -409,6 +444,11 @@ public class Client extends JComponent implements Runnable {
         customerPanel.add(Box.createRigidArea(new Dimension(1, 20)));
         customerViewStatisticsBackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         customerViewStatistics.add(customerViewStatisticsBackButton);
+
+        // Customer view appointment stats sorted.
+        JPanel customerViewStats = new JPanel();
+        customerViewStats.add(customerViewStatsLabel);
+        customerViewStats.add(customerViewStatsBackButton);
 
         //Exit panel
         JPanel exitLogOutPanel = new JPanel();
@@ -625,7 +665,7 @@ public class Client extends JComponent implements Runnable {
         editCalendarPanel.add(editCalendarMaxLabel);
         editCalendarMaxField.setAlignmentX(LEFT_ALIGNMENT);
         editCalendarMaxField.setMaximumSize(new Dimension(50, 25));
-        
+
         //TODO: Delete calendar panel
 
         //TODO: Approve/decline appointment requests panel
@@ -775,12 +815,13 @@ public class Client extends JComponent implements Runnable {
                     int customerMenuSelection = customerOptions.getSelectedIndex();
                     switch (customerMenuSelection) {
                         case 0:
-                            getAppointments.setText(sendDataToServer(customerProceedButton, "calendars,temp"));
+                            String temp = sendDataToServer(customerProceedButton, "calendars,temp");
+                            getAppointments.setText("<html>" + temp + "</html");
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(1, 1));
                             content.add(customerMakeAppointment);
-                            frame.setSize(750, 300);
+                            frame.setSize(750, 700);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             updateUI();
@@ -798,11 +839,14 @@ public class Client extends JComponent implements Runnable {
                             frame.setVisible(true);
                             break;
                         case 2:
+                            String temp2 = sendDataToServer(customerProceedButton, "calendars,temp");
+
+                            customerViewCalendarsLabel.setText("<html>" + temp2 + "</html>");
                             content.removeAll();
                             frame.repaint();
-                            content.setLayout(new GridLayout(2, 1));
+                            // content.setLayout(new GridLayout(1, 1));
                             content.add(customerViewCalendars);
-                            frame.setSize(750, 300);
+                            frame.setSize(750, 700);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             updateUI();
@@ -810,6 +854,8 @@ public class Client extends JComponent implements Runnable {
                             //option 3 here
                             break;
                         case 3:
+                            String temp3 = sendDataToServer(customerProceedButton, "4,temp");
+                            customerViewApprovedAppointmentsLabel.setText("<html>" + temp3 + "</html>");
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
@@ -822,6 +868,8 @@ public class Client extends JComponent implements Runnable {
                             //option 4 here
                             break;
                         case 4:
+                            String temp4 = sendDataToServer(customerProceedButton, "5,temp");
+                            customerViewPendingAppointmentsLabel.setText("<html>" + temp4 + "</html>");
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
@@ -845,12 +893,18 @@ public class Client extends JComponent implements Runnable {
                             frame.setVisible(true);
                             break;
                         case 6:
-                            JOptionPane.showMessageDialog(null,
-                                    "Your file has been exported! Please check your desktop to " +
-                                            "view the text file.", "File Export", JOptionPane.PLAIN_MESSAGE);
-                            //option 7 here
+                            String temp6 = sendDataToServer(customerProceedButton, "7,temp");
+                            if (temp6.equals("Your file has been exported! Please check your desktop to view the text file.")) {
+                                JOptionPane.showMessageDialog(null,
+                                        "Your file has been exported! Please check your desktop to " +
+                                                "view the text file.", "File Export", JOptionPane.INFORMATION_MESSAGE);
+                            } else {
+                                JOptionPane.showMessageDialog(null,
+                                        "You must make an appointment to export your file.", "File Export", JOptionPane.ERROR_MESSAGE);
+                            }
                             break;
                         case 7:
+                            sendDataToServer(customerProceedButton, "8,temp");
                             content.removeAll();
                             content.setLayout(new GridLayout(1, 1));
                             content.add(exitLogOutPanel);
@@ -892,7 +946,7 @@ public class Client extends JComponent implements Runnable {
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frame.setVisible(true);
                 } else if (e.getSource() == customerViewCancelButton) {
-                    int viewCancelOption = customerCancelOptions.getSelectedIndex();
+                    viewCancelOption = customerCancelOptions.getSelectedIndex();
                     String getCancelCalendar = "";
                     if (viewCancelOption == 0) {
                         getCancelCalendar = sendDataToServer(customerAppointmentButton, "cancel,1");
@@ -900,8 +954,7 @@ public class Client extends JComponent implements Runnable {
                         getCancelCalendar = sendDataToServer(customerAppointmentButton, "cancel,2");
                     }
 
-                    customerCancelLabel.setText(getCancelCalendar);
-
+                    customerCancelLabel.setText("<html>" + getCancelCalendar + "</html>");
                     content.removeAll(); //Clears the frame
                     frame.repaint();
                     content.setLayout(new BorderLayout());
@@ -910,6 +963,48 @@ public class Client extends JComponent implements Runnable {
                     frame.setLocationRelativeTo(null);
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     updateUI();
+                    frame.setVisible(true);
+                } else if (e.getSource() == customerCancelButton) {
+                    String getCancelAppointment = customerCancelText.getText();
+                    if (viewCancelOption == 0) {
+                        viewCancelOption = 1;
+                    } else {
+                        viewCancelOption = 2;
+                    }
+
+                    String getCancelCalendar = sendDataToServer(customerCancelButton, "2," + viewCancelOption + "," + getCancelAppointment);
+                    if (getCancelCalendar.equals("Appointment cancelled successfully.")) {
+                        JOptionPane.showMessageDialog(null, "Appointment cancelled successfully.",
+                                "Status", JOptionPane.INFORMATION_MESSAGE);
+                        content.removeAll(); //Clears the frame
+                        frame.repaint();
+                        content.setLayout(new BorderLayout());
+                        content.add(customerPanel);
+                        frame.setSize(900, 400);
+                        frame.setLocationRelativeTo(null);
+                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        updateUI();
+                        frame.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Appointment request unsuccessful.",
+                                "Status", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else if (e.getSource() == customerSortButton) {
+                    viewSortOption = customerCancelOptions.getSelectedIndex();
+                    if (viewSortOption == 0) {
+                        viewSortOption = 1;
+                    }
+                    String tempSort = sendDataToServer(customerSortButton, "6," + viewSortOption);
+                    customerViewStatsLabel.setText("<html>" + tempSort + "</html>");
+
+
+                    content.removeAll(); //Clears the frame
+                    frame.repaint();
+                    content.setLayout(new BorderLayout());
+                    content.add(customerViewStats);
+                    frame.setSize(900, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frame.setVisible(true);
                 } else if (e.getSource() == customerAppointmentBackButton) {
                     content.removeAll(); //Clears the frame
@@ -930,6 +1025,15 @@ public class Client extends JComponent implements Runnable {
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frame.setVisible(true);
                 } else if (e.getSource() == customerViewCalendarsBackButton) {
+                    content.removeAll(); //Clears the frame
+                    frame.repaint();
+                    content.setLayout(new BorderLayout());
+                    content.add(customerPanel);
+                    frame.setSize(900, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                } else if (e.getSource() == customerViewStatsBackButton) {
                     content.removeAll(); //Clears the frame
                     frame.repaint();
                     content.setLayout(new BorderLayout());
@@ -1155,5 +1259,8 @@ public class Client extends JComponent implements Runnable {
         importBackButton.addActionListener(actionListener);
         customerAppointmentButton.addActionListener(actionListener);
         customerViewCancelButton.addActionListener(actionListener);
+        customerCancelButton.addActionListener(actionListener);
+        customerSortButton.addActionListener(actionListener);
+        customerViewStatsBackButton.addActionListener(actionListener);
     }
 }
