@@ -457,7 +457,7 @@ public class Client extends JComponent implements Runnable {
         exitLogOutPanel.add(Box.createRigidArea(new Dimension(20, 10)));
         closingMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitLogOutPanel.add(customerExitButton);
-       // exitLogOutPanel.add(closingMessage);
+        // exitLogOutPanel.add(closingMessage);
         exitLogOutPanel.add(Box.createRigidArea(new Dimension(200, 10)));
 
         //Seller panels
@@ -644,26 +644,32 @@ public class Client extends JComponent implements Runnable {
         JTextField editCalendarNewApptField = new JTextField("", 20);
         JLabel editCalendarMaxLabel = new JLabel("Enter the new number of max attendees: ");
         JTextField editCalendarMaxField = new JTextField("", 20);
+        JButton editCalendarProceedButton = new JButton("Proceed");
         JPanel editCalendarPanel = new JPanel();
         editCalendarPanel.setLayout(new BoxLayout(editCalendarPanel, BoxLayout.PAGE_AXIS));
-        editCalendarPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        editCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
         editCalendarTitleLabel.setAlignmentX(LEFT_ALIGNMENT);
         editCalendarPanel.add(editCalendarTitleLabel);
-        editCalendarTitleField.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarTitleField.setAlignmentX(LEFT_ALIGNMENT + 0.1f);
         editCalendarTitleField.setMaximumSize(new Dimension(200, 25));
         editCalendarPanel.add(editCalendarTitleField);
         editCalendarApptLabel.setAlignmentX(LEFT_ALIGNMENT);
         editCalendarPanel.add(editCalendarApptLabel);
+        editCalendarPanel.add(editCalendarApptField);
         editCalendarApptField.setAlignmentX(LEFT_ALIGNMENT);
-        editCalendarApptField.setMaximumSize(new Dimension(50, 25));
+        editCalendarApptField.setMaximumSize(new Dimension(100, 25));
         editCalendarNewApptLabel.setAlignmentX(LEFT_ALIGNMENT);
         editCalendarPanel.add(editCalendarNewApptLabel);
+        editCalendarPanel.add(editCalendarNewApptField);
         editCalendarNewApptField.setAlignmentX(LEFT_ALIGNMENT);
-        editCalendarNewApptField.setMaximumSize(new Dimension(50, 25));
+        editCalendarNewApptField.setMaximumSize(new Dimension(100, 25));
         editCalendarMaxLabel.setAlignmentX(LEFT_ALIGNMENT);
         editCalendarPanel.add(editCalendarMaxLabel);
+        editCalendarPanel.add(editCalendarMaxField);
         editCalendarMaxField.setAlignmentX(LEFT_ALIGNMENT);
-        editCalendarMaxField.setMaximumSize(new Dimension(50, 25));
+        editCalendarMaxField.setMaximumSize(new Dimension(100, 25));
+        editCalendarPanel.add(editCalendarProceedButton);
+        editCalendarProceedButton.setAlignmentX(CENTER_ALIGNMENT);
 
         //TODO: Delete calendar panel
 
