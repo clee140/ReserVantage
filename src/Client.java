@@ -274,7 +274,7 @@ public class Client extends JComponent implements Runnable {
         JButton customerExportFileBackButton = new JButton("Go Back");
         JButton customerViewStatisticsBackButton = new JButton("Go Back");
         JButton customerViewStatsBackButton = new JButton("Go Back");
-
+        JButton customerExitButton = new JButton("OK");
 
         //Creates main panel
         welcomeMessageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -456,7 +456,8 @@ public class Client extends JComponent implements Runnable {
         exitLogOutPanel.add(exitMessage);
         exitLogOutPanel.add(Box.createRigidArea(new Dimension(20, 10)));
         closingMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
-        exitLogOutPanel.add(closingMessage);
+        exitLogOutPanel.add(customerExitButton);
+       // exitLogOutPanel.add(closingMessage);
         exitLogOutPanel.add(Box.createRigidArea(new Dimension(200, 10)));
 
         //Seller panels
@@ -911,15 +912,8 @@ public class Client extends JComponent implements Runnable {
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             updateUI();
                             frame.setVisible(true);
-                            //display exit message and end the program in 5 seconds
-                            Timer timer = new Timer(5000, new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    frame.dispose();
-                                }
-                            });
-                            timer.setRepeats(false);
-                            timer.start();
+
+
                             break;
                         default:
                             break;
@@ -1018,6 +1012,15 @@ public class Client extends JComponent implements Runnable {
                     frame.repaint();
                     content.setLayout(new BorderLayout());
                     content.add(customerPanel);
+                    frame.setSize(900, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.setVisible(true);
+                } else if (e.getSource() == customerExitButton) {
+                    content.removeAll(); //Clears the frame
+                    frame.repaint();
+                    content.setLayout(new BorderLayout());
+                    content.add(initialOptionPanel);
                     frame.setSize(900, 400);
                     frame.setLocationRelativeTo(null);
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -1260,5 +1263,6 @@ public class Client extends JComponent implements Runnable {
         customerCancelButton.addActionListener(actionListener);
         customerSortButton.addActionListener(actionListener);
         customerViewStatsBackButton.addActionListener(actionListener);
+        customerExitButton.addActionListener(actionListener);
     }
 }
