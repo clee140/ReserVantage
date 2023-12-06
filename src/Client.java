@@ -96,6 +96,7 @@ public class Client extends JComponent implements Runnable {
                 pw.println();
                 pw.flush();
 
+
                 serverResponse = bfr.readLine();
                 if (serverResponse.equals("true")) {
                     output = serverResponse;
@@ -310,8 +311,7 @@ public class Client extends JComponent implements Runnable {
         JButton customerAppointmentButton = new JButton("Proceed");
 
         JLabel customerCancelAppointmentRequest = new JLabel("<html>Enter the appointment you would like to cancel " +
-                "exactly as it appears in the appointment list. <br/> <br/> Format: [Calendar name]-[Appointment Title]," +
-                "[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Username]</html>");
+                "exactly as it appears in the appointment list. <br/> <br/> Format: [Calendar name]-[Appointment Title]-[Username]</html>");
         JTextField customerCancelText = new JTextField("", 45);
         JButton customerCancelButton = new JButton("Proceed");
         JLabel customerCancelLabel = new JLabel();
@@ -940,6 +940,10 @@ public class Client extends JComponent implements Runnable {
                     //Presence check on all fields
                     if (nameText.getText().isEmpty() || emailText.getText().isEmpty() || loginPassText.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "All fields need to be filled!",
+
+                                "Login", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else {
+
                                 "Create Account", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
                     } else {
                         passCheck = true;
@@ -952,6 +956,7 @@ public class Client extends JComponent implements Runnable {
                         String email = emailText.getText();
                         String pass = loginPassText.getText();
 
+
                         //Sends info to Server
                         String validLogin = sendDataToServer(loginEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
                         if (validLogin.equals("true")) {
@@ -961,7 +966,11 @@ public class Client extends JComponent implements Runnable {
                             //Resets text fields
                             nameText.setText("");
                             emailText.setText("");
+
+                            passText.setText("");
+
                             loginPassText.setText("");
+
 
                             //code below is nested inside login check after verification
                             if (userOrSeller.equals("Seller")) {
@@ -989,12 +998,20 @@ public class Client extends JComponent implements Runnable {
                         } else { //Invalid login
                             JOptionPane.showMessageDialog(null, "Your email or password is incorrect!",
                                     "Login", JOptionPane.ERROR_MESSAGE); //Error message
+
+
+                            //Resets text fields so user can try again
+                            emailText.setText("");
+                            passText.setText("");
+                        }
+
                         }
 
                         //Resets text fields
                         nameText.setText("");
                         emailText.setText("");
                         loginPassText.setText("");
+
                     }
                 } else if (e.getSource() == createBackButton) {
                     content.removeAll(); //Clears the frame
@@ -1026,7 +1043,7 @@ public class Client extends JComponent implements Runnable {
                             frame.repaint();
                             content.setLayout(new GridLayout(1, 1));
                             content.add(customerMakeAppointment);
-                            frame.setSize(750, 700);
+                            frame.setSize(750, 1300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             updateUI();
@@ -1052,7 +1069,7 @@ public class Client extends JComponent implements Runnable {
                             frame.repaint();
                             // content.setLayout(new GridLayout(1, 1));
                             content.add(customerViewCalendars);
-                            frame.setSize(750, 700);
+                            frame.setSize(750, 1300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             updateUI();
