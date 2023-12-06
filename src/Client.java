@@ -97,6 +97,7 @@ public class Client extends JComponent implements Runnable {
                 pw.println();
                 pw.flush();
 
+
                 serverResponse = bfr.readLine();
                 if (serverResponse.equals("true")) {
                     output = serverResponse;
@@ -307,8 +308,7 @@ public class Client extends JComponent implements Runnable {
         JButton customerAppointmentButton = new JButton("Proceed");
 
         JLabel customerCancelAppointmentRequest = new JLabel("<html>Enter the appointment you would like to cancel " +
-                "exactly as it appears in the appointment list. <br/> <br/> Format: [Calendar name]-[Appointment Title]," +
-                "[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Username]</html>");
+                "exactly as it appears in the appointment list. <br/> <br/> Format: [Calendar name]-[Appointment Title]-[Username]</html>");
         JTextField customerCancelText = new JTextField("", 45);
         JButton customerCancelButton = new JButton("Proceed");
         JLabel customerCancelLabel = new JLabel();
@@ -909,49 +909,49 @@ public class Client extends JComponent implements Runnable {
                     if (name.isEmpty() || email.isEmpty() || pass.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "All fields need to be filled!",
                                 "Login", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
-                    }
+                    } else {
+                        //Sends info to Server
+                        String validLogin = sendDataToServer(loginEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
+                        if (validLogin.equals("true")) {
+                            JOptionPane.showMessageDialog(null, "Login successful!",
+                                    "Login", JOptionPane.INFORMATION_MESSAGE); //Tells user login was successful
 
-                    //Sends info to Server
-                    String validLogin = sendDataToServer(loginEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
-                    if (validLogin.equals("true")) {
-                        JOptionPane.showMessageDialog(null, "Login successful!",
-                                "Login", JOptionPane.INFORMATION_MESSAGE); //Tells user login was successful
+                            //Resets text fields
+                            nameText.setText("");
+                            emailText.setText("");
+                            passText.setText("");
 
-                        //Resets text fields
-                        nameText.setText("");
-                        emailText.setText("");
-                        passText.setText("");
+                            //code below is nested inside login check after verification
+                            if (userOrSeller.equals("Seller")) {
+                                //TODO: Where Seller screen pops up
+                                content.removeAll();
+                                frame.repaint();
+                                content.setLayout(new GridLayout(2, 1));
+                                content.add(sellerPanel);
+                                frame.setSize(750, 400);
+                                frame.setLocationRelativeTo(null);
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                updateUI();
+                                frame.setVisible(true);
+                            } else if (userOrSeller.equals("Customer")) { //TODO: Customer screen pops up
+                                content.removeAll();
+                                frame.repaint();
+                                content.setLayout(new GridLayout(2, 1));
+                                content.add(customerPanel);
+                                frame.setSize(750, 400);
+                                frame.setLocationRelativeTo(null);
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                updateUI();
+                                frame.setVisible(true);
+                            }
+                        } else { //Invalid login
+                            JOptionPane.showMessageDialog(null, "Your email or password is incorrect!",
+                                    "Login", JOptionPane.ERROR_MESSAGE); //Error message
 
-                        //code below is nested inside login check after verification
-                        if (userOrSeller.equals("Seller")) {
-                            //TODO: Where Seller screen pops up
-                            content.removeAll();
-                            frame.repaint();
-                            content.setLayout(new GridLayout(2, 1));
-                            content.add(sellerPanel);
-                            frame.setSize(750, 400);
-                            frame.setLocationRelativeTo(null);
-                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            updateUI();
-                            frame.setVisible(true);
-                        } else if (userOrSeller.equals("Customer")) { //TODO: Customer screen pops up
-                            content.removeAll();
-                            frame.repaint();
-                            content.setLayout(new GridLayout(2, 1));
-                            content.add(customerPanel);
-                            frame.setSize(750, 400);
-                            frame.setLocationRelativeTo(null);
-                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            updateUI();
-                            frame.setVisible(true);
+                            //Resets text fields so user can try again
+                            emailText.setText("");
+                            passText.setText("");
                         }
-                    } else { //Invalid login
-                        JOptionPane.showMessageDialog(null, "Your email or password is incorrect!",
-                                "Login", JOptionPane.ERROR_MESSAGE); //Error message
-
-                        //Resets text fields so user can try again
-                        emailText.setText("");
-                        passText.setText("");
                     }
                 } else if (e.getSource() == createBackButton) {
                     content.removeAll(); //Clears the frame
@@ -984,7 +984,7 @@ public class Client extends JComponent implements Runnable {
                             frame.repaint();
                             content.setLayout(new GridLayout(1, 1));
                             content.add(customerMakeAppointment);
-                            frame.setSize(750, 700);
+                            frame.setSize(750, 1300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             updateUI();
@@ -1010,7 +1010,7 @@ public class Client extends JComponent implements Runnable {
                             frame.repaint();
                             // content.setLayout(new GridLayout(1, 1));
                             content.add(customerViewCalendars);
-                            frame.setSize(750, 700);
+                            frame.setSize(750, 1300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             updateUI();

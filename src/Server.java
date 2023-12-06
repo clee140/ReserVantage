@@ -33,7 +33,7 @@ public class Server implements Runnable {
 
             String createAccount = bufferedReader.readLine(); // Receives input on creating or logging in to account.
 
-            if (createAccount.equals("true")) {
+            if (createAccount != null && createAccount.equals("true")) {
                 boolean runAgain = true;
 
                 while (runAgain) {
