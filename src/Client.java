@@ -940,11 +940,7 @@ public class Client extends JComponent implements Runnable {
                     //Presence check on all fields
                     if (nameText.getText().isEmpty() || emailText.getText().isEmpty() || loginPassText.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "All fields need to be filled!",
-
                                 "Login", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
-                    } else {
-
-                                "Create Account", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
                     } else {
                         passCheck = true;
                     }
@@ -966,9 +962,6 @@ public class Client extends JComponent implements Runnable {
                             //Resets text fields
                             nameText.setText("");
                             emailText.setText("");
-
-                            passText.setText("");
-
                             loginPassText.setText("");
 
 
@@ -995,6 +988,7 @@ public class Client extends JComponent implements Runnable {
                                 updateUI();
                                 frame.setVisible(true);
                             }
+
                         } else { //Invalid login
                             JOptionPane.showMessageDialog(null, "Your email or password is incorrect!",
                                     "Login", JOptionPane.ERROR_MESSAGE); //Error message
@@ -1002,9 +996,7 @@ public class Client extends JComponent implements Runnable {
 
                             //Resets text fields so user can try again
                             emailText.setText("");
-                            passText.setText("");
-                        }
-
+                            loginPassText.setText("");
                         }
 
                         //Resets text fields
@@ -1421,35 +1413,21 @@ public class Client extends JComponent implements Runnable {
                     } else if (!isInteger(maxAttendeesText.getText()) || !isInteger(approvedBookingsText.getText())) {
                         JOptionPane.showMessageDialog(null, "Ensure max attendees and approved bookings are integers",
                                 "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all field needs to be right data type
-                        maxAttendeesText.setText("");
-                        approvedBookingsText.setText("");
                         //Range check on approved bookings text
                     } else if (Integer.parseInt(approvedBookingsText.getText()) < 0 || Integer.parseInt(approvedBookingsText.getText()) > 1) {
                         JOptionPane.showMessageDialog(null, "Approved bookings must be 0 or 1!",
                                 "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user about range
-                        approvedBookingsText.setText("");
 
                         //Format check on start and end time
                     } else if (!startTimeText.getText().matches("\\d{2}:\\d{2}")) {
                         JOptionPane.showMessageDialog(null, "Ensure the time format is correct!",
                                 "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user about format
-                        startTimeText.setText("");
 
                     } else if (!endTimeText.getText().matches("\\d{2}:\\d{2}")) {
                         JOptionPane.showMessageDialog(null, "Ensure the time format is correct!",
                                 "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user about format
-                        endTimeText.setText("");
                     } else {
                         passCheck = true;
-                    }
-
-                    //Clearing the textfields
-                    if (!passCheck) {
-                        appointmentTitleText.setText("");
-                        maxAttendeesText.setText("");
-                        approvedBookingsText.setText("");
-                        startTimeText.setText("");
-                        endTimeText.setText("");
                     }
 
                     if (passCheck) {
