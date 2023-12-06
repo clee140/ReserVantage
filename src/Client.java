@@ -580,7 +580,7 @@ public class Client extends JComponent implements Runnable {
         viewBackButton.setAlignmentX(CENTER_ALIGNMENT);
         viewCalendarsPanel.add(viewBackButton);
         JScrollPane jsp = new JScrollPane(viewCalendarsPanel);
-        jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         //Create new calendar panel
         JButton importFileButton = new JButton("Import File");
@@ -1446,7 +1446,7 @@ public class Client extends JComponent implements Runnable {
                             content.removeAll(); //Clears the frame
                             frame.repaint();
                             content.setLayout(new BorderLayout());
-                            content.add(viewCalendarsPanel);
+                            content.add(jsp);
                             frame.setSize(900, 400);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -1532,6 +1532,8 @@ public class Client extends JComponent implements Runnable {
                         //Clearing text fields
                         calendarNameText.setText("");
                         calendarDescriptionText.setText("");
+                        appointmentListLabel1.setText("");
+                        appointmentListLabel.setText("Appointments: None");
 
                         //Going back to main option panel
                         content.removeAll();
