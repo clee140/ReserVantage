@@ -93,7 +93,7 @@ public class Customer extends User {
             }
             bufferedReader.close();
         } catch (IOException e) {
-            return ("No calendar appointments made!");
+            return ("No calendar appointments have been approved!");
         }
 
         for (int i = 0; i < userInformation.size(); i++) {
