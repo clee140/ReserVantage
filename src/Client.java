@@ -856,102 +856,117 @@ public class Client extends JComponent implements Runnable {
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frame.setVisible(true);
                 } else if (e.getSource() == createEnterButton) {
+
+                    boolean passCheck = false;
                     //Gathering data to send to Server
 
-                    String userOrSeller = (String) sellerOrCustomer.getSelectedItem();
-                    String name = nameText.getText();
-                    String email = emailText.getText();
-                    String pass = passText.getText();
 
                     //Presence check on all fields
-                    if (name.isEmpty() || email.isEmpty() || pass.isEmpty()) {
+                    if (nameText.getText().isEmpty() || emailText.getText().isEmpty() || passText.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "All fields need to be filled!",
                                 "Create Account", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else {
+                        passCheck = true;
                     }
 
+                    if (passCheck) {
 
-                    //Sends info to Server
-                    String validEmail = sendDataToServer(createEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
-                    if (validEmail.equals("true")) {
-                        JOptionPane.showMessageDialog(null, "Account created!",
-                                "Create Account", JOptionPane.INFORMATION_MESSAGE); //Tells user account has been created
+                        String userOrSeller = (String) sellerOrCustomer.getSelectedItem();
+                        String name = nameText.getText();
+                        String email = emailText.getText();
+                        String pass = passText.getText();
 
-                        //Resets all text fields
-                        nameText.setText("");
-                        emailText.setText("");
-                        passText.setText("");
 
-                        content.removeAll(); //Removes current panel
+                        //Sends info to Server
+                        String validEmail = sendDataToServer(createEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
+                        if (validEmail.equals("true")) {
+                            JOptionPane.showMessageDialog(null, "Account created!",
+                                    "Create Account", JOptionPane.INFORMATION_MESSAGE); //Tells user account has been created
 
-                        //Returning user to initial option menu
-                        content.setLayout(new BorderLayout());
-                        content.add(initialOptionPanel);
-                        frame.setSize(400, 200);
-                        frame.setLocationRelativeTo(null);
-                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        frame.setVisible(true);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Email already exists! Please choose a different email",
-                                "Create Account", JOptionPane.ERROR_MESSAGE); //Error message
+                            //Resets all text fields
+                            nameText.setText("");
+                            emailText.setText("");
+                            passText.setText("");
 
-                        //Resets text fields so user can try again
-                        emailText.setText("");
-                        passText.setText("");
+                            content.removeAll(); //Removes current panel
+
+                            //Returning user to initial option menu
+                            content.setLayout(new BorderLayout());
+                            content.add(initialOptionPanel);
+                            frame.setSize(400, 200);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            frame.setVisible(true);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Email already exists! Please choose a different email",
+                                    "Create Account", JOptionPane.ERROR_MESSAGE); //Error message
+
+                            //Resets text fields so user can try again
+                            emailText.setText("");
+                            passText.setText("");
+                        }
                     }
                 } else if (e.getSource() == loginEnterButton) {
-                    //Gathering data to send to Server
-                    String userOrSeller = (String) sellerOrCustomer.getSelectedItem();
-                    String name = nameText.getText();
-                    String email = emailText.getText();
-                    String pass = passText.getText();
+
+                    boolean passCheck = false;
 
                     //Presence check on all fields
-                    if (name.isEmpty() || email.isEmpty() || pass.isEmpty()) {
+                    if (nameText.getText().isEmpty() || emailText.getText().isEmpty() || passText.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "All fields need to be filled!",
-                                "Login", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                                "Create Account", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else {
+                        passCheck = true;
                     }
 
-                    //Sends info to Server
-                    String validLogin = sendDataToServer(loginEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
-                    if (validLogin.equals("true")) {
-                        JOptionPane.showMessageDialog(null, "Login successful!",
-                                "Login", JOptionPane.INFORMATION_MESSAGE); //Tells user login was successful
+                    if (passCheck) {
+                        //Gathering data to send to Server
+                        String userOrSeller = (String) sellerOrCustomer.getSelectedItem();
+                        String name = nameText.getText();
+                        String email = emailText.getText();
+                        String pass = passText.getText();
 
-                        //Resets text fields
-                        nameText.setText("");
-                        emailText.setText("");
-                        passText.setText("");
+                        //Sends info to Server
+                        String validLogin = sendDataToServer(loginEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
+                        if (validLogin.equals("true")) {
+                            JOptionPane.showMessageDialog(null, "Login successful!",
+                                    "Login", JOptionPane.INFORMATION_MESSAGE); //Tells user login was successful
 
-                        //code below is nested inside login check after verification
-                        if (userOrSeller.equals("Seller")) {
-                            //TODO: Where Seller screen pops up
-                            content.removeAll();
-                            frame.repaint();
-                            content.setLayout(new GridLayout(2, 1));
-                            content.add(sellerPanel);
-                            frame.setSize(750, 400);
-                            frame.setLocationRelativeTo(null);
-                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            updateUI();
-                            frame.setVisible(true);
-                        } else if (userOrSeller.equals("Customer")) { //TODO: Customer screen pops up
-                            content.removeAll();
-                            frame.repaint();
-                            content.setLayout(new GridLayout(2, 1));
-                            content.add(customerPanel);
-                            frame.setSize(750, 400);
-                            frame.setLocationRelativeTo(null);
-                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            updateUI();
-                            frame.setVisible(true);
+                            //Resets text fields
+                            nameText.setText("");
+                            emailText.setText("");
+                            passText.setText("");
+
+                            //code below is nested inside login check after verification
+                            if (userOrSeller.equals("Seller")) {
+                                //TODO: Where Seller screen pops up
+                                content.removeAll();
+                                frame.repaint();
+                                content.setLayout(new GridLayout(2, 1));
+                                content.add(sellerPanel);
+                                frame.setSize(750, 400);
+                                frame.setLocationRelativeTo(null);
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                updateUI();
+                                frame.setVisible(true);
+                            } else if (userOrSeller.equals("Customer")) { //TODO: Customer screen pops up
+                                content.removeAll();
+                                frame.repaint();
+                                content.setLayout(new GridLayout(2, 1));
+                                content.add(customerPanel);
+                                frame.setSize(750, 400);
+                                frame.setLocationRelativeTo(null);
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                updateUI();
+                                frame.setVisible(true);
+                            }
+                        } else { //Invalid login
+                            JOptionPane.showMessageDialog(null, "Your email or password is incorrect!",
+                                    "Login", JOptionPane.ERROR_MESSAGE); //Error message
+
+                            //Resets text fields so user can try again
+                            emailText.setText("");
+                            passText.setText("");
                         }
-                    } else { //Invalid login
-                        JOptionPane.showMessageDialog(null, "Your email or password is incorrect!",
-                                "Login", JOptionPane.ERROR_MESSAGE); //Error message
-
-                        //Resets text fields so user can try again
-                        emailText.setText("");
-                        passText.setText("");
                     }
                 } else if (e.getSource() == createBackButton) {
                     content.removeAll(); //Clears the frame
@@ -1293,34 +1308,62 @@ public class Client extends JComponent implements Runnable {
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frame.setVisible(true);
                 } else if (e.getSource() == importButton) {
-                    String sendToServer = storeNameText.getText() + ",2,1," + importFileText.getText();
-                    if (sendDataToServer(sellerProceedButton, sendToServer).equals("Unsuccessful")) {
-                        JOptionPane.showMessageDialog(null, "File was unable to import! Please ensure your file exists.",
-                                "Status", JOptionPane.ERROR_MESSAGE);
-                    } else { //Was successful
-                        JOptionPane.showMessageDialog(null, "File imported successfully!",
-                                "Status", JOptionPane.INFORMATION_MESSAGE);
 
-                        importFileText.setText("");
-                        content.removeAll();
-                        frame.repaint();
-                        content.setLayout(new GridLayout(2, 1));
-                        content.add(sellerPanel);
-                        frame.setSize(750, 400);
-                        frame.setLocationRelativeTo(null);
-                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        updateUI();
-                        frame.setVisible(true);
+                    boolean passCheck = false;
+
+                    if (importFileText.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Store name needs to be filled!",
+                                "Seller", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else if (importFileText.getText().split(",").length != 8) {
+                        JOptionPane.showMessageDialog(null, "Ensure file name is in the right format!",
+                                "Seller", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be in right format
+                    } else {
+                        passCheck = true;
+                    }
+
+                    if (passCheck) {
+                        String sendToServer = storeNameText.getText() + ",2,1," + importFileText.getText();
+                        if (sendDataToServer(sellerProceedButton, sendToServer).equals("Unsuccessful")) {
+                            JOptionPane.showMessageDialog(null, "File was unable to import! Please ensure your file exists.",
+                                    "Status", JOptionPane.ERROR_MESSAGE);
+                        } else { //Was successful
+                            JOptionPane.showMessageDialog(null, "File imported successfully!",
+                                    "Status", JOptionPane.INFORMATION_MESSAGE);
+
+                            importFileText.setText("");
+                            content.removeAll();
+                            frame.repaint();
+                            content.setLayout(new GridLayout(2, 1));
+                            content.add(sellerPanel);
+                            frame.setSize(750, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
+                        }
                     }
                 } else if (e.getSource() == addAppointmentButton) {
-                    content.removeAll(); //Clears the frame
-                    frame.repaint();
-                    content.setLayout(new BorderLayout());
-                    content.add(appointmentInfoPanel);
-                    frame.setSize(700, 300);
-                    frame.setLocationRelativeTo(null);
-                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    frame.setVisible(true);
+
+                    boolean passCheck = false;
+
+                    if (calendarNameText.getText().isEmpty() || calendarDescriptionText.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Calendar details need to be filled!",
+                                "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else {
+                        passCheck = true;
+                    }
+
+                    if (passCheck) {
+                        content.removeAll(); //Clears the frame
+                        frame.repaint();
+                        content.setLayout(new BorderLayout());
+                        content.add(appointmentInfoPanel);
+                        frame.setSize(700, 300);
+                        frame.setLocationRelativeTo(null);
+                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        frame.setVisible(true);
+                    }
+
                 } else if (e.getSource() == createAppointmentButton) {
 
                     boolean passCheck = false;
@@ -1408,66 +1451,90 @@ public class Client extends JComponent implements Runnable {
                     }
 
                 } else if (e.getSource() == sellerProceedButton) {
-                    int sellerMenuSelection = sellerOptions.getSelectedIndex();
-                    switch (sellerMenuSelection) {
-                        case 1: //View current calendars
-                            viewCalendarsLabel.setText("<html>" + sendDataToServer(sellerProceedButton, storeNameLabel.getText() + ",1") + "</html>");
-                            content.removeAll(); //Clears the frame
-                            frame.repaint();
-                            content.setLayout(new BorderLayout());
-                            content.add(viewCalendarsPanel);
-                            frame.setSize(900, 400);
-                            frame.setLocationRelativeTo(null);
-                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            frame.setVisible(true);
-                            break;
-                        case 2: //Create new calendar
-                            content.removeAll(); //Clears the frame
-                            content.setLayout(new BorderLayout());
-                            content.add(createCalendarPanel);
-                            frame.setSize(400, 200);
-                            frame.setLocationRelativeTo(null);
-                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            frame.setVisible(true);
-                            break;
-                        case 3: //Edit calendar
-                            content.removeAll();
-                            content.setLayout(new BorderLayout());
-                            content.add(editCalendarPanel);
-                            frame.setSize(600, 400);
-                            frame.setLocationRelativeTo(null);
-                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            frame.setVisible(true);
-                            break;
-                        case 4:
-                            break;
-                        case 5:
-                            break;
-                        case 6:
-                            break;
+
+                    boolean passCheck = false;
+
+                    if (storeNameText.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Store name needs to be filled!",
+                                "Seller", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else {
+                        passCheck = true;
+                    }
+
+                    if (passCheck) {
+                        int sellerMenuSelection = sellerOptions.getSelectedIndex();
+                        switch (sellerMenuSelection) {
+                            case 1: //View current calendars
+                                viewCalendarsLabel.setText("<html>" + sendDataToServer(sellerProceedButton, storeNameLabel.getText() + ",1") + "</html>");
+                                content.removeAll(); //Clears the frame
+                                frame.repaint();
+                                content.setLayout(new BorderLayout());
+                                content.add(viewCalendarsPanel);
+                                frame.setSize(900, 400);
+                                frame.setLocationRelativeTo(null);
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                frame.setVisible(true);
+                                break;
+                            case 2: //Create new calendar
+                                content.removeAll(); //Clears the frame
+                                content.setLayout(new BorderLayout());
+                                content.add(createCalendarPanel);
+                                frame.setSize(400, 200);
+                                frame.setLocationRelativeTo(null);
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                frame.setVisible(true);
+                                break;
+                            case 3: //Edit calendar
+                                content.removeAll();
+                                content.setLayout(new BorderLayout());
+                                content.add(editCalendarPanel);
+                                frame.setSize(600, 400);
+                                frame.setLocationRelativeTo(null);
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                frame.setVisible(true);
+                                break;
+                            case 4:
+                                break;
+                            case 5:
+                                break;
+                            case 6:
+                                break;
+                        }
                     }
                 } else if (e.getSource() == sellerLogoutButton) {
 
                 } else if (e.getSource() == createCalendarButton) {
-                    String appointmentText = appointmentListLabel1.getText();
 
-                    if (appointmentText.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Please enter an appointment!",
-                                "Status", JOptionPane.ERROR_MESSAGE);
+                    boolean passCheck = false;
+
+                    if (calendarNameText.getText().isEmpty() || calendarDescriptionText.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Calendar details need to be filled!",
+                                "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
                     } else {
-                        appointmentText = appointmentText.substring(11, appointmentText.length() - 7);
-                        String[] appointments = appointmentText.split("<br/>");
+                        passCheck = true;
+                    }
 
-                        String sendToServer = storeNameText.getText() + ",2,2," + appointments.length + "," +
-                                calendarNameText.getText() + "," + calendarDescriptionText.getText();
+                    if (passCheck) {
+                        String appointmentText = appointmentListLabel1.getText();
 
-                        for (int i = 0; i < appointments.length; i++) {
-                            sendToServer += "," + appointments[i];
+                        if (appointmentText.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Please enter an appointment!",
+                                    "Status", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            appointmentText = appointmentText.substring(11, appointmentText.length() - 7);
+                            String[] appointments = appointmentText.split("<br/>");
+
+                            String sendToServer = storeNameText.getText() + ",2,2," + appointments.length + "," +
+                                    calendarNameText.getText() + "," + calendarDescriptionText.getText();
+
+                            for (int i = 0; i < appointments.length; i++) {
+                                sendToServer += "," + appointments[i];
+                            }
+
+                            sendDataToServer(sellerProceedButton, sendToServer);
+                            JOptionPane.showMessageDialog(null, "Calendar created successfully!",
+                                    "Status", JOptionPane.INFORMATION_MESSAGE);
                         }
-
-                        sendDataToServer(sellerProceedButton, sendToServer);
-                        JOptionPane.showMessageDialog(null, "Calendar created successfully!",
-                                "Status", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else if (e.getSource() == appointmentBackButton) {
                     //Clearing the textfields
@@ -1528,6 +1595,23 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == editCalendarProceedButton) {
+
+                    boolean passCheck = false;
+
+                    if (editCalendarTitleLabel.getText().isEmpty() || editCalendarApptField.getText().isEmpty() ||
+                     editCalendarNewApptField.getText().isEmpty() || editCalendarMaxField.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Calendar details need to be filled!",
+                                "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else if (!isInteger(editCalendarMaxField.getText())) {
+                        JOptionPane.showMessageDialog(null, "Ensure max attendees is an integer!",
+                                "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be right data type
+                    } else {
+                        passCheck = true;
+                    }
+
+                    if (passCheck) {
+
+                    }
                     //show confirmation or error message here
                 } else if (e.getSource() == editCalendarBackButton) {
                     importFileText.setText("");
