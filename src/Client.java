@@ -1187,8 +1187,7 @@ public class Client extends JComponent implements Runnable {
                     if (customerCancelText.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Appointment needs to be filled!",
                                 "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
-                    } else if (customerCancelText.getText().split("-").length != 2 ||
-                            customerCancelText.getText().split("-")[1].split(",").length != 5) {
+                    } else if (customerCancelText.getText().split("-").length != 3) {
                         JOptionPane.showMessageDialog(null, "Appointment needs to be in the right format!",
                                 "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
                     } else {
@@ -1481,7 +1480,7 @@ public class Client extends JComponent implements Runnable {
 
                     boolean passCheck = false;
 
-                    if (storeNameText.getText().isEmpty()) {
+                    if (storeNameText.getText().isEmpty() && sellerOptions.getSelectedIndex() != 7) {
                         JOptionPane.showMessageDialog(null, "Store name needs to be filled!",
                                 "Seller", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
                     } else {
@@ -1591,24 +1590,28 @@ public class Client extends JComponent implements Runnable {
                             sendDataToServer(sellerProceedButton, sendToServer);
                             JOptionPane.showMessageDialog(null, "Calendar created successfully!",
                                     "Status", JOptionPane.INFORMATION_MESSAGE);
+
+                            //Clearing text fields
+                            calendarNameText.setText("");
+                            calendarDescriptionText.setText("");
+                            appointmentListLabel1.setText("");
+                            appointmentListLabel.setText("Appointments: None");
+
+
+                            //Going back to main option panel
+                            content.removeAll();
+                            frame.repaint();
+                            content.setLayout(new GridLayout(2, 1));
+                            content.add(sellerPanel);
+                            frame.setSize(750, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
                         }
 
-                        //Clearing text fields
-                        calendarNameText.setText("");
-                        calendarDescriptionText.setText("");
-                        appointmentListLabel1.setText("");
-                        appointmentListLabel.setText("Appointments: None");
 
-                        //Going back to main option panel
-                        content.removeAll();
-                        frame.repaint();
-                        content.setLayout(new GridLayout(2, 1));
-                        content.add(sellerPanel);
-                        frame.setSize(750, 400);
-                        frame.setLocationRelativeTo(null);
-                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        updateUI();
-                        frame.setVisible(true);
+
                     }
                 } else if (e.getSource() == appointmentBackButton) {
                     //Clearing the textfields
