@@ -5,7 +5,6 @@ import java.net.Socket;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//TODO: Update passTextField to a JPasswordField
 //TODO: Create GUI for Seller and Customer Login
 
 public class Client extends JComponent implements Runnable {
@@ -288,8 +287,10 @@ public class Client extends JComponent implements Runnable {
         JLabel loginInfoLabel = new JLabel("Please enter your email and password.");
         JLabel emailLabel = new JLabel("Email: ");
         JTextField emailText = new JTextField("", 20);
-        JLabel passLabel = new JLabel("Password: ");
-        JTextField passText = new JTextField("", 20);
+        JLabel createPassLabel = new JLabel("Password: ");
+        JLabel loginPassLabel = new JLabel("Password: ");
+        JTextField createPassText = new JTextField("", 20);
+        JPasswordField loginPassText = new JPasswordField();
         JButton createEnterButton = new JButton("Enter");
         JButton loginEnterButton = new JButton("Login");
         JButton createBackButton = new JButton("Go Back");
@@ -388,13 +389,21 @@ public class Client extends JComponent implements Runnable {
         emailText.setMaximumSize(new Dimension(300, 25));
         emailPanel.add(emailText);
 
-        JPanel passPanel = new JPanel();
-        passPanel.setLayout(new BoxLayout(passPanel, BoxLayout.LINE_AXIS));
-        passPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        passPanel.add(passLabel);
-        passPanel.add(Box.createRigidArea(new Dimension(50, 0)));
-        passText.setMaximumSize(new Dimension(200, 25));
-        passPanel.add(passText);
+        JPanel createPassPanel = new JPanel();
+        createPassPanel.setLayout(new BoxLayout(createPassPanel, BoxLayout.LINE_AXIS));
+        createPassPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        createPassPanel.add(createPassLabel);
+        createPassPanel.add(Box.createRigidArea(new Dimension(50, 0)));
+        createPassText.setMaximumSize(new Dimension(200, 25));
+        createPassPanel.add(createPassText);
+
+        JPanel loginPassPanel = new JPanel();
+        loginPassPanel.setLayout(new BoxLayout(loginPassPanel, BoxLayout.LINE_AXIS));
+        loginPassPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        loginPassPanel.add(loginPassLabel);
+        loginPassPanel.add(Box.createRigidArea(new Dimension(50, 0)));
+        loginPassText.setMaximumSize(new Dimension(200, 25));
+        loginPassPanel.add(loginPassText);
 
         JPanel createEnterPanel = new JPanel();
         createEnterPanel.setLayout(new BoxLayout(createEnterPanel, BoxLayout.LINE_AXIS));
@@ -858,7 +867,7 @@ public class Client extends JComponent implements Runnable {
                     content.add(namePanel);
                     content.add(loginInfoPanel);
                     content.add(emailPanel);
-                    content.add(passPanel);
+                    content.add(createPassPanel);
                     content.add(createEnterPanel);
                     frame.setSize(600, 400);
                     frame.setLocationRelativeTo(null);
@@ -873,7 +882,7 @@ public class Client extends JComponent implements Runnable {
                     content.add(namePanel);
                     content.add(loginInfoPanel);
                     content.add(emailPanel);
-                    content.add(passPanel);
+                    content.add(loginPassPanel);
                     content.add(loginEnterPanel);
                     frame.setSize(600, 400);
                     frame.setLocationRelativeTo(null);
@@ -885,7 +894,7 @@ public class Client extends JComponent implements Runnable {
                     String userOrSeller = (String) sellerOrCustomer.getSelectedItem();
                     String name = nameText.getText();
                     String email = emailText.getText();
-                    String pass = passText.getText();
+                    String pass = loginPassText.getText();
 
                     //Presence check on all fields
                     if (name.isEmpty() || email.isEmpty() || pass.isEmpty()) {
@@ -903,7 +912,7 @@ public class Client extends JComponent implements Runnable {
                         //Resets all text fields
                         nameText.setText("");
                         emailText.setText("");
-                        passText.setText("");
+                        createPassText.setText("");
 
                         content.removeAll(); //Removes current panel
 
@@ -920,14 +929,14 @@ public class Client extends JComponent implements Runnable {
 
                         //Resets text fields so user can try again
                         emailText.setText("");
-                        passText.setText("");
+                        createPassText.setText("");
                     }
                 } else if (e.getSource() == loginEnterButton) {
                     //Gathering data to send to Server
                     String userOrSeller = (String) sellerOrCustomer.getSelectedItem();
                     String name = nameText.getText();
                     String email = emailText.getText();
-                    String pass = passText.getText();
+                    String pass = loginPassText.getText();
 
                     //Presence check on all fields
                     if (name.isEmpty() || email.isEmpty() || pass.isEmpty()) {
@@ -944,7 +953,7 @@ public class Client extends JComponent implements Runnable {
                         //Resets text fields
                         nameText.setText("");
                         emailText.setText("");
-                        passText.setText("");
+                        loginPassText.setText("");
 
                         //code below is nested inside login check after verification
                         if (userOrSeller.equals("Seller")) {
@@ -975,7 +984,7 @@ public class Client extends JComponent implements Runnable {
 
                         //Resets text fields so user can try again
                         emailText.setText("");
-                        passText.setText("");
+                        loginPassText.setText("");
                     }
                 } else if (e.getSource() == createBackButton) {
                     content.removeAll(); //Clears the frame
