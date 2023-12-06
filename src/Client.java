@@ -819,6 +819,28 @@ public class Client extends JComponent implements Runnable {
         approveLabel.setAlignmentX(LEFT_ALIGNMENT + 0.1f);
 
         //TODO: View statistics panel
+        JLabel sellerSort = new JLabel("Choose a method to sort statistics dashboard");
+        JComboBox<String> sellerSortOptions = new JComboBox<>();
+        JButton sellerSortButton = new JButton("Proceed");
+        JButton sellerSortBackButton = new JButton("Go Back");
+        JLabel sellerViewStatsLabel = new JLabel();
+        JPanel sellerViewStatistics = new JPanel();
+        sellerViewStatistics.setLayout(new BoxLayout(sellerViewStatistics, BoxLayout.PAGE_AXIS));
+        sellerViewStatistics.add(Box.createRigidArea(new Dimension(200, 10)));
+        sellerSort.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sellerViewStatistics.add(sellerSort);
+        sellerViewStatistics.add(Box.createRigidArea(new Dimension(1, 10)));
+        sellerSortOptions.setMaximumSize(new Dimension(400, 25));
+        sellerSortOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sellerSortOptions.addItem("Most to Least Popular Appointments");
+        sellerSortOptions.addItem("Least to Most Popular Appointments");
+        sellerViewStatistics.add(sellerSortOptions);
+        sellerPanel.add(Box.createRigidArea(new Dimension(1, 20)));
+        sellerSortButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sellerViewStatistics.add(sellerSortButton);
+        sellerPanel.add(Box.createRigidArea(new Dimension(1, 20)));
+        sellerSortBackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sellerViewStatistics.add(sellerSortBackButton);
 
         //TODO: Logout panel
 
@@ -1439,11 +1461,32 @@ public class Client extends JComponent implements Runnable {
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             frame.setVisible(true);
                             break;
-                        case 4:
+                        case 4: //Delete calendar
+                            content.removeAll();
+                            content.setLayout(new BorderLayout());
+                            content.add(deleteCalendarPanel);
+                            frame.setSize(600, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            frame.setVisible(true);
                             break;
-                        case 5:
+                        case 5: //Approve or decline requests
+                            content.removeAll();
+                            content.setLayout(new BorderLayout());
+                            content.add(selectApprovalCalendarPanel);
+                            frame.setSize(600, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            frame.setVisible(true);
                             break;
-                        case 6:
+                        case 6: //View stats
+                            content.removeAll();
+                            content.setLayout(new BorderLayout());
+                            content.add(sellerViewStatistics);
+                            frame.setSize(600, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            frame.setVisible(true);
                             break;
                     }
                 } else if (e.getSource() == sellerLogoutButton) {
@@ -1565,6 +1608,18 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                     //add all seller button options here!!!
+                } else if (e.getSource() == sellerSortButton) {
+                    //show sorted dashboard here
+                } else if (e.getSource() == sellerSortBackButton) {
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
                 } else if (e.getSource() == createCalendarBackButton) {
                     content.removeAll();
                     frame.repaint();
@@ -1622,7 +1677,6 @@ public class Client extends JComponent implements Runnable {
         customerSortButton.addActionListener(actionListener);
         customerViewStatsBackButton.addActionListener(actionListener);
         customerExitButton.addActionListener(actionListener);
-
         selectApprovalProceedButton.addActionListener(actionListener);
         selectApprovalBackButton.addActionListener(actionListener);
         editCalendarProceedButton.addActionListener(actionListener);
@@ -1631,8 +1685,9 @@ public class Client extends JComponent implements Runnable {
         deleteCalendarBackButton.addActionListener(actionListener);
         approveProceedButton.addActionListener(actionListener);
         approveBackButton.addActionListener(actionListener);
-
         createCalendarBackButton.addActionListener(actionListener);
         anotherCalendarBackButton.addActionListener(actionListener);
+        sellerSortButton.addActionListener(actionListener);
+        sellerSortBackButton.addActionListener(actionListener);
     }
 }
