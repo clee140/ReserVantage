@@ -27,11 +27,11 @@ public class Client extends JComponent implements Runnable {
     }
 
     private String sendDataToServer(JButton button, String data) {
-        try {
+        try (
             Socket socket = new Socket("localhost", port);
             BufferedReader bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter pw = new PrintWriter(socket.getOutputStream());
-
+        ) {
             String clientMessage = "";
             String serverResponse = "";
 
