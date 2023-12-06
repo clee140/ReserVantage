@@ -527,7 +527,6 @@ public class Client extends JComponent implements Runnable {
         JLabel sellerOptionsLabel = new JLabel("Select an option from the seller menu below");
         JComboBox<String> sellerOptions = new JComboBox<>();
         JButton sellerProceedButton = new JButton("Proceed");
-        JButton sellerLogoutButton = new JButton("Logout");
         JPanel sellerPanel = new JPanel();
         sellerPanel.setLayout(new BoxLayout(sellerPanel, BoxLayout.PAGE_AXIS));
         sellerPanel.add(Box.createRigidArea(new Dimension(200, 10)));
@@ -550,13 +549,13 @@ public class Client extends JComponent implements Runnable {
         sellerOptions.addItem("Delete calendar");
         sellerOptions.addItem("Approve/decline appointment requests");
         sellerOptions.addItem("View statistics");
+        sellerOptions.addItem("Exit and log out");
         sellerPanel.add(sellerOptions);
         sellerPanel.add(Box.createRigidArea(new Dimension(1, 20)));
         sellerProceedButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         JPanel sellerProceedAndLogoutPanel = new JPanel();
         sellerProceedAndLogoutPanel.add(sellerProceedButton);
         sellerProceedAndLogoutPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        sellerProceedAndLogoutPanel.add(sellerLogoutButton);
         sellerPanel.add(sellerProceedAndLogoutPanel);
 
         //View current calendars panel
@@ -820,7 +819,7 @@ public class Client extends JComponent implements Runnable {
         approvePanel.add(approveBackButton);
         approveLabel.setAlignmentX(LEFT_ALIGNMENT + 0.1f);
 
-        //TODO: View statistics panel
+        //Seller view statistics panel
         JLabel sellerSort = new JLabel("Choose a method to sort statistics dashboard");
         JComboBox<String> sellerSortOptions = new JComboBox<>();
         JButton sellerSortButton = new JButton("Proceed");
@@ -844,7 +843,7 @@ public class Client extends JComponent implements Runnable {
         sellerSortBackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         sellerViewStatistics.add(sellerSortBackButton);
 
-        //TODO: Logout panel
+        //Seller log out panel = customer log out panel
 
         //Action listeners
         ActionListener actionListener = new ActionListener() {
@@ -1000,7 +999,6 @@ public class Client extends JComponent implements Runnable {
                 } else if (e.getSource() == customerProceedButton) {
                     int customerMenuSelection = customerOptions.getSelectedIndex();
                     switch (customerMenuSelection) {
-
                         case 0:
                             String temp = sendDataToServer(customerProceedButton, "calendars,temp");
                             getAppointments.setText("<html>" + temp + "</html");
@@ -1490,9 +1488,17 @@ public class Client extends JComponent implements Runnable {
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             frame.setVisible(true);
                             break;
+                        case 7: //exit and log out
+                            content.removeAll();
+                            content.setLayout(new GridLayout(1, 1));
+                            content.add(exitLogOutPanel);
+                            frame.setSize(600, 200);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
+                            break;
                     }
-                } else if (e.getSource() == sellerLogoutButton) {
-
                 } else if (e.getSource() == createCalendarButton) {
                     String appointmentText = appointmentListLabel1.getText();
 
@@ -1683,7 +1689,6 @@ public class Client extends JComponent implements Runnable {
         addAppointmentButton.addActionListener(actionListener);
         createAppointmentButton.addActionListener(actionListener);
         sellerProceedButton.addActionListener(actionListener);
-        sellerLogoutButton.addActionListener(actionListener);
         createCalendarButton.addActionListener(actionListener);
         appointmentBackButton.addActionListener(actionListener);
         viewBackButton.addActionListener(actionListener);
