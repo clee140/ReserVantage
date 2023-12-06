@@ -131,6 +131,9 @@ public class Client extends JComponent implements Runnable {
                     pw.flush();
 
                     switch (info[1]) {
+                        case "1":
+                            output = bfr.readLine();
+                            break;
                         case "2": //Create new calendar
                             //Sending whether user chose "file" or "manual" option
                             pw.println(info[2]);
@@ -180,7 +183,6 @@ public class Client extends JComponent implements Runnable {
                         case "7":
                             break;
                     }
-                    output = bfr.readLine();
                 } else { //User is a customer
                     //Sending server name, email, and password
                     pw.println(name);
@@ -562,8 +564,6 @@ public class Client extends JComponent implements Runnable {
         JButton viewBackButton = new JButton("Go Back");
         JPanel viewCalendarsPanel = new JPanel();
         viewCalendarsPanel.setLayout(new BoxLayout(viewCalendarsPanel, BoxLayout.PAGE_AXIS));
-        JScrollPane jsp = new JScrollPane(viewCalendarsPanel);
-        jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         viewCalendarsPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         viewCalendarsLabel.setAlignmentX(CENTER_ALIGNMENT);
         viewCalendarsPanel.add(viewCalendarsLabel);
@@ -571,6 +571,8 @@ public class Client extends JComponent implements Runnable {
         viewCalendarsPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         viewBackButton.setAlignmentX(CENTER_ALIGNMENT);
         viewCalendarsPanel.add(viewBackButton);
+        JScrollPane jsp = new JScrollPane(viewCalendarsPanel);
+        jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         //Create new calendar panel
         JButton importFileButton = new JButton("Import File");
@@ -1468,6 +1470,21 @@ public class Client extends JComponent implements Runnable {
                         sendDataToServer(sellerProceedButton, sendToServer);
                         JOptionPane.showMessageDialog(null, "Calendar created successfully!",
                                 "Status", JOptionPane.INFORMATION_MESSAGE);
+
+                        //Clearing text fields
+                        calendarNameText.setText("");
+                        calendarDescriptionText.setText("");
+
+                        //Going back to main option panel
+                        content.removeAll();
+                        frame.repaint();
+                        content.setLayout(new GridLayout(2, 1));
+                        content.add(sellerPanel);
+                        frame.setSize(750, 400);
+                        frame.setLocationRelativeTo(null);
+                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        updateUI();
+                        frame.setVisible(true);
                     }
                 } else if (e.getSource() == appointmentBackButton) {
                     //Clearing the textfields
