@@ -5,7 +5,6 @@ import java.net.Socket;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//TODO: Update passTextField to a JPasswordField
 //TODO: Create GUI for Seller and Customer Login
 
 public class Client extends JComponent implements Runnable {
@@ -131,6 +130,9 @@ public class Client extends JComponent implements Runnable {
                     pw.flush();
 
                     switch (info[1]) {
+                        case "1":
+                            output = bfr.readLine();
+                            break;
                         case "2": //Create new calendar
                             //Sending whether user chose "file" or "manual" option
                             pw.println(info[2]);
@@ -180,7 +182,6 @@ public class Client extends JComponent implements Runnable {
                         case "7":
                             break;
                     }
-                    output = bfr.readLine();
                 } else { //User is a customer
                     //Sending server name, email, and password
                     pw.println(name);
@@ -286,8 +287,10 @@ public class Client extends JComponent implements Runnable {
         JLabel loginInfoLabel = new JLabel("Please enter your email and password.");
         JLabel emailLabel = new JLabel("Email: ");
         JTextField emailText = new JTextField("", 20);
-        JLabel passLabel = new JLabel("Password: ");
-        JTextField passText = new JTextField("", 20);
+        JLabel createPassLabel = new JLabel("Password: ");
+        JLabel loginPassLabel = new JLabel("Password: ");
+        JTextField createPassText = new JTextField("", 20);
+        JPasswordField loginPassText = new JPasswordField();
         JButton createEnterButton = new JButton("Enter");
         JButton loginEnterButton = new JButton("Login");
         JButton createBackButton = new JButton("Go Back");
@@ -386,13 +389,21 @@ public class Client extends JComponent implements Runnable {
         emailText.setMaximumSize(new Dimension(300, 25));
         emailPanel.add(emailText);
 
-        JPanel passPanel = new JPanel();
-        passPanel.setLayout(new BoxLayout(passPanel, BoxLayout.LINE_AXIS));
-        passPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        passPanel.add(passLabel);
-        passPanel.add(Box.createRigidArea(new Dimension(50, 0)));
-        passText.setMaximumSize(new Dimension(200, 25));
-        passPanel.add(passText);
+        JPanel createPassPanel = new JPanel();
+        createPassPanel.setLayout(new BoxLayout(createPassPanel, BoxLayout.LINE_AXIS));
+        createPassPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        createPassPanel.add(createPassLabel);
+        createPassPanel.add(Box.createRigidArea(new Dimension(50, 0)));
+        createPassText.setMaximumSize(new Dimension(200, 25));
+        createPassPanel.add(createPassText);
+
+        JPanel loginPassPanel = new JPanel();
+        loginPassPanel.setLayout(new BoxLayout(loginPassPanel, BoxLayout.LINE_AXIS));
+        loginPassPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        loginPassPanel.add(loginPassLabel);
+        loginPassPanel.add(Box.createRigidArea(new Dimension(50, 0)));
+        loginPassText.setMaximumSize(new Dimension(200, 25));
+        loginPassPanel.add(loginPassText);
 
         JPanel createEnterPanel = new JPanel();
         createEnterPanel.setLayout(new BoxLayout(createEnterPanel, BoxLayout.LINE_AXIS));
@@ -525,7 +536,6 @@ public class Client extends JComponent implements Runnable {
         JLabel sellerOptionsLabel = new JLabel("Select an option from the seller menu below");
         JComboBox<String> sellerOptions = new JComboBox<>();
         JButton sellerProceedButton = new JButton("Proceed");
-        JButton sellerLogoutButton = new JButton("Logout");
         JPanel sellerPanel = new JPanel();
         sellerPanel.setLayout(new BoxLayout(sellerPanel, BoxLayout.PAGE_AXIS));
         sellerPanel.add(Box.createRigidArea(new Dimension(200, 10)));
@@ -548,13 +558,13 @@ public class Client extends JComponent implements Runnable {
         sellerOptions.addItem("Delete calendar");
         sellerOptions.addItem("Approve/decline appointment requests");
         sellerOptions.addItem("View statistics");
+        sellerOptions.addItem("Exit and log out");
         sellerPanel.add(sellerOptions);
         sellerPanel.add(Box.createRigidArea(new Dimension(1, 20)));
         sellerProceedButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         JPanel sellerProceedAndLogoutPanel = new JPanel();
         sellerProceedAndLogoutPanel.add(sellerProceedButton);
         sellerProceedAndLogoutPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        sellerProceedAndLogoutPanel.add(sellerLogoutButton);
         sellerPanel.add(sellerProceedAndLogoutPanel);
 
         //View current calendars panel
@@ -562,8 +572,6 @@ public class Client extends JComponent implements Runnable {
         JButton viewBackButton = new JButton("Go Back");
         JPanel viewCalendarsPanel = new JPanel();
         viewCalendarsPanel.setLayout(new BoxLayout(viewCalendarsPanel, BoxLayout.PAGE_AXIS));
-        JScrollPane jsp = new JScrollPane(viewCalendarsPanel);
-        jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         viewCalendarsPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         viewCalendarsLabel.setAlignmentX(CENTER_ALIGNMENT);
         viewCalendarsPanel.add(viewCalendarsLabel);
@@ -571,6 +579,8 @@ public class Client extends JComponent implements Runnable {
         viewCalendarsPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         viewBackButton.setAlignmentX(CENTER_ALIGNMENT);
         viewCalendarsPanel.add(viewBackButton);
+        JScrollPane jsp = new JScrollPane(viewCalendarsPanel);
+        jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         //Create new calendar panel
         JButton importFileButton = new JButton("Import File");
@@ -818,9 +828,31 @@ public class Client extends JComponent implements Runnable {
         approvePanel.add(approveBackButton);
         approveLabel.setAlignmentX(LEFT_ALIGNMENT + 0.1f);
 
-        //TODO: View statistics panel
+        //Seller view statistics panel
+        JLabel sellerSort = new JLabel("Choose a method to sort statistics dashboard");
+        JComboBox<String> sellerSortOptions = new JComboBox<>();
+        JButton sellerSortButton = new JButton("Proceed");
+        JButton sellerSortBackButton = new JButton("Go Back");
+        JLabel sellerViewStatsLabel = new JLabel();
+        JPanel sellerViewStatistics = new JPanel();
+        sellerViewStatistics.setLayout(new BoxLayout(sellerViewStatistics, BoxLayout.PAGE_AXIS));
+        sellerViewStatistics.add(Box.createRigidArea(new Dimension(200, 10)));
+        sellerSort.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sellerViewStatistics.add(sellerSort);
+        sellerViewStatistics.add(Box.createRigidArea(new Dimension(1, 10)));
+        sellerSortOptions.setMaximumSize(new Dimension(400, 25));
+        sellerSortOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sellerSortOptions.addItem("Most to Least Popular Appointments");
+        sellerSortOptions.addItem("Least to Most Popular Appointments");
+        sellerViewStatistics.add(sellerSortOptions);
+        sellerPanel.add(Box.createRigidArea(new Dimension(1, 20)));
+        sellerSortButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sellerViewStatistics.add(sellerSortButton);
+        sellerPanel.add(Box.createRigidArea(new Dimension(1, 20)));
+        sellerSortBackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sellerViewStatistics.add(sellerSortBackButton);
 
-        //TODO: Logout panel
+        //Seller log out panel = customer log out panel
 
         //Action listeners
         ActionListener actionListener = new ActionListener() {
@@ -834,7 +866,7 @@ public class Client extends JComponent implements Runnable {
                     content.add(namePanel);
                     content.add(loginInfoPanel);
                     content.add(emailPanel);
-                    content.add(passPanel);
+                    content.add(createPassPanel);
                     content.add(createEnterPanel);
                     frame.setSize(600, 400);
                     frame.setLocationRelativeTo(null);
@@ -849,7 +881,7 @@ public class Client extends JComponent implements Runnable {
                     content.add(namePanel);
                     content.add(loginInfoPanel);
                     content.add(emailPanel);
-                    content.add(passPanel);
+                    content.add(loginPassPanel);
                     content.add(loginEnterPanel);
                     frame.setSize(600, 400);
                     frame.setLocationRelativeTo(null);
@@ -860,6 +892,10 @@ public class Client extends JComponent implements Runnable {
                     boolean passCheck = false;
                     //Gathering data to send to Server
 
+                    String userOrSeller = (String) sellerOrCustomer.getSelectedItem();
+                    String name = nameText.getText();
+                    String email = emailText.getText();
+                    String pass = loginPassText.getText();
 
                     //Presence check on all fields
                     if (nameText.getText().isEmpty() || emailText.getText().isEmpty() || passText.getText().isEmpty()) {
@@ -876,6 +912,11 @@ public class Client extends JComponent implements Runnable {
                         String email = emailText.getText();
                         String pass = passText.getText();
 
+
+                        //Resets all text fields
+                        nameText.setText("");
+                        emailText.setText("");
+                        createPassText.setText("");
 
                         //Sends info to Server
                         String validEmail = sendDataToServer(createEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
@@ -909,6 +950,16 @@ public class Client extends JComponent implements Runnable {
                 } else if (e.getSource() == loginEnterButton) {
 
                     boolean passCheck = false;
+                        //Resets text fields so user can try again
+                        emailText.setText("");
+                        createPassText.setText("");
+                    }
+                } else if (e.getSource() == loginEnterButton) {
+                    //Gathering data to send to Server
+                    String userOrSeller = (String) sellerOrCustomer.getSelectedItem();
+                    String name = nameText.getText();
+                    String email = emailText.getText();
+                    String pass = loginPassText.getText();
 
                     //Presence check on all fields
                     if (nameText.getText().isEmpty() || emailText.getText().isEmpty() || passText.getText().isEmpty()) {
@@ -962,11 +1013,21 @@ public class Client extends JComponent implements Runnable {
                         } else { //Invalid login
                             JOptionPane.showMessageDialog(null, "Your email or password is incorrect!",
                                     "Login", JOptionPane.ERROR_MESSAGE); //Error message
+                        }  
+                        //Sends info to Server
+                        String validLogin = sendDataToServer(loginEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
+                        if (validLogin.equals("true")) {
+                            JOptionPane.showMessageDialog(null, "Login successful!",
+                                    "Login", JOptionPane.INFORMATION_MESSAGE); //Tells user login was successful
+                        } 
+                      
+                        //Resets text fields
+                        nameText.setText("");
+                        emailText.setText("");
+                        loginPassText.setText("");
+                          
 
-                            //Resets text fields so user can try again
-                            emailText.setText("");
-                            passText.setText("");
-                        }
+                       
                     }
                 } else if (e.getSource() == createBackButton) {
                     content.removeAll(); //Clears the frame
@@ -991,7 +1052,6 @@ public class Client extends JComponent implements Runnable {
                 } else if (e.getSource() == customerProceedButton) {
                     int customerMenuSelection = customerOptions.getSelectedIndex();
                     switch (customerMenuSelection) {
-
                         case 0:
                             String temp = sendDataToServer(customerProceedButton, "calendars,temp");
                             getAppointments.setText("<html>" + temp + "</html");
@@ -1464,45 +1524,75 @@ public class Client extends JComponent implements Runnable {
                     if (passCheck) {
                         int sellerMenuSelection = sellerOptions.getSelectedIndex();
                         switch (sellerMenuSelection) {
-                            case 1: //View current calendars
-                                viewCalendarsLabel.setText("<html>" + sendDataToServer(sellerProceedButton, storeNameLabel.getText() + ",1") + "</html>");
-                                content.removeAll(); //Clears the frame
-                                frame.repaint();
-                                content.setLayout(new BorderLayout());
-                                content.add(viewCalendarsPanel);
-                                frame.setSize(900, 400);
-                                frame.setLocationRelativeTo(null);
-                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                                frame.setVisible(true);
-                                break;
-                            case 2: //Create new calendar
-                                content.removeAll(); //Clears the frame
-                                content.setLayout(new BorderLayout());
-                                content.add(createCalendarPanel);
-                                frame.setSize(400, 200);
-                                frame.setLocationRelativeTo(null);
-                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                                frame.setVisible(true);
-                                break;
-                            case 3: //Edit calendar
-                                content.removeAll();
-                                content.setLayout(new BorderLayout());
-                                content.add(editCalendarPanel);
-                                frame.setSize(600, 400);
-                                frame.setLocationRelativeTo(null);
-                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                                frame.setVisible(true);
-                                break;
-                            case 4:
-                                break;
-                            case 5:
-                                break;
-                            case 6:
-                                break;
+                        case 1: //View current calendars
+                            viewCalendarsLabel.setText("<html>" + sendDataToServer(sellerProceedButton, storeNameLabel.getText() + ",1") + "</html>");
+                            content.removeAll(); //Clears the frame
+                            frame.repaint();
+                            content.setLayout(new BorderLayout());
+                            content.add(viewCalendarsPanel);
+                            frame.setSize(900, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            frame.setVisible(true);
+                            break;
+                        case 2: //Create new calendar
+                            content.removeAll(); //Clears the frame
+                            content.setLayout(new BorderLayout());
+                            content.add(createCalendarPanel);
+                            frame.setSize(400, 200);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            frame.setVisible(true);
+                            break;
+                        case 3: //Edit calendar
+                            content.removeAll();
+                            content.setLayout(new BorderLayout());
+                            content.add(editCalendarPanel);
+                            frame.setSize(600, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            frame.setVisible(true);
+                            break;
+                        case 4: //Delete calendar
+                            content.removeAll();
+                            content.setLayout(new BorderLayout());
+                            content.add(deleteCalendarPanel);
+                            frame.setSize(600, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            frame.setVisible(true);
+                            break;
+                        case 5: //Approve or decline requests
+                            content.removeAll();
+                            content.setLayout(new BorderLayout());
+                            content.add(selectApprovalCalendarPanel);
+                            frame.setSize(600, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            frame.setVisible(true);
+                            break;
+                        case 6: //View stats
+                            content.removeAll();
+                            content.setLayout(new BorderLayout());
+                            content.add(sellerViewStatistics);
+                            frame.setSize(600, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            frame.setVisible(true);
+                            break;
+                        case 7: //exit and log out
+                            content.removeAll();
+                            content.setLayout(new GridLayout(1, 1));
+                            content.add(exitLogOutPanel);
+                            frame.setSize(600, 200);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
+                            break;
                         }
-                    }
-                } else if (e.getSource() == sellerLogoutButton) {
 
+                    }
                 } else if (e.getSource() == createCalendarButton) {
 
                     boolean passCheck = false;
@@ -1535,6 +1625,21 @@ public class Client extends JComponent implements Runnable {
                             JOptionPane.showMessageDialog(null, "Calendar created successfully!",
                                     "Status", JOptionPane.INFORMATION_MESSAGE);
                         }
+                        
+                        //Clearing text fields
+                        calendarNameText.setText("");
+                        calendarDescriptionText.setText("");
+
+                        //Going back to main option panel
+                        content.removeAll();
+                        frame.repaint();
+                        content.setLayout(new GridLayout(2, 1));
+                        content.add(sellerPanel);
+                        frame.setSize(750, 400);
+                        frame.setLocationRelativeTo(null);
+                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        updateUI();
+                        frame.setVisible(true);
                     }
                 } else if (e.getSource() == appointmentBackButton) {
                     //Clearing the textfields
@@ -1649,6 +1754,18 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                     //add all seller button options here!!!
+                } else if (e.getSource() == sellerSortButton) {
+                    //show sorted dashboard here
+                } else if (e.getSource() == sellerSortBackButton) {
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
                 } else if (e.getSource() == createCalendarBackButton) {
                     content.removeAll();
                     frame.repaint();
@@ -1695,7 +1812,6 @@ public class Client extends JComponent implements Runnable {
         addAppointmentButton.addActionListener(actionListener);
         createAppointmentButton.addActionListener(actionListener);
         sellerProceedButton.addActionListener(actionListener);
-        sellerLogoutButton.addActionListener(actionListener);
         createCalendarButton.addActionListener(actionListener);
         appointmentBackButton.addActionListener(actionListener);
         viewBackButton.addActionListener(actionListener);
@@ -1706,7 +1822,6 @@ public class Client extends JComponent implements Runnable {
         customerSortButton.addActionListener(actionListener);
         customerViewStatsBackButton.addActionListener(actionListener);
         customerExitButton.addActionListener(actionListener);
-
         selectApprovalProceedButton.addActionListener(actionListener);
         selectApprovalBackButton.addActionListener(actionListener);
         editCalendarProceedButton.addActionListener(actionListener);
@@ -1715,8 +1830,9 @@ public class Client extends JComponent implements Runnable {
         deleteCalendarBackButton.addActionListener(actionListener);
         approveProceedButton.addActionListener(actionListener);
         approveBackButton.addActionListener(actionListener);
-
         createCalendarBackButton.addActionListener(actionListener);
         anotherCalendarBackButton.addActionListener(actionListener);
+        sellerSortButton.addActionListener(actionListener);
+        sellerSortBackButton.addActionListener(actionListener);
     }
 }
