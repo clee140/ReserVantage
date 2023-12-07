@@ -1034,7 +1034,7 @@ public class Client extends JComponent implements Runnable {
                             content.setLayout(new GridLayout(1, 1));
                             customerAppointmentText.setText("");
                             content.add(customerMakeAppointment);
-                            frame.setSize(750, 700);
+                            frame.setSize(750, 1300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             updateUI();
@@ -1056,9 +1056,9 @@ public class Client extends JComponent implements Runnable {
                             customerViewCalendarsLabel.setText("<html>" + temp2 + "</html>");
                             content.removeAll();
                             frame.repaint();
-                            // content.setLayout(new GridLayout(1, 1));
+                            content.setLayout(new GridLayout(1, 1));
                             content.add(customerViewCalendars);
-                            frame.setSize(750, 700);
+                            frame.setSize(750, 1300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             updateUI();

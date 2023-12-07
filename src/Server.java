@@ -81,7 +81,21 @@ public class Server implements Runnable {
                     String storeName = bufferedReader.readLine();
 
                     Seller seller = new Seller(email, storeName, email + ".txt");
-                    seller.createHotel();
+                    ArrayList<String> temp = user.readFile("hotels.txt");
+                    boolean add = true;
+                    for (int i = 0; i < temp.size(); i++) {
+                        if (temp.get(i).equals("error")) {
+                            break;
+                        }
+                        if (temp.get(i).contains(email + ".txt")) {
+                            add = false;
+                            break;
+                        }
+                    }
+
+                    if (add) {
+                        seller.createHotel();
+                    }
                     String choice = "";
                     boolean runMenuAgain = true;
                     while (runMenuAgain) {

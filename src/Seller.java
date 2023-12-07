@@ -45,8 +45,8 @@ public class Seller extends User {
         String seller = username + "," + fileName;
         FileWriter writer = null;
         try {
-            writer = new FileWriter("hotels.txt");
-            writer.write(seller);
+            writer = new FileWriter("hotels.txt", true);
+            writer.write(seller + "\n");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();

@@ -28,7 +28,7 @@ public class User {
             }
             bufferedReader.close();
         } catch (IOException e) {
-            System.out.println("No calendar appointments made!");
+            userInformation.add("error");
         }
         return userInformation;
     }
