@@ -5,7 +5,14 @@ import java.net.Socket;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//TODO: Create GUI for Seller and Customer Login
+/**
+ * The Client class handles all user interaction with the program. The Client class handles the creation of the GUI,
+ * sending information to the Server class to be processed, and receiving the necessary information from the Server
+ * class to be displayed on the GUI.
+ *
+ * @author Audrey Lupton, Sruthi Lingam, Christopher Lee, and Sreekar Gudipati
+ * @version December 6, 2023
+ */
 
 public class Client extends JComponent implements Runnable {
     private static final int port = 8008;
@@ -943,7 +950,7 @@ public class Client extends JComponent implements Runnable {
                                 "Create Account", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
                     } else {
                         passCheck = true;
-                   }
+                    }
 
                     if (passCheck) {
                         //Gathering data to send to Server
