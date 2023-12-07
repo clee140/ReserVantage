@@ -152,11 +152,10 @@ public class Server implements Runnable {
 
                             Appointment editedAppt = new Appointment(apptTitle, maxAttendee, approvedBookings, startTime, endTime);
                             seller.editCalendar(calendarName, oldApptTitle, calendarName + "-" + editedAppt);
-                        } else if (choice != null && choice.equals("4")) { // Handles delete calendar.
-                            writer.print(seller.printCalendar()); // Sends created calendars to client.
-                            writer.println();
+                        } else if (choice != null && choice.equals("calendars")) { // Sends created calendars to client.
+                            writer.println(seller.printCalendar());
                             writer.flush();
-
+                        } else if (choice != null && choice.equals("4")) { // Handles delete calendar.
                             String deletedCalendarName = bufferedReader.readLine();
                             seller.deleteCalendar(deletedCalendarName);
                             if (seller.deleteCalendar(deletedCalendarName).equals("Calendar deleted")) {
@@ -166,7 +165,7 @@ public class Server implements Runnable {
                                 writer.println("Calendar not deleted!");
                                 writer.flush();
                             }
-                        } else if (choice != null && choice.equals("5")) { // Handles approve/decline appointments.
+                        } else if (choice != null && choice.equals("requests")) { // Sends pending appointment requests to Client.
                             if (seller.getCustomerRequest().equals("No appointment requests")) {
                                 writer.println(seller.getCustomerRequest()); // Sends message to Client.
                                 writer.flush();
@@ -174,18 +173,18 @@ public class Server implements Runnable {
                             } else {
                                 writer.println(seller.getCustomerRequest()); // Sends customer requests to Client.
                                 writer.flush();
-
-                                String requestedAppointment = bufferedReader.readLine();
-                                String action = bufferedReader.readLine();
-                                String requestUsername = bufferedReader.readLine();
-                                seller.handleCustomerRequests(requestedAppointment, requestUsername, action);
-                                if (seller.handleCustomerRequests(requestedAppointment, requestUsername, action).equals("Approved")) {
-                                    writer.println("Appointment approved!");
-                                    writer.flush();
-                                } else {
-                                    writer.println("Appointment declined!");
-                                    writer.flush();
-                                }
+                            }
+                        } else if (choice != null && choice.equals("5")) { // Handles approve/decline appointments.
+                            String requestedAppointment = bufferedReader.readLine();
+                            String action = bufferedReader.readLine();
+                            String requestUsername = bufferedReader.readLine();
+                            seller.handleCustomerRequests(requestedAppointment, requestUsername, action);
+                            if (seller.handleCustomerRequests(requestedAppointment, requestUsername, action).equals("Approved")) {
+                                writer.println("Appointment approved!");
+                                writer.flush();
+                            } else {
+                                writer.println("Appointment declined!");
+                                writer.flush();
                             }
                         } else if (choice != null && choice.equals("6")) { // Handles view currently approved appointments.
                             String approvedAppointments = seller.viewApprovedAppointments();
