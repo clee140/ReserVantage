@@ -1032,6 +1032,7 @@ public class Client extends JComponent implements Runnable {
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(1, 1));
+                            customerAppointmentText.setText("");
                             content.add(customerMakeAppointment);
                             frame.setSize(750, 700);
                             frame.setLocationRelativeTo(null);
