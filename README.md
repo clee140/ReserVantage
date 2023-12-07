@@ -63,7 +63,7 @@ Option 7: The program first asks the user if they would like to sort the appoint
 
 Option 8: The program logs the user out and they will be greeted with the starting menu.
 
-### Customer options
+### Customer Options
 1. Make an appointment request
 2. Cancel an appointment request
 3. View store calendars
@@ -88,6 +88,16 @@ Option 6: The user can view store statistics and choose to sort the dashboard as
 Option 7: A copy of the user's approved appointments will be exported to their desktop. If there are no approved appointments currently available, the program will export a blank text file.
 
 Both the seller and customer users can execute one option at a time. After completing an option, the user can choose to select a different option or log out and quit the program.
+
+### Sending Data To Server
+
+The client class uses the method sendDataToServer, which connects the client to the server for each individual action and sends data to be processed and returns output 
+if applicable. The parameters of this method include a JButton and a String of the data: (JButton button, String data). 
+The button is the name of the button clicked, which includes the create account, login, customer proceed, and seller proceed button.
+Once a user selects an option and clicks the proceed button, the user will be taken to a panel walking them through the option they chose. Once they select the final button
+on that panel to submit their data, the program calls the sendDataToServer method with either the customerProceedButton or
+sellerProceedButton as the first parameter, and the String of data, which varies from option to option but will overall
+be multiple pieces of information separated by a comma, as the second parameter.
 
 ## Appointment.java
 The Appointment class processes the name of the appointment, max number of slots available, current number of approved bookings, and the start and end times of the appointment.

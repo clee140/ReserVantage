@@ -1377,7 +1377,7 @@ public class Client extends JComponent implements Runnable {
                         frame.repaint();
                         content.setLayout(new BorderLayout());
                         content.add(appointmentInfoPanel);
-                        frame.setSize(700, 300);
+                        frame.setSize(700, 500);
                         frame.setLocationRelativeTo(null);
                         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                         frame.setVisible(true);
