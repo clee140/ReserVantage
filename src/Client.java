@@ -137,6 +137,11 @@ public class Client extends JComponent implements Runnable {
                     pw.flush();
 
                     switch (info[1]) {
+                        case "calendars": {
+                            pw.println("calendars");
+                            pw.flush();
+                            return bfr.readLine();
+                        }
                         case "1":
                             output = bfr.readLine();
                             break;
@@ -724,12 +729,26 @@ public class Client extends JComponent implements Runnable {
         JLabel editCalendarNewApptLabel = new JLabel("Enter the name of the new appointment: ");
         JTextField editCalendarNewApptField = new JTextField("", 20);
         JLabel editCalendarMaxLabel = new JLabel("Enter the new number of max attendees: ");
+
+        JLabel editCalendarApprovedBookingsLabel = new JLabel("Enter the new max bookings: ");
+        JTextField editCalendarApprovedBookingsField = new JTextField("", 20);
+
+        JLabel editCalendarNewStartTimeLabel = new JLabel("Enter the new appointment start time: ");
+        JTextField editCalendarNewStartTimeField = new JTextField("", 20);
+
+        JLabel editCalendarNewEndTimeLabel = new JLabel("Enter the new appointment end time: ");
+        JTextField editCalendarNewEndTimeField = new JTextField("", 20);
+
         JTextField editCalendarMaxField = new JTextField("", 20);
         JButton editCalendarProceedButton = new JButton("Proceed");
         JButton editCalendarBackButton = new JButton("Go Back");
+        JLabel editCalendarViewCalendars = new JLabel();
+
         JPanel editCalendarPanel = new JPanel();
         editCalendarPanel.setLayout(new BoxLayout(editCalendarPanel, BoxLayout.PAGE_AXIS));
         editCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        editCalendarViewCalendars.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarPanel.add(editCalendarViewCalendars);
         editCalendarTitleLabel.setAlignmentX(LEFT_ALIGNMENT);
         editCalendarPanel.add(editCalendarTitleLabel);
         editCalendarPanel.add(editCalendarTitleField);
@@ -754,6 +773,28 @@ public class Client extends JComponent implements Runnable {
         editCalendarMaxField.setAlignmentX(LEFT_ALIGNMENT);
         editCalendarMaxField.setMaximumSize(new Dimension(200, 25));
         editCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+
+        editCalendarPanel.add(editCalendarApprovedBookingsLabel);
+        editCalendarPanel.add(editCalendarApprovedBookingsField);
+        editCalendarApprovedBookingsLabel.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarApprovedBookingsField.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarApprovedBookingsField.setMaximumSize(new Dimension(200, 25));
+        editCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+
+        editCalendarPanel.add(editCalendarNewStartTimeLabel);
+        editCalendarPanel.add(editCalendarNewStartTimeField);
+        editCalendarNewStartTimeLabel.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarNewStartTimeField.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarNewStartTimeField.setMaximumSize(new Dimension(200, 25));
+        editCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+
+        editCalendarPanel.add(editCalendarNewEndTimeLabel);
+        editCalendarPanel.add(editCalendarNewEndTimeField);
+        editCalendarNewEndTimeLabel.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarNewEndTimeField.setAlignmentX(LEFT_ALIGNMENT);
+        editCalendarNewEndTimeField.setMaximumSize(new Dimension(200, 25));
+        editCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         editCalendarProceedButton.setAlignmentX(CENTER_ALIGNMENT);
@@ -768,9 +809,12 @@ public class Client extends JComponent implements Runnable {
         JTextField deleteCalendarTitleField = new JTextField();
         JButton deleteCalendarProceedButton = new JButton("Proceed");
         JButton deleteCalendarBackButton = new JButton("Go Back");
+        JLabel deleteCalendarViewCalendars = new JLabel();
+
         JPanel deleteCalendarPanel = new JPanel();
         deleteCalendarPanel.setLayout(new BoxLayout(deleteCalendarPanel, BoxLayout.PAGE_AXIS));
         deleteCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        deleteCalendarPanel.add(deleteCalendarViewCalendars);
         deleteCalendarPanel.add(deleteCalendarTitleLabel);
         deleteCalendarPanel.add(deleteCalendarTitleField);
         deleteCalendarTitleField.setAlignmentX(CENTER_ALIGNMENT - 0.4f);
@@ -785,7 +829,9 @@ public class Client extends JComponent implements Runnable {
         deleteCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
 
         //Seller approve/decline appointment requests panel (pt 1 - choose calendar)
-        JLabel selectApprovalCalendarLabel = new JLabel("Enter the calendar name to access pending appointment requests: ");
+        JLabel selectApprovalCalendarLabel = new JLabel("<html> Please select an appointment to approve/decline: " +
+                "<br> </br> Enter the appointment exactly as it appears in the above appointment list. [Calendar name]-" +
+                "[Appointment Title],[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Customer username]</html>");
         JTextField selectApprovalCalendarField = new JTextField();
         JButton selectApprovalProceedButton = new JButton("Proceed");
         JButton selectApprovalBackButton = new JButton("Go Back");
@@ -1510,19 +1556,23 @@ public class Client extends JComponent implements Runnable {
                                 frame.setVisible(true);
                                 break;
                             case 3: //Edit calendar
+                                String temp = sendDataToServer(sellerProceedButton, "temp,calendars");
+                                editCalendarViewCalendars.setText("<html>" + temp + "</html>");
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
                                 content.add(editCalendarPanel);
-                                frame.setSize(600, 400);
+                                frame.setSize(1100, 1300);
                                 frame.setLocationRelativeTo(null);
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                                 frame.setVisible(true);
                                 break;
                             case 4: //Delete calendar
+                                String temp1 = sendDataToServer(sellerProceedButton, "temp,calendars");
+                                deleteCalendarViewCalendars.setText("<html>" + temp1 + "</html>");
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
                                 content.add(deleteCalendarPanel);
-                                frame.setSize(600, 400);
+                                frame.setSize(1300, 1000);
                                 frame.setLocationRelativeTo(null);
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                                 frame.setVisible(true);
