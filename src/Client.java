@@ -184,6 +184,20 @@ public class Client extends JComponent implements Runnable {
                             }
                             break;
                         case "3":
+                            bfr.readLine();
+                            pw.println(info[2]); //Calendar name
+                            pw.flush();
+                            pw.println(info[3]); //Old appt title
+                            pw.flush();
+                            pw.println(info[4]); //New appt title
+                            pw.flush();
+                            pw.println(info[5]); //New max attendees
+                            pw.flush();
+                            pw.println(info[6]); //New approved bookings
+                            pw.flush();
+                            pw.println(info[7]); //New start time
+                            pw.flush();
+                            pw.println(info[8]); //New end time
                             break;
                         case "4":
                             break;
@@ -803,6 +817,8 @@ public class Client extends JComponent implements Runnable {
         buttonPanel.add(editCalendarBackButton);
         editCalendarPanel.add(buttonPanel);
         editCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        JScrollPane editCalendarScroll = new JScrollPane(editCalendarPanel);
+        editCalendarScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         //Seller delete panel
         JLabel deleteCalendarTitleLabel = new JLabel("Name of calendar to delete: ");
@@ -1560,7 +1576,7 @@ public class Client extends JComponent implements Runnable {
                                 editCalendarViewCalendars.setText("<html>" + temp + "</html>");
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
-                                content.add(editCalendarPanel);
+                                content.add(editCalendarScroll);
                                 frame.setSize(1100, 1300);
                                 frame.setLocationRelativeTo(null);
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -1733,9 +1749,34 @@ public class Client extends JComponent implements Runnable {
                     }
 
                     if (passCheck) {
-
+                        String data = storeNameText.getText() + ",3," + editCalendarTitleField.getText() + "," + editCalendarApptField.getText() + "," +
+                                editCalendarNewApptField.getText() + "," + editCalendarMaxField.getText() + "," +
+                                editCalendarApprovedBookingsField.getText() + "," + editCalendarNewStartTimeField.getText()
+                                + "," + editCalendarNewEndTimeField.getText();
+                        sendDataToServer(sellerProceedButton, data);
                     }
-                    //show confirmation or error message here
+                    JOptionPane.showMessageDialog(null, "Calendar has been edited!",
+                            "Calendar", JOptionPane.INFORMATION_MESSAGE);
+
+                    //Resetting all text fields
+                    editCalendarTitleField.setText("");
+                    editCalendarApptField.setText("");
+                    editCalendarNewApptField.setText("");
+                    editCalendarMaxField.setText("");
+                    editCalendarApprovedBookingsField.setText("");
+                    editCalendarNewStartTimeField.setText("");
+                    editCalendarNewEndTimeField.setText("");
+
+                    //Taking user back to main panel
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
                 } else if (e.getSource() == editCalendarBackButton) {
                     importFileText.setText("");
                     content.removeAll();
