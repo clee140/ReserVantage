@@ -200,6 +200,9 @@ public class Client extends JComponent implements Runnable {
                             pw.println(info[8]); //New end time
                             break;
                         case "4":
+                            pw.println(info[2]); //Name of calendar to be deleted
+                            pw.flush();
+                            output = bfr.readLine();
                             break;
                         case "5":
                             break;
@@ -821,28 +824,33 @@ public class Client extends JComponent implements Runnable {
         editCalendarScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         //Seller delete panel
-        JLabel deleteCalendarTitleLabel = new JLabel("Name of calendar to delete: ");
+        JLabel deleteCalendarTitleLabel = new JLabel("     Name of calendar to delete: ");
         JTextField deleteCalendarTitleField = new JTextField();
         JButton deleteCalendarProceedButton = new JButton("Proceed");
         JButton deleteCalendarBackButton = new JButton("Go Back");
         JLabel deleteCalendarViewCalendars = new JLabel();
-
         JPanel deleteCalendarPanel = new JPanel();
         deleteCalendarPanel.setLayout(new BoxLayout(deleteCalendarPanel, BoxLayout.PAGE_AXIS));
         deleteCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        deleteCalendarViewCalendars.setAlignmentX(CENTER_ALIGNMENT);
         deleteCalendarPanel.add(deleteCalendarViewCalendars);
+        editCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        deleteCalendarTitleLabel.setAlignmentX(LEFT_ALIGNMENT + 0.1f);
         deleteCalendarPanel.add(deleteCalendarTitleLabel);
+        deleteCalendarTitleField.setAlignmentX(LEFT_ALIGNMENT);
         deleteCalendarPanel.add(deleteCalendarTitleField);
-        deleteCalendarTitleField.setAlignmentX(CENTER_ALIGNMENT - 0.4f);
+        deleteCalendarTitleField.setAlignmentX(LEFT_ALIGNMENT);
         deleteCalendarTitleField.setMaximumSize(new Dimension(200, 25));
         JPanel buttonPanel2 = new JPanel();
         buttonPanel2.setLayout(new FlowLayout(FlowLayout.CENTER));
-        deleteCalendarProceedButton.setAlignmentX(CENTER_ALIGNMENT);
+        deleteCalendarProceedButton.setAlignmentX(LEFT_ALIGNMENT);
         buttonPanel2.add(deleteCalendarProceedButton);
-        deleteCalendarBackButton.setAlignmentX(CENTER_ALIGNMENT);
+        deleteCalendarBackButton.setAlignmentX(LEFT_ALIGNMENT);
         buttonPanel2.add(deleteCalendarBackButton);
         deleteCalendarPanel.add(buttonPanel2);
         deleteCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        JScrollPane deleteCalendarScroll = new JScrollPane(deleteCalendarPanel);
+        deleteCalendarScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         //Seller approve/decline appointment requests panel (pt 1 - choose calendar)
         JLabel selectApprovalCalendarLabel = new JLabel("<html> Please select an appointment to approve/decline: " +
@@ -1587,8 +1595,8 @@ public class Client extends JComponent implements Runnable {
                                 deleteCalendarViewCalendars.setText("<html>" + temp1 + "</html>");
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
-                                content.add(deleteCalendarPanel);
-                                frame.setSize(1300, 1000);
+                                content.add(deleteCalendarScroll);
+                                frame.setSize(900, 500);
                                 frame.setLocationRelativeTo(null);
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                                 frame.setVisible(true);
@@ -1789,7 +1797,29 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == deleteCalendarProceedButton) {
-                    //show confirmation or error message here
+                    String data = storeNameText.getText() + ",4," + deleteCalendarTitleField.getText();
+                    if (sendDataToServer(sellerProceedButton, data).equals("Calendar deleted!")) {
+                        JOptionPane.showMessageDialog(null, "Calendar has been deleted!",
+                                "Calendar", JOptionPane.INFORMATION_MESSAGE);
+
+                        //Reset text fields
+                        deleteCalendarTitleField.setText("");
+
+                        //Take user back to main screen
+                        content.removeAll();
+                        frame.repaint();
+                        content.setLayout(new GridLayout(2, 1));
+                        content.add(sellerPanel);
+                        frame.setSize(750, 400);
+                        frame.setLocationRelativeTo(null);
+                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        updateUI();
+                        frame.setVisible(true);
+                    } else { //Calendar was unable to delete - display error message
+                        JOptionPane.showMessageDialog(null, "Calendar was unable to delete! " +
+                                        "Please ensure the calendar you entered exists!",
+                                "Calendar", JOptionPane.ERROR_MESSAGE);
+                    }
                 } else if (e.getSource() == deleteCalendarBackButton) {
                     content.removeAll();
                     frame.repaint();

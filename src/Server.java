@@ -157,7 +157,6 @@ public class Server implements Runnable {
                             writer.flush();
                         } else if (choice != null && choice.equals("4")) { // Handles delete calendar.
                             String deletedCalendarName = bufferedReader.readLine();
-                            seller.deleteCalendar(deletedCalendarName);
                             if (seller.deleteCalendar(deletedCalendarName).equals("Calendar deleted")) {
                                 writer.println("Calendar deleted!");
                                 writer.flush();
