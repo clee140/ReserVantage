@@ -142,6 +142,13 @@ public class Client extends JComponent implements Runnable {
                             pw.flush();
                             return bfr.readLine();
                         }
+
+                        case ("requests"): {
+                            pw.println("requests");
+                            pw.flush();
+                            return bfr.readLine();
+                        }
+
                         case "1":
                             output = bfr.readLine();
                             break;
@@ -229,6 +236,7 @@ public class Client extends JComponent implements Runnable {
                             pw.flush();
                             return bfr.readLine();
                         }
+
                         case ("cancel"): {
                             pw.println("cancel");
                             pw.flush();
@@ -853,20 +861,49 @@ public class Client extends JComponent implements Runnable {
         deleteCalendarScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         //Seller approve/decline appointment requests panel (pt 1 - choose calendar)
-        JLabel selectApprovalCalendarLabel = new JLabel("<html> Please select an appointment to approve/decline: " +
+        JLabel selectApprovalCalendarLabel = new JLabel("<html> <br> </br> Please select an appointment above to approve/decline: " +
                 "<br> </br> Enter the appointment exactly as it appears in the above appointment list. [Calendar name]-" +
-                "[Appointment Title],[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Customer username]</html>");
-        JTextField selectApprovalCalendarField = new JTextField();
+                "[Appointment Title],[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Customer username]<br> </br> <br> </br></html>");
+        JLabel selectApprovalCustomerUsernameLabel = new JLabel("Enter the customer's username of the requested appointment: ");
+        JLabel actionResponse = new JLabel("Select an option:");
+        JLabel selectApprovalRequestsLabel = new JLabel();
+        JTextField selectApprovalCalendarField = new JTextField("", 400);
+        JTextField selectApprovalCustomerUsernameField = new JTextField("", 400);
         JButton selectApprovalProceedButton = new JButton("Proceed");
         JButton selectApprovalBackButton = new JButton("Go Back");
+        JComboBox<String> sellerActionOptions = new JComboBox<>();
         JPanel selectApprovalCalendarPanel = new JPanel();
         selectApprovalCalendarPanel.setLayout(new BoxLayout(selectApprovalCalendarPanel, BoxLayout.PAGE_AXIS));
         selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
         selectApprovalCalendarLabel.setAlignmentX(Component.LEFT_ALIGNMENT + 0.36f);
-        selectApprovalCalendarField.setMaximumSize(new Dimension(300, 25));
+        selectApprovalCalendarField.setMaximumSize(new Dimension(600, 25));
+        selectApprovalCalendarPanel.add(selectApprovalRequestsLabel);
+
+        selectApprovalRequestsLabel.setAlignmentX(Component.LEFT_ALIGNMENT + 0.36f);
         selectApprovalCalendarPanel.add(selectApprovalCalendarLabel);
-        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(20, 5)));
+
+        selectApprovalRequestsLabel.setAlignmentX(Component.LEFT_ALIGNMENT + 0.36f);
         selectApprovalCalendarPanel.add(selectApprovalCalendarField);
+
+        selectApprovalCustomerUsernameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        selectApprovalCalendarPanel.add(selectApprovalCustomerUsernameLabel);
+
+        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
+        selectApprovalCustomerUsernameField.setMaximumSize(new Dimension(400, 25));
+        selectApprovalCustomerUsernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        selectApprovalCalendarPanel.add(selectApprovalCustomerUsernameField);
+
+        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
+
+        actionResponse.setAlignmentX(Component.CENTER_ALIGNMENT);
+        selectApprovalCalendarPanel.add(actionResponse);
+        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
+        sellerActionOptions.setMaximumSize(new Dimension(400, 25));
+        sellerActionOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sellerActionOptions.addItem("Approve appointment.");
+        sellerActionOptions.addItem("Decline appointment.");
+        selectApprovalCalendarPanel.add(sellerActionOptions);
+
         selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space under the text field
         Box buttonBox = Box.createHorizontalBox();
         buttonBox.add(Box.createHorizontalGlue());
@@ -1602,10 +1639,12 @@ public class Client extends JComponent implements Runnable {
                                 frame.setVisible(true);
                                 break;
                             case 5: //Approve or decline requests
+                                String temp2 = sendDataToServer(sellerProceedButton, "temp,requests");
+                                selectApprovalRequestsLabel.setText("<html>" + temp2 + "</html>");
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
                                 content.add(selectApprovalCalendarPanel);
-                                frame.setSize(600, 400);
+                                frame.setSize(1300, 1200);
                                 frame.setLocationRelativeTo(null);
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                                 frame.setVisible(true);
@@ -1722,14 +1761,9 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == selectApprovalProceedButton) {
-                    content.removeAll();
-                    frame.repaint();
-                    content.setLayout(new BorderLayout());
-                    content.add(approvePanel);
-                    frame.setSize(700, 300);
-                    frame.setLocationRelativeTo(null);
-                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    frame.setVisible(true);
+                    // TODO: Approve/decline appointments send to server and display appropriate pop-up message.
+
+
                 } else if (e.getSource() == selectApprovalBackButton) {
                     importFileText.setText("");
                     content.removeAll();
