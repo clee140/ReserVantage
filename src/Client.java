@@ -958,6 +958,12 @@ public class Client extends JComponent implements Runnable {
         sellerSortBackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         sellerViewStatistics.add(sellerSortBackButton);
 
+        JPanel sellerSortedStatisticsPanel = new JPanel();
+        JLabel sellerSortedStatsLabel = new JLabel();
+        JButton sellerViewSortedStatsBackButton = new JButton("Go back");
+        sellerSortedStatisticsPanel.add(sellerSortedStatsLabel);
+        sellerSortedStatisticsPanel.add(sellerViewSortedStatsBackButton);
+
         //Seller log out panel = customer log out panel
 
         //Action listeners
@@ -1848,6 +1854,17 @@ public class Client extends JComponent implements Runnable {
                     frame.setVisible(true);
                     //add all seller button options here!!!
                 } else if (e.getSource() == sellerSortButton) {
+                    // TODO: Display the sorted/unsorted stats here. Receives input from seller view statistics.
+
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerSortedStatisticsPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
                     //show sorted dashboard here
                 } else if (e.getSource() == sellerSortBackButton) {
                     content.removeAll();
@@ -1860,6 +1877,16 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == createCalendarBackButton) {
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
+                } else if (e.getSource() == sellerViewSortedStatsBackButton) {
                     content.removeAll();
                     frame.repaint();
                     content.setLayout(new GridLayout(2, 1));
@@ -1927,5 +1954,6 @@ public class Client extends JComponent implements Runnable {
         anotherCalendarBackButton.addActionListener(actionListener);
         sellerSortButton.addActionListener(actionListener);
         sellerSortBackButton.addActionListener(actionListener);
+        sellerViewSortedStatsBackButton.addActionListener(actionListener);
     }
 }
