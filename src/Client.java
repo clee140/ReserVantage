@@ -1925,10 +1925,6 @@ public class Client extends JComponent implements Runnable {
                     if (deleteCalendarTitleField.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Calendar title needs to be filled!",
                                 "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
-                    } else if (customerCancelText.getText().split("-").length != 2 ||
-                            customerCancelText.getText().split("-")[1].split(",").length != 5) {
-                        JOptionPane.showMessageDialog(null, "Calendar needs to be in the right format!",
-                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
                     } else {
                         passCheck = true;
                     }
