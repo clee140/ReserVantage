@@ -195,12 +195,13 @@ public class Seller extends User {
      * @param appointmentTitle   represents the appointment the Seller is editing.
      * @param updatedAppointment represents the new appointment for a Seller.
      */
-    public void editCalendar(String calendarName, String appointmentTitle, String updatedAppointment) {
+    public String editCalendar(String calendarName, String appointmentTitle, String updatedAppointment) {
         ArrayList<String> calendarFile = readFile(fileName);
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date date = new Date();
         String list = "";
         String appointmentDetails = "";
+        boolean edited = false;
 
         for (int i = 0; i < calendarFile.size(); i++) {
             list += calendarFile.get(i) + "\n";
@@ -212,22 +213,27 @@ public class Seller extends User {
                 String[] appointmentString = temp[1].split(",");
                 if (temp[0].equals(calendarName) && appointmentString[0].equals(appointmentTitle)) {
                     appointmentDetails = calendarFile.get(i);
+                    edited = true;
                     break;
                 }
             }
         }
 
-        String newAppointment = list.replaceAll(appointmentDetails, calendarName + "-" + updatedAppointment);
-        newAppointment += "Edited: " + formatter.format(date);
+        if (edited) {
+            String newAppointment = list.replaceAll(appointmentDetails, calendarName + "-" + updatedAppointment);
+            newAppointment += "Edited: " + formatter.format(date);
 
-        FileWriter writer = null;
-        try {
-            writer = new FileWriter(fileName);
-            writer.write(newAppointment);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            FileWriter writer = null;
+            try {
+                writer = new FileWriter(fileName);
+                writer.write(newAppointment);
+                writer.close();
+                return "Success";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        return "Unsuccessful";
     }
 
     /**

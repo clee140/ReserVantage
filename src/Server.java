@@ -152,7 +152,9 @@ public class Server implements Runnable {
                             String endTime = bufferedReader.readLine();
 
                             Appointment editedAppt = new Appointment(apptTitle, maxAttendee, approvedBookings, startTime, endTime);
-                            seller.editCalendar(calendarName, oldApptTitle, editedAppt.toString());
+                            String temp1 = seller.editCalendar(calendarName, oldApptTitle, editedAppt.toString());
+                            writer.println(temp1);
+                            writer.flush();
                         } else if (choice != null && choice.equals("calendars")) { // Sends created calendars to client.
                             writer.println(seller.printCalendar());
                             writer.flush();

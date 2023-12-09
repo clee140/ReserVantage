@@ -191,7 +191,7 @@ public class Client extends JComponent implements Runnable {
                             }
                             break;
                         case "3":
-                            bfr.readLine();
+                          //  bfr.readLine();
                             pw.println(info[2]); //Calendar name
                             pw.flush();
                             pw.println(info[3]); //Old appt title
@@ -205,6 +205,9 @@ public class Client extends JComponent implements Runnable {
                             pw.println(info[7]); //New start time
                             pw.flush();
                             pw.println(info[8]); //New end time
+                            pw.flush();
+                            bfr.readLine();
+                            output = bfr.readLine();
                             break;
                         case "4":
                             pw.println(info[2]); //Name of calendar to be deleted
@@ -1857,10 +1860,16 @@ public class Client extends JComponent implements Runnable {
                                 editCalendarNewApptField.getText() + "," + editCalendarMaxField.getText() + "," +
                                 editCalendarApprovedBookingsField.getText() + "," + editCalendarNewStartTimeField.getText()
                                 + "," + editCalendarNewEndTimeField.getText();
-                        sendDataToServer(sellerProceedButton, data);
+                        String customerEditedConfirmation = sendDataToServer(sellerProceedButton, data);
 
-                        JOptionPane.showMessageDialog(null, "Calendar has been edited!",
-                                "Calendar", JOptionPane.INFORMATION_MESSAGE);
+                        if (customerEditedConfirmation.equals("Success")) {
+                            JOptionPane.showMessageDialog(null, "Calendar has been edited!",
+                                    "Calendar", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Calendar has not been edited!",
+                                    "Calendar", JOptionPane.INFORMATION_MESSAGE);
+                        }
+
 
                         //Resetting all text fields
                         editCalendarTitleField.setText("");
