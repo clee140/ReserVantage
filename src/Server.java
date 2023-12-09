@@ -67,7 +67,7 @@ public class Server implements Runnable {
                     String loginPassword = bufferedReader.readLine(); // Password of the user.
 
                     if (user.validator("userDatabase.txt", email, loginPassword) &&
-                    user.checkUserType("userDatabase.txt", email, userType)) {
+                            user.checkUserType("userDatabase.txt", email, userType)) {
                         writer.println("true"); // Successful login.
                         writer.flush();
 
@@ -168,14 +168,8 @@ public class Server implements Runnable {
                                 writer.flush();
                             }
                         } else if (choice != null && choice.equals("requests")) { // Sends pending appointment requests to Client.
-                            if (seller.getCustomerRequest().equals("No appointment requests")) {
-                                writer.println(seller.getCustomerRequest()); // Sends message to Client.
-                                writer.flush();
-
-                            } else {
-                                writer.println(seller.getCustomerRequest()); // Sends customer requests to Client.
-                                writer.flush();
-                            }
+                            writer.println(seller.getCustomerRequest()); // Sends message to Client.
+                            writer.flush();
                         } else if (choice != null && choice.equals("5")) { // Handles approve/decline appointments.
                             String requestedAppointment = bufferedReader.readLine();
                             String action = bufferedReader.readLine();

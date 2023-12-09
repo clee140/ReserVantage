@@ -282,6 +282,7 @@ public class Seller extends User {
      */
     public String getCustomerRequest() {
         ArrayList<String> customerRequest = new ArrayList<>();
+        ArrayList<String> temp = new ArrayList<>();
         try {
             FileReader fileReader = new FileReader("awaitingApproval.txt");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -296,10 +297,35 @@ public class Seller extends User {
             return "No appointment requests";
         }
 
+        if (customerRequest.isEmpty()) {
+            return "No appointment requests";
+        }
+
+        try {
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String user = bufferedReader.readLine();
+
+            while (user != null) {
+                temp.add(user);
+                user = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            return "No appointment requests";
+        }
+
         String customers = "";
 
         for (int i = 0; i < customerRequest.size(); i++) {
-            customers += customerRequest.get(i) + "<br> </br>";
+            String[] customerArr = customerRequest.get(i).split("-");
+            for (int j = 0; j < temp.size(); j++) {
+                if ((customerArr[0] + "-" + customerArr[1]).equals(temp.get(i))) {
+                    if (!customers.contains(customerArr[0] + "-" + customerArr[1])) {
+                        customers += customerRequest.get(i) + "<br> </br>";
+                    }
+                }
+            }
         }
         return customers;
     }
