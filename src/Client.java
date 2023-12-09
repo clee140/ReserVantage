@@ -1677,6 +1677,8 @@ public class Client extends JComponent implements Runnable {
                                 frame.setVisible(true);
                                 break;
                             case 6: //View stats
+                                String temp3 = sendDataToServer(sellerProceedButton, "temp;6");
+                                sellerSortedStatsLabel.setText("<html>" + temp3 + "</html>");
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
                                 content.add(sellerViewStatistics);
