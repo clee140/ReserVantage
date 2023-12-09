@@ -320,7 +320,7 @@ public class Seller extends User {
         for (int i = 0; i < customerRequest.size(); i++) {
             String[] customerArr = customerRequest.get(i).split("-");
             for (int j = 0; j < temp.size(); j++) {
-                if ((customerArr[0] + "-" + customerArr[1]).equals(temp.get(i))) {
+                if ((customerArr[0] + "-" + customerArr[1]).equals(temp.get(j))) {
                     if (!customers.contains(customerArr[0] + "-" + customerArr[1])) {
                         customers += customerRequest.get(i) + "<br> </br>";
                     }
