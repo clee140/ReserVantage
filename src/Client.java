@@ -222,7 +222,6 @@ public class Client extends JComponent implements Runnable {
                             pw.println(info[4]); //Customer username
                             pw.flush();
                             output = bfr.readLine();
-                            System.out.println(output);
                             break;
                         case "6":
                             if (viewSortOption == 1) {
@@ -1121,7 +1120,7 @@ public class Client extends JComponent implements Runnable {
                                 frame.repaint();
                                 content.setLayout(new GridLayout(2, 1));
                                 content.add(customerPanel);
-                                frame.setSize(750, 400);
+                                frame.setSize(900, 400);
                                 frame.setLocationRelativeTo(null);
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                                 updateUI();
@@ -1395,7 +1394,7 @@ public class Client extends JComponent implements Runnable {
                     frame.repaint();
                     content.setLayout(new BorderLayout());
                     content.add(initialOptionPanel);
-                    frame.setSize(900, 400);
+                    frame.setSize(400, 200);
                     frame.setLocationRelativeTo(null);
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frame.setVisible(true);
