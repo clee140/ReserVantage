@@ -492,11 +492,18 @@ public class Client extends JComponent implements Runnable {
 
         // Customer make appointment request panel.
         JPanel customerMakeAppointment = new JPanel();
-        customerMakeAppointment.add(customerAppointmentRequest);
-        customerMakeAppointment.add(getAppointments, SwingConstants.CENTER);
-        customerMakeAppointment.add(customerAppointmentText);
-        customerMakeAppointment.add(customerAppointmentButton);
-        customerMakeAppointment.add(customerAppointmentBackButton);
+        customerMakeAppointment.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = GridBagConstraints.RELATIVE;
+        constraints.insets = new Insets(5, 5, 5, 5);
+        customerMakeAppointment.add(getAppointments, constraints);
+        customerMakeAppointment.add(customerAppointmentRequest, constraints);
+        customerMakeAppointment.add(customerAppointmentText, constraints);
+        customerMakeAppointment.add(customerAppointmentButton, constraints);
+        customerMakeAppointment.add(customerAppointmentBackButton, constraints);
+        JScrollPane customerMakeAppointmentScroll = new JScrollPane(customerMakeAppointment);
+        customerMakeAppointmentScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         // Customer view cancel appointments panel.
         JPanel customerViewCancelAppointmentsPanel = new JPanel();
@@ -1151,7 +1158,7 @@ public class Client extends JComponent implements Runnable {
                             frame.repaint();
                             content.setLayout(new GridLayout(1, 1));
                             customerAppointmentText.setText("");
-                            content.add(customerMakeAppointment);
+                            content.add(customerMakeAppointmentScroll);
                             frame.setSize(750, 1300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
