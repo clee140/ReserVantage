@@ -224,11 +224,16 @@ public class Client extends JComponent implements Runnable {
                             output = bfr.readLine();
                             break;
                         case "6":
+                            if (viewSortOption == 1) {
+                                pw.println("yes");
+                                pw.flush();
+                            } else {
+                                pw.println("no");
+                                pw.flush();
+                            }
                             break;
                         case "7":
-                            pw.println("yes");
-                            pw.flush();
-                            pw.println("no");
+                            pw.println("8");
                             pw.flush();
                             break;
                     }
@@ -536,15 +541,8 @@ public class Client extends JComponent implements Runnable {
 
         // Customer view calendars panel.
         JPanel customerViewCalendars = new JPanel();
-        customerViewCalendars.setLayout(new GridBagLayout());
-        GridBagConstraints constraints1 = new GridBagConstraints();
-        constraints1.gridx = 0;
-        constraints1.gridy = GridBagConstraints.RELATIVE;
-        constraints1.insets = new Insets(5, 5, 5, 5);
-        customerViewCalendars.add(customerViewCalendarsLabel, constraints1);
-        customerViewCalendars.add(customerViewCalendarsBackButton, constraints1);
-        JScrollPane customerViewCalendarsScroll = new JScrollPane(customerViewCalendars);
-        customerViewCalendarsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        customerViewCalendars.add(customerViewCalendarsLabel);
+        customerViewCalendars.add(customerViewCalendarsBackButton);
 
         // Customer view approved appointments panel.
         JPanel customerViewApprovedAppointments = new JPanel();
@@ -1193,7 +1191,7 @@ public class Client extends JComponent implements Runnable {
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(1, 1));
-                            content.add(customerViewCalendarsScroll);
+                            content.add(customerViewCalendars);
                             frame.setSize(750, 1300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -2006,7 +2004,10 @@ public class Client extends JComponent implements Runnable {
                     //add all seller button options here!!!
                 } else if (e.getSource() == sellerSortButton) {
                     // TODO: Display the sorted/unsorted stats here. Receives input from seller view statistics.
-
+                    viewSortOption = sellerSortOptions.getSelectedIndex();
+                    if (viewSortOption == 0) {
+                        viewSortOption = 1;
+                    }
                     content.removeAll();
                     frame.repaint();
                     content.setLayout(new GridLayout(2, 1));
