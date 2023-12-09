@@ -532,8 +532,15 @@ public class Client extends JComponent implements Runnable {
 
         // Customer view calendars panel.
         JPanel customerViewCalendars = new JPanel();
-        customerViewCalendars.add(customerViewCalendarsLabel);
-        customerViewCalendars.add(customerViewCalendarsBackButton);
+        customerViewCalendars.setLayout(new GridBagLayout());
+        GridBagConstraints constraints1 = new GridBagConstraints();
+        constraints1.gridx = 0;
+        constraints1.gridy = GridBagConstraints.RELATIVE;
+        constraints1.insets = new Insets(5, 5, 5, 5);
+        customerViewCalendars.add(customerViewCalendarsLabel, constraints1);
+        customerViewCalendars.add(customerViewCalendarsBackButton, constraints1);
+        JScrollPane customerViewCalendarsScroll = new JScrollPane(customerViewCalendars);
+        customerViewCalendarsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         // Customer view approved appointments panel.
         JPanel customerViewApprovedAppointments = new JPanel();
@@ -1182,7 +1189,7 @@ public class Client extends JComponent implements Runnable {
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(1, 1));
-                            content.add(customerViewCalendars);
+                            content.add(customerViewCalendarsScroll);
                             frame.setSize(750, 1300);
                             frame.setLocationRelativeTo(null);
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
