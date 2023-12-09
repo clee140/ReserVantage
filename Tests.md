@@ -170,8 +170,28 @@ After proceeding, a success message popup confirms the deletion.
 Selecting "OK" navigates the application back to the seller home page.
 Test Status: Passed.
 
-## Test 10 //TODO:approve appointment
 
+## Test 10: Seller Appointment Approval
+### Steps:
+
+User enters the seller home page.
+User fills in the appropriate store name in the textbox using the keyboard.
+User selects "Approve/decline appointment requests" from the dropdown option box.
+User selects "Proceed" textbox.
+User fills fields appropriately using the keyboard.
+User selects "Proceed" textbox.
+User selects "Approve appointment" from the dropdown option box.
+User selects "Proceed" textbox.
+User selects the "OK" textbox.
+### Expected result:
+
+The seller home page loads successfully.
+User inputs the appropriate store name in the textbox using the keyboard.
+"Approve/decline appointment requests" is selected from the dropdown menu.
+On selecting "Proceed," the application opens the appointment approval page displaying appointment requests, fields for approval, and a dropdown for selections.
+After proceeding, a success message popup confirms the approval.
+Selecting "OK" navigates the application back to the seller home page.
+Test Status: Passed.
 
 
 ## Test 11: Seller Statistics - Appointments Sorted Most to Least
@@ -431,9 +451,3 @@ The seller home page loads successfully.
 On selecting "OK," the application opens the logout page with a thank you message.
 Pressing "OK" navigates the application to the home page.
 Test Status: Passed.
-
-
-
-
-
-
