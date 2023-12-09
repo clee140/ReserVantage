@@ -1,5 +1,6 @@
 # Test Cases
 
+* Account Creation Tests
 ## Test 1: User Account Creation - Seller
 ### Steps:
 
@@ -45,6 +46,8 @@ The application navigates to the Create Account page.
 Upon selecting "Go Back," the application returns to the home page.
 Test Status: Passed.
 
+
+* Seller Tests
 ## Test 4: Seller Login and Redirect to Seller Home Page
 ### Steps:
 
@@ -253,6 +256,7 @@ Pressing "OK" navigates the application to the home page.
 Test Status: Passed.
 
 
+* Customer Tests
 ## Test 14: Customer Login and Redirect to Customer Home Page
 ### Steps:
 
