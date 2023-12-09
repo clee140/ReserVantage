@@ -17,7 +17,7 @@ Client.java again, but Server.java MUST always be running.
   * The program achieves concurrency through the usage of threads, which allow the ability to handle multiple Users at once.
   * The program allows for Users to receive content updates as other Users make changes to the shared information. In order 
   to see the update, the User MUST navigate to a different page in their action ceneter then back to their original page. For
-example, if the User is currently in the "View Store Calendars" option, they must go to a different page ("View statistics", "View Pending Appointments", etc)
+example, if the User is currently in the "View Store Calendars" option, they must go to a different page ("View statistics" or "View Pending Appointments", etc)
 and then back to the "View Store Calendars" page.
 
 Christopher Lee will submit the repository on Vocareum workspace, the project report, and the video presentation on Brightspace.
