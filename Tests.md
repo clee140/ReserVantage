@@ -123,10 +123,31 @@ User inputs the appropriate store name in the textbox using the keyboard.
 On selecting "Proceed," a page with three textboxes is displayed.
 Upon selecting "Manually Create Calendar," the manual calendar creation page opens.
 Selecting "Add Appointment" loads the appointment creation page.
-After adding the appointment, the manual calendar page displays the new appointment.
+After adding the appointment, the program returns to the manual calendar page and displays the new appointment.
 On selecting "Create Calendar," a popup confirms successful calendar creation.
 Pressing "OK" navigates the application back to the seller home page.
 Test Status: Passed.
+
+
+## Test 8: Seller Calendar Editing
+### Steps:
+
+User enters the seller home page.
+User fills in the appropriate store name in the textbox using the keyboard.
+User selects "Edit Calendar" from the dropdown option box.
+User fills all seven fields appropriately using the keyboard.
+User selects the "Proceed" textbox.
+User selects the "OK" textbox.
+### Expected result:
+
+The seller home page loads successfully.
+User inputs the appropriate store name in the textbox using the keyboard.
+"Edit Calendar" is selected from the dropdown menu.
+On selecting "Proceed," the application opens the edit calendar page.
+After proceeding, a success message popup is displayed.
+Selecting "OK" navigates the application back to the seller home page.
+Test Status: Passed.
+
 
 
 
