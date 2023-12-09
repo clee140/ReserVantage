@@ -63,4 +63,25 @@ public class User {
         }
         return checker;
     }
+
+    public boolean checkUserType(String fileName, String username, String userType) {
+        File f = new File(fileName);
+        boolean checker = false;
+        try (BufferedReader bfr = new BufferedReader(new FileReader(f))) {
+            String line = bfr.readLine();
+            while (line != null) {
+                String[] splitter = line.split(",");
+                if (username.equals(splitter[2])) {
+                    if (splitter[0].equals(userType)) {
+                        checker = true;
+                    }
+                }
+                line = bfr.readLine();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return checker;
+    }
 }

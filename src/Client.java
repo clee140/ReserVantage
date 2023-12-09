@@ -142,6 +142,13 @@ public class Client extends JComponent implements Runnable {
                             pw.flush();
                             return bfr.readLine();
                         }
+
+                        case ("requests"): {
+                            pw.println("requests");
+                            pw.flush();
+                            return bfr.readLine();
+                        }
+
                         case "1":
                             output = bfr.readLine();
                             break;
@@ -184,8 +191,25 @@ public class Client extends JComponent implements Runnable {
                             }
                             break;
                         case "3":
+                            bfr.readLine();
+                            pw.println(info[2]); //Calendar name
+                            pw.flush();
+                            pw.println(info[3]); //Old appt title
+                            pw.flush();
+                            pw.println(info[4]); //New appt title
+                            pw.flush();
+                            pw.println(info[5]); //New max attendees
+                            pw.flush();
+                            pw.println(info[6]); //New approved bookings
+                            pw.flush();
+                            pw.println(info[7]); //New start time
+                            pw.flush();
+                            pw.println(info[8]); //New end time
                             break;
                         case "4":
+                            pw.println(info[2]); //Name of calendar to be deleted
+                            pw.flush();
+                            output = bfr.readLine();
                             break;
                         case "5":
                             break;
@@ -212,6 +236,7 @@ public class Client extends JComponent implements Runnable {
                             pw.flush();
                             return bfr.readLine();
                         }
+
                         case ("cancel"): {
                             pw.println("cancel");
                             pw.flush();
@@ -803,46 +828,82 @@ public class Client extends JComponent implements Runnable {
         buttonPanel.add(editCalendarBackButton);
         editCalendarPanel.add(buttonPanel);
         editCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        JScrollPane editCalendarScroll = new JScrollPane(editCalendarPanel);
+        editCalendarScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         //Seller delete panel
-        JLabel deleteCalendarTitleLabel = new JLabel("Name of calendar to delete: ");
+        JLabel deleteCalendarTitleLabel = new JLabel("     Name of calendar to delete: ");
         JTextField deleteCalendarTitleField = new JTextField();
         JButton deleteCalendarProceedButton = new JButton("Proceed");
         JButton deleteCalendarBackButton = new JButton("Go Back");
         JLabel deleteCalendarViewCalendars = new JLabel();
-
         JPanel deleteCalendarPanel = new JPanel();
         deleteCalendarPanel.setLayout(new BoxLayout(deleteCalendarPanel, BoxLayout.PAGE_AXIS));
         deleteCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        deleteCalendarViewCalendars.setAlignmentX(CENTER_ALIGNMENT);
         deleteCalendarPanel.add(deleteCalendarViewCalendars);
+        editCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        deleteCalendarTitleLabel.setAlignmentX(LEFT_ALIGNMENT + 0.1f);
         deleteCalendarPanel.add(deleteCalendarTitleLabel);
+        deleteCalendarTitleField.setAlignmentX(LEFT_ALIGNMENT);
         deleteCalendarPanel.add(deleteCalendarTitleField);
-        deleteCalendarTitleField.setAlignmentX(CENTER_ALIGNMENT - 0.4f);
+        deleteCalendarTitleField.setAlignmentX(LEFT_ALIGNMENT);
         deleteCalendarTitleField.setMaximumSize(new Dimension(200, 25));
         JPanel buttonPanel2 = new JPanel();
         buttonPanel2.setLayout(new FlowLayout(FlowLayout.CENTER));
-        deleteCalendarProceedButton.setAlignmentX(CENTER_ALIGNMENT);
+        deleteCalendarProceedButton.setAlignmentX(LEFT_ALIGNMENT);
         buttonPanel2.add(deleteCalendarProceedButton);
-        deleteCalendarBackButton.setAlignmentX(CENTER_ALIGNMENT);
+        deleteCalendarBackButton.setAlignmentX(LEFT_ALIGNMENT);
         buttonPanel2.add(deleteCalendarBackButton);
         deleteCalendarPanel.add(buttonPanel2);
         deleteCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
+        JScrollPane deleteCalendarScroll = new JScrollPane(deleteCalendarPanel);
+        deleteCalendarScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         //Seller approve/decline appointment requests panel (pt 1 - choose calendar)
-        JLabel selectApprovalCalendarLabel = new JLabel("<html> Please select an appointment to approve/decline: " +
+        JLabel selectApprovalCalendarLabel = new JLabel("<html> <br> </br> Please select an appointment above to approve/decline: " +
                 "<br> </br> Enter the appointment exactly as it appears in the above appointment list. [Calendar name]-" +
-                "[Appointment Title],[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Customer username]</html>");
-        JTextField selectApprovalCalendarField = new JTextField();
+                "[Appointment Title],[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Customer username]<br> </br> <br> </br></html>");
+        JLabel selectApprovalCustomerUsernameLabel = new JLabel("Enter the customer's username of the requested appointment: ");
+        JLabel actionResponse = new JLabel("Select an option:");
+        JLabel selectApprovalRequestsLabel = new JLabel();
+        JTextField selectApprovalCalendarField = new JTextField("", 400);
+        JTextField selectApprovalCustomerUsernameField = new JTextField("", 400);
         JButton selectApprovalProceedButton = new JButton("Proceed");
         JButton selectApprovalBackButton = new JButton("Go Back");
+        JComboBox<String> sellerActionOptions = new JComboBox<>();
         JPanel selectApprovalCalendarPanel = new JPanel();
         selectApprovalCalendarPanel.setLayout(new BoxLayout(selectApprovalCalendarPanel, BoxLayout.PAGE_AXIS));
         selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
         selectApprovalCalendarLabel.setAlignmentX(Component.LEFT_ALIGNMENT + 0.36f);
-        selectApprovalCalendarField.setMaximumSize(new Dimension(300, 25));
+        selectApprovalCalendarField.setMaximumSize(new Dimension(600, 25));
+        selectApprovalCalendarPanel.add(selectApprovalRequestsLabel);
+
+        selectApprovalRequestsLabel.setAlignmentX(Component.LEFT_ALIGNMENT + 0.36f);
         selectApprovalCalendarPanel.add(selectApprovalCalendarLabel);
-        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(20, 5)));
+
+        selectApprovalRequestsLabel.setAlignmentX(Component.LEFT_ALIGNMENT + 0.36f);
         selectApprovalCalendarPanel.add(selectApprovalCalendarField);
+
+        selectApprovalCustomerUsernameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        selectApprovalCalendarPanel.add(selectApprovalCustomerUsernameLabel);
+
+        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
+        selectApprovalCustomerUsernameField.setMaximumSize(new Dimension(400, 25));
+        selectApprovalCustomerUsernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        selectApprovalCalendarPanel.add(selectApprovalCustomerUsernameField);
+
+        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
+
+        actionResponse.setAlignmentX(Component.CENTER_ALIGNMENT);
+        selectApprovalCalendarPanel.add(actionResponse);
+        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
+        sellerActionOptions.setMaximumSize(new Dimension(400, 25));
+        sellerActionOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sellerActionOptions.addItem("Approve appointment.");
+        sellerActionOptions.addItem("Decline appointment.");
+        selectApprovalCalendarPanel.add(sellerActionOptions);
+
         selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space under the text field
         Box buttonBox = Box.createHorizontalBox();
         buttonBox.add(Box.createHorizontalGlue());
@@ -904,6 +965,12 @@ public class Client extends JComponent implements Runnable {
         sellerPanel.add(Box.createRigidArea(new Dimension(1, 20)));
         sellerSortBackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         sellerViewStatistics.add(sellerSortBackButton);
+
+        JPanel sellerSortedStatisticsPanel = new JPanel();
+        JLabel sellerSortedStatsLabel = new JLabel();
+        JButton sellerViewSortedStatsBackButton = new JButton("Go back");
+        sellerSortedStatisticsPanel.add(sellerSortedStatsLabel);
+        sellerSortedStatisticsPanel.add(sellerViewSortedStatsBackButton);
 
         //Seller log out panel = customer log out panel
 
@@ -1560,7 +1627,7 @@ public class Client extends JComponent implements Runnable {
                                 editCalendarViewCalendars.setText("<html>" + temp + "</html>");
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
-                                content.add(editCalendarPanel);
+                                content.add(editCalendarScroll);
                                 frame.setSize(1100, 1300);
                                 frame.setLocationRelativeTo(null);
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -1571,17 +1638,19 @@ public class Client extends JComponent implements Runnable {
                                 deleteCalendarViewCalendars.setText("<html>" + temp1 + "</html>");
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
-                                content.add(deleteCalendarPanel);
-                                frame.setSize(1300, 1000);
+                                content.add(deleteCalendarScroll);
+                                frame.setSize(900, 500);
                                 frame.setLocationRelativeTo(null);
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                                 frame.setVisible(true);
                                 break;
                             case 5: //Approve or decline requests
+                                String temp2 = sendDataToServer(sellerProceedButton, "temp,requests");
+                                selectApprovalRequestsLabel.setText("<html>" + temp2 + "</html>");
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
                                 content.add(selectApprovalCalendarPanel);
-                                frame.setSize(600, 400);
+                                frame.setSize(1300, 1200);
                                 frame.setLocationRelativeTo(null);
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                                 frame.setVisible(true);
@@ -1698,14 +1767,9 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == selectApprovalProceedButton) {
-                    content.removeAll();
-                    frame.repaint();
-                    content.setLayout(new BorderLayout());
-                    content.add(approvePanel);
-                    frame.setSize(700, 300);
-                    frame.setLocationRelativeTo(null);
-                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    frame.setVisible(true);
+                    // TODO: Approve/decline appointments send to server and display appropriate pop-up message.
+
+
                 } else if (e.getSource() == selectApprovalBackButton) {
                     importFileText.setText("");
                     content.removeAll();
@@ -1720,6 +1784,7 @@ public class Client extends JComponent implements Runnable {
                 } else if (e.getSource() == editCalendarProceedButton) {
 
                     boolean passCheck = false;
+
 
                     if (editCalendarTitleField.getText().isEmpty() || editCalendarApptField.getText().isEmpty() ||
                             editCalendarNewApptField.getText().isEmpty() || editCalendarMaxField.getText().isEmpty() ||
@@ -1746,9 +1811,34 @@ public class Client extends JComponent implements Runnable {
                     }
 
                     if (passCheck) {
-
+                        String data = storeNameText.getText() + ",3," + editCalendarTitleField.getText() + "," + editCalendarApptField.getText() + "," +
+                                editCalendarNewApptField.getText() + "," + editCalendarMaxField.getText() + "," +
+                                editCalendarApprovedBookingsField.getText() + "," + editCalendarNewStartTimeField.getText()
+                                + "," + editCalendarNewEndTimeField.getText();
+                        sendDataToServer(sellerProceedButton, data);
                     }
-                    //show confirmation or error message here
+                    JOptionPane.showMessageDialog(null, "Calendar has been edited!",
+                            "Calendar", JOptionPane.INFORMATION_MESSAGE);
+
+                    //Resetting all text fields
+                    editCalendarTitleField.setText("");
+                    editCalendarApptField.setText("");
+                    editCalendarNewApptField.setText("");
+                    editCalendarMaxField.setText("");
+                    editCalendarApprovedBookingsField.setText("");
+                    editCalendarNewStartTimeField.setText("");
+                    editCalendarNewEndTimeField.setText("");
+
+                    //Taking user back to main panel
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
                 } else if (e.getSource() == editCalendarBackButton) {
                     importFileText.setText("");
                     content.removeAll();
@@ -1761,7 +1851,29 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == deleteCalendarProceedButton) {
-                    //show confirmation or error message here
+                    String data = storeNameText.getText() + ",4," + deleteCalendarTitleField.getText();
+                    if (sendDataToServer(sellerProceedButton, data).equals("Calendar deleted!")) {
+                        JOptionPane.showMessageDialog(null, "Calendar has been deleted!",
+                                "Calendar", JOptionPane.INFORMATION_MESSAGE);
+
+                        //Reset text fields
+                        deleteCalendarTitleField.setText("");
+
+                        //Take user back to main screen
+                        content.removeAll();
+                        frame.repaint();
+                        content.setLayout(new GridLayout(2, 1));
+                        content.add(sellerPanel);
+                        frame.setSize(750, 400);
+                        frame.setLocationRelativeTo(null);
+                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        updateUI();
+                        frame.setVisible(true);
+                    } else { //Calendar was unable to delete - display error message
+                        JOptionPane.showMessageDialog(null, "Calendar was unable to delete! " +
+                                        "Please ensure the calendar you entered exists!",
+                                "Calendar", JOptionPane.ERROR_MESSAGE);
+                    }
                 } else if (e.getSource() == deleteCalendarBackButton) {
                     content.removeAll();
                     frame.repaint();
@@ -1786,6 +1898,17 @@ public class Client extends JComponent implements Runnable {
                     frame.setVisible(true);
                     //add all seller button options here!!!
                 } else if (e.getSource() == sellerSortButton) {
+                    // TODO: Display the sorted/unsorted stats here. Receives input from seller view statistics.
+
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerSortedStatisticsPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
                     //show sorted dashboard here
                 } else if (e.getSource() == sellerSortBackButton) {
                     content.removeAll();
@@ -1798,6 +1921,16 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == createCalendarBackButton) {
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
+                } else if (e.getSource() == sellerViewSortedStatsBackButton) {
                     content.removeAll();
                     frame.repaint();
                     content.setLayout(new GridLayout(2, 1));
@@ -1865,5 +1998,6 @@ public class Client extends JComponent implements Runnable {
         anotherCalendarBackButton.addActionListener(actionListener);
         sellerSortButton.addActionListener(actionListener);
         sellerSortBackButton.addActionListener(actionListener);
+        sellerViewSortedStatsBackButton.addActionListener(actionListener);
     }
 }

@@ -66,7 +66,8 @@ public class Server implements Runnable {
                     email = bufferedReader.readLine(); // Email of the user.
                     String loginPassword = bufferedReader.readLine(); // Password of the user.
 
-                    if (user.validator("userDatabase.txt", email, loginPassword)) {
+                    if (user.validator("userDatabase.txt", email, loginPassword) &&
+                    user.checkUserType("userDatabase.txt", email, userType)) {
                         writer.println("true"); // Successful login.
                         writer.flush();
 
@@ -151,13 +152,12 @@ public class Server implements Runnable {
                             String endTime = bufferedReader.readLine();
 
                             Appointment editedAppt = new Appointment(apptTitle, maxAttendee, approvedBookings, startTime, endTime);
-                            seller.editCalendar(calendarName, oldApptTitle, calendarName + "-" + editedAppt);
+                            seller.editCalendar(calendarName, oldApptTitle, editedAppt.toString());
                         } else if (choice != null && choice.equals("calendars")) { // Sends created calendars to client.
                             writer.println(seller.printCalendar());
                             writer.flush();
                         } else if (choice != null && choice.equals("4")) { // Handles delete calendar.
                             String deletedCalendarName = bufferedReader.readLine();
-                            seller.deleteCalendar(deletedCalendarName);
                             if (seller.deleteCalendar(deletedCalendarName).equals("Calendar deleted")) {
                                 writer.println("Calendar deleted!");
                                 writer.flush();
