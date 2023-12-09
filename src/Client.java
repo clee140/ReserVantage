@@ -1688,6 +1688,7 @@ public class Client extends JComponent implements Runnable {
                                 frame.setVisible(true);
                                 break;
                             case 7: //exit and log out
+                                storeNameText.setText("");
                                 content.removeAll();
                                 content.setLayout(new GridLayout(1, 1));
                                 content.add(exitLogOutPanel);
