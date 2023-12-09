@@ -222,6 +222,7 @@ public class Client extends JComponent implements Runnable {
                             pw.println(info[4]); //Customer username
                             pw.flush();
                             output = bfr.readLine();
+                            System.out.println(output);
                             break;
                         case "6":
                             if (viewSortOption == 1) {
@@ -1120,7 +1121,7 @@ public class Client extends JComponent implements Runnable {
                                 frame.repaint();
                                 content.setLayout(new GridLayout(2, 1));
                                 content.add(customerPanel);
-                                frame.setSize(900, 400);
+                                frame.setSize(750, 400);
                                 frame.setLocationRelativeTo(null);
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                                 updateUI();
@@ -1394,7 +1395,7 @@ public class Client extends JComponent implements Runnable {
                     frame.repaint();
                     content.setLayout(new BorderLayout());
                     content.add(initialOptionPanel);
-                    frame.setSize(400, 200);
+                    frame.setSize(900, 400);
                     frame.setLocationRelativeTo(null);
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frame.setVisible(true);
@@ -1688,7 +1689,6 @@ public class Client extends JComponent implements Runnable {
                                 frame.setVisible(true);
                                 break;
                             case 7: //exit and log out
-                                storeNameText.setText("");
                                 content.removeAll();
                                 content.setLayout(new GridLayout(1, 1));
                                 content.add(exitLogOutPanel);
@@ -2002,6 +2002,8 @@ public class Client extends JComponent implements Runnable {
                     if (viewSortOption == 0) {
                         viewSortOption = 1;
                     }
+                    String tempSort = sendDataToServer(sellerSortButton, "7;" + viewSortOption);
+                    sellerSortedStatsLabel.setText("<html>" + tempSort + "</html>");
                     content.removeAll();
                     frame.repaint();
                     content.setLayout(new GridLayout(2, 1));
