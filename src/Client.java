@@ -127,7 +127,7 @@ public class Client extends JComponent implements Runnable {
                     bfr.readLine();
 
                     //TODO: Where options begin
-                    String[] info = data.split(",");
+                    String[] info = data.split(";");
                     //Sending storeName
                     pw.println(info[0]);
                     pw.flush();
@@ -222,6 +222,7 @@ public class Client extends JComponent implements Runnable {
                             pw.println(info[4]); //Customer username
                             pw.flush();
                             output = bfr.readLine();
+                            System.out.println(output);
                             break;
                         case "6":
                             if (viewSortOption == 1) {
@@ -1483,7 +1484,7 @@ public class Client extends JComponent implements Runnable {
                     }
 
                     if (passCheck) {
-                        String sendToServer = storeNameText.getText() + ",2,1," + importFileText.getText();
+                        String sendToServer = storeNameText.getText() + ";2;1;" + importFileText.getText();
                         if (sendDataToServer(sellerProceedButton, sendToServer).equals("Unsuccessful")) {
                             JOptionPane.showMessageDialog(null, "File was unable to import! Please ensure your file exists.",
                                     "Status", JOptionPane.ERROR_MESSAGE);
@@ -1624,7 +1625,7 @@ public class Client extends JComponent implements Runnable {
                         int sellerMenuSelection = sellerOptions.getSelectedIndex();
                         switch (sellerMenuSelection) {
                             case 1: //View current calendars
-                                viewCalendarsLabel.setText("<html>" + sendDataToServer(sellerProceedButton, storeNameLabel.getText() + ",1") + "</html>");
+                                viewCalendarsLabel.setText("<html>" + sendDataToServer(sellerProceedButton, storeNameLabel.getText() + ";1") + "</html>");
                                 content.removeAll(); //Clears the frame
                                 frame.repaint();
                                 content.setLayout(new BorderLayout());
@@ -1644,7 +1645,7 @@ public class Client extends JComponent implements Runnable {
                                 frame.setVisible(true);
                                 break;
                             case 3: //Edit calendar
-                                String temp = sendDataToServer(sellerProceedButton, "temp,calendars");
+                                String temp = sendDataToServer(sellerProceedButton, "temp;calendars");
                                 editCalendarViewCalendars.setText("<html>" + temp + "</html>");
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
@@ -1655,7 +1656,7 @@ public class Client extends JComponent implements Runnable {
                                 frame.setVisible(true);
                                 break;
                             case 4: //Delete calendar
-                                String temp1 = sendDataToServer(sellerProceedButton, "temp,calendars");
+                                String temp1 = sendDataToServer(sellerProceedButton, "temp;calendars");
                                 deleteCalendarViewCalendars.setText("<html>" + temp1 + "</html>");
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
@@ -1666,7 +1667,7 @@ public class Client extends JComponent implements Runnable {
                                 frame.setVisible(true);
                                 break;
                             case 5: //Approve or decline requests
-                                String temp2 = sendDataToServer(sellerProceedButton, "temp,requests");
+                                String temp2 = sendDataToServer(sellerProceedButton, "temp;requests");
                                 selectApprovalRequestsLabel.setText("<html>" + temp2 + "</html>");
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
@@ -1719,35 +1720,35 @@ public class Client extends JComponent implements Runnable {
                             appointmentText = appointmentText.substring(11, appointmentText.length() - 7);
                             String[] appointments = appointmentText.split("<br/>");
 
-                            String sendToServer = storeNameText.getText() + ",2,2," + appointments.length + "," +
-                                    calendarNameText.getText() + "," + calendarDescriptionText.getText();
+                            String sendToServer = storeNameText.getText() + ";2;2;" + appointments.length + ";" +
+                                    calendarNameText.getText() + ";" + calendarDescriptionText.getText();
 
                             for (int i = 0; i < appointments.length; i++) {
-                                sendToServer += "," + appointments[i];
+                                appointments[i] = appointments[i].replace(',', ';');
+                                sendToServer += ";" + appointments[i];
                             }
 
                             sendDataToServer(sellerProceedButton, sendToServer);
                             JOptionPane.showMessageDialog(null, "Calendar created successfully!",
                                     "Status", JOptionPane.INFORMATION_MESSAGE);
+
+                            //Clearing text fields
+                            calendarNameText.setText("");
+                            calendarDescriptionText.setText("");
+                            appointmentListLabel1.setText("");
+                            appointmentListLabel.setText("Appointments: None");
+
+                            //Going back to main option panel
+                            content.removeAll();
+                            frame.repaint();
+                            content.setLayout(new GridLayout(2, 1));
+                            content.add(sellerPanel);
+                            frame.setSize(750, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
                         }
-
-
-                        //Clearing text fields
-                        calendarNameText.setText("");
-                        calendarDescriptionText.setText("");
-                        appointmentListLabel1.setText("");
-                        appointmentListLabel.setText("Appointments: None");
-
-                        //Going back to main option panel
-                        content.removeAll();
-                        frame.repaint();
-                        content.setLayout(new GridLayout(2, 1));
-                        content.add(sellerPanel);
-                        frame.setSize(750, 400);
-                        frame.setLocationRelativeTo(null);
-                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        updateUI();
-                        frame.setVisible(true);
                     }
                 } else if (e.getSource() == appointmentBackButton) {
                     //Clearing the textfields
@@ -1795,18 +1796,13 @@ public class Client extends JComponent implements Runnable {
                     if (selectApprovalCalendarField.getText().isEmpty() || selectApprovalCustomerUsernameField.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "All fields need to be filled!",
                                 "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
-                    } else if (selectApprovalCalendarField.getText().split("-").length != 3 ||
-                            customerCancelText.getText().split("-")[1].split(",").length != 5) {
-                        JOptionPane.showMessageDialog(null, "Calendar needs to be in the right format!",
-                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
                     } else {
                         passCheck = true;
                     }
 
                     if (passCheck) {
-
-                        String data = storeNameText.getText() + ",5," + selectApprovalCalendarField.getText() + "," +
-                                sellerActionOptions.getSelectedIndex() + 1 + "," + selectApprovalCustomerUsernameField.getText();
+                        String data = storeNameText.getText() + ";5;" + selectApprovalCalendarField.getText() + ";" +
+                                (sellerActionOptions.getSelectedIndex() + 1) + ";" + selectApprovalCustomerUsernameField.getText();
                         if (sendDataToServer(sellerProceedButton, data).equals("Appointment approved!")) { //Appointment approved
                             JOptionPane.showMessageDialog(null, "Appointment approved!",
                                     "Appointment", JOptionPane.INFORMATION_MESSAGE);
@@ -1872,10 +1868,10 @@ public class Client extends JComponent implements Runnable {
                     }
 
                     if (passCheck) {
-                        String data = storeNameText.getText() + ",3," + editCalendarTitleField.getText() + "," + editCalendarApptField.getText() + "," +
-                                editCalendarNewApptField.getText() + "," + editCalendarMaxField.getText() + "," +
-                                editCalendarApprovedBookingsField.getText() + "," + editCalendarNewStartTimeField.getText()
-                                + "," + editCalendarNewEndTimeField.getText();
+                        String data = storeNameText.getText() + ";3;" + editCalendarTitleField.getText() + ";" + editCalendarApptField.getText() + ";" +
+                                editCalendarNewApptField.getText() + ";" + editCalendarMaxField.getText() + ";" +
+                                editCalendarApprovedBookingsField.getText() + ";" + editCalendarNewStartTimeField.getText()
+                                + ";" + editCalendarNewEndTimeField.getText();
                         String customerEditedConfirmation = sendDataToServer(sellerProceedButton, data);
 
                         if (customerEditedConfirmation.equals("Success")) {
@@ -1930,7 +1926,7 @@ public class Client extends JComponent implements Runnable {
                     }
 
                     if (passCheck) {
-                        String data = storeNameText.getText() + ",4," + deleteCalendarTitleField.getText();
+                        String data = storeNameText.getText() + ";4;" + deleteCalendarTitleField.getText();
                         if (sendDataToServer(sellerProceedButton, data).equals("Calendar deleted!")) {
                             JOptionPane.showMessageDialog(null, "Calendar has been deleted!",
                                     "Calendar", JOptionPane.INFORMATION_MESSAGE);
