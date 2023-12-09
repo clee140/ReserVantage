@@ -126,7 +126,7 @@ public class Client extends JComponent implements Runnable {
                     pw.flush();
                     bfr.readLine();
 
-                    //TODO: Where options begin
+                    //Where options begin
                     String[] info = data.split(";");
                     //Sending storeName
                     pw.println(info[0]);
@@ -248,7 +248,7 @@ public class Client extends JComponent implements Runnable {
                     pw.flush();
                     bfr.readLine();
 
-                    //TODO: Where options begin - will need to make a switch statement
+                    //Where options begin
                     String[] temp = data.split(";");
                     switch (temp[0]) {
                         case ("calendars"): {
@@ -1135,7 +1135,7 @@ public class Client extends JComponent implements Runnable {
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                                 updateUI();
                                 frame.setVisible(true);
-                            } else if (userOrSeller.equals("Customer")) { //TODO: Customer screen pops up
+                            } else if (userOrSeller.equals("Customer")) {
                                 content.removeAll();
                                 frame.repaint();
                                 content.setLayout(new GridLayout(2, 1));
@@ -1195,7 +1195,7 @@ public class Client extends JComponent implements Runnable {
                             updateUI();
                             frame.setVisible(true);
                             break;
-                        case 1: //Cancel an appointment request - TODO:Add presence check, type check
+                        case 1: //Cancel an appointment request
                             content.removeAll();
                             frame.repaint();
                             content.setLayout(new GridLayout(2, 1));
@@ -1843,8 +1843,6 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == selectApprovalProceedButton) {
-
-                    // TODO: Approve/decline appointments send to server and display appropriate pop-up message.
                     boolean passCheck = false;
 
                     if (selectApprovalCalendarField.getText().isEmpty() ||
@@ -2061,7 +2059,6 @@ public class Client extends JComponent implements Runnable {
                     frame.setVisible(true);
                     //add all seller button options here!!!
                 } else if (e.getSource() == sellerSortButton) {
-                    // TODO: Display the sorted/unsorted stats here. Receives input from seller view statistics.
                     viewSortOption = sellerSortOptions.getSelectedIndex();
                     if (viewSortOption == 0) {
                         viewSortOption = 1;
