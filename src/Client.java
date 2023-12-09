@@ -1768,9 +1768,31 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == selectApprovalProceedButton) {
-                    // TODO: Approve/decline appointments send to server and display appropriate pop-up message.
+                    String data = storeNameText.getText() + ",5," + selectApprovalCalendarField.getText() + "," +
+                            sellerActionOptions.getSelectedIndex() + 1 + "," + selectApprovalCustomerUsernameField.getText();
+                    if (sendDataToServer(sellerProceedButton, data).equals("Appointment approved!")) { //Appointment approved
+                        JOptionPane.showMessageDialog(null, "Appointment approved!",
+                                "Appointment", JOptionPane.INFORMATION_MESSAGE);
 
+                    } else { //Appointment declined
+                        JOptionPane.showMessageDialog(null, "Appointment declined!",
+                                "Appointment", JOptionPane.INFORMATION_MESSAGE);
+                    }
 
+                    //Reset text fields
+                    selectApprovalCalendarField.setText("");
+                    selectApprovalCustomerUsernameField.setText("");
+
+                    //Take user back to main screen
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
                 } else if (e.getSource() == selectApprovalBackButton) {
                     importFileText.setText("");
                     content.removeAll();
@@ -1886,31 +1908,7 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == approveProceedButton) {
-                    String data = storeNameText.getText() + ",5," + selectApprovalCalendarField.getText() + "," +
-                            sellerActionOptions.getSelectedIndex() + 1 + "," + selectApprovalCustomerUsernameField.getText();
-                    if (sendDataToServer(sellerProceedButton, data).equals("Appointment approved!")) { //Appointment approved
-                        JOptionPane.showMessageDialog(null, "Appointment approved!",
-                                "Appointment", JOptionPane.INFORMATION_MESSAGE);
-
-                    } else { //Appointment declined
-                        JOptionPane.showMessageDialog(null, "Appointment declined!",
-                                "Appointment", JOptionPane.INFORMATION_MESSAGE);
-                    }
-
-                    //Reset text fields
-                    selectApprovalCalendarField.setText("");
-                    selectApprovalCustomerUsernameField.setText("");
-
-                    //Take user back to main screen
-                    content.removeAll();
-                    frame.repaint();
-                    content.setLayout(new GridLayout(2, 1));
-                    content.add(sellerPanel);
-                    frame.setSize(750, 400);
-                    frame.setLocationRelativeTo(null);
-                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    updateUI();
-                    frame.setVisible(true);
+                    //TODO
                 } else if (e.getSource() == approveBackButton) {
                     content.removeAll();
                     frame.repaint();
