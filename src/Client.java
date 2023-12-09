@@ -1234,7 +1234,7 @@ public class Client extends JComponent implements Runnable {
                     if (customerCancelText.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Appointment needs to be filled!",
                                 "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
-                    } else if (customerCancelText.getText().split("-").length != 2 ||
+                    } else if (customerCancelText.getText().split("-").length != 3 ||
                             customerCancelText.getText().split("-")[1].split(",").length != 5) {
                         JOptionPane.showMessageDialog(null, "Appointment needs to be in the right format!",
                                 "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
@@ -1721,13 +1721,26 @@ public class Client extends JComponent implements Runnable {
 
                     boolean passCheck = false;
 
-                    if (editCalendarTitleLabel.getText().isEmpty() || editCalendarApptField.getText().isEmpty() ||
-                            editCalendarNewApptField.getText().isEmpty() || editCalendarMaxField.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Calendar details need to be filled!",
+                    if (editCalendarTitleField.getText().isEmpty() || editCalendarApptField.getText().isEmpty() ||
+                            editCalendarNewApptField.getText().isEmpty() || editCalendarMaxField.getText().isEmpty() ||
+                            editCalendarApprovedBookingsField.getText().isEmpty() || editCalendarNewStartTimeField.getText().isEmpty()
+                                    || editCalendarNewEndTimeField.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "All details need to be filled!",
                                 "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
-                    } else if (!isInteger(editCalendarMaxField.getText())) {
-                        JOptionPane.showMessageDialog(null, "Ensure max attendees is an integer!",
+                    } else if (!isInteger(editCalendarMaxField.getText()) || !isInteger(editCalendarApprovedBookingsField.getText())) {
+                        JOptionPane.showMessageDialog(null, "Ensure max attendees and " +
+                                        "approved bookings are integers!",
                                 "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be right data type
+
+                    } else if (!editCalendarNewStartTimeField.getText().matches("\\d{2}:\\d{2}")) {
+                        JOptionPane.showMessageDialog(null, "Ensure the time format is correct!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user about format
+                        editCalendarNewStartTimeField.setText("");
+
+                    } else if (!editCalendarNewEndTimeField.getText().matches("\\d{2}:\\d{2}")) {
+                        JOptionPane.showMessageDialog(null, "Ensure the time format is correct!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user about format
+                        editCalendarNewStartTimeField.setText("");
                     } else {
                         passCheck = true;
                     }
