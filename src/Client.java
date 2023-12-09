@@ -357,18 +357,21 @@ public class Client extends JComponent implements Runnable {
         JLabel customerOptionsLabel = new JLabel("Select an option from the customer menu below");
         JComboBox<String> customerOptions = new JComboBox<>();
         JButton customerProceedButton = new JButton("Proceed");
-        JLabel exitMessage = new JLabel("Thank you for using the Hotel Manager. You have successfully logged out.");
+        JLabel exitMessage = new JLabel("Thank you for using the Hotel Manager. You have successfully " +
+                "logged out.");
         JLabel closingMessage = new JLabel("This message will close in 5 seconds.");
-        JLabel customerAppointmentRequest = new JLabel("<html>Enter the appointment you would like to request exactly as " +
+        JLabel customerAppointmentRequest = new JLabel("<html>Enter the appointment you would like to request " +
+                "exactly as " +
                 "it appears in the appointment list. <br/> <br/> Format: [Calendar name]-[Appointment Title]," +
                 "[Max Attendees],[Approved Bookings],[Start Time],[End Time]</html>", SwingConstants.CENTER);
         JLabel getAppointments = new JLabel();
         JTextField customerAppointmentText = new JTextField("", 45);
         JButton customerAppointmentButton = new JButton("Proceed");
 
-        JLabel customerCancelAppointmentRequest = new JLabel("<html>Enter the appointment you would like to cancel " +
-                "exactly as it appears in the appointment list. <br/> <br/> Format: [Calendar name]-[Appointment Title]," +
-                "[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Username]</html>");
+        JLabel customerCancelAppointmentRequest = new JLabel("<html>Enter the appointment you would like to " +
+                "cancel " + "exactly as it appears in the appointment list. <br/> <br/> Format: [Calendar name]-" +
+                "[Appointment Title]," + "[Max Attendees],[Approved Bookings],[Start Time],[End Time]-" +
+                "[Username]</html>");
         JTextField customerCancelText = new JTextField("", 45);
         JButton customerCancelButton = new JButton("Proceed");
         JLabel customerCancelLabel = new JLabel();
@@ -517,7 +520,8 @@ public class Client extends JComponent implements Runnable {
 
         // Customer view cancel appointments panel.
         JPanel customerViewCancelAppointmentsPanel = new JPanel();
-        customerViewCancelAppointmentsPanel.setLayout(new BoxLayout(customerViewCancelAppointmentsPanel, BoxLayout.PAGE_AXIS));
+        customerViewCancelAppointmentsPanel.setLayout(new BoxLayout(customerViewCancelAppointmentsPanel,
+                BoxLayout.PAGE_AXIS));
         customerViewCancelAppointmentsPanel.add(Box.createRigidArea(new Dimension(200, 10)));
         customerViewCancelLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         customerViewCancelAppointmentsPanel.add(customerViewCancelLabel);
@@ -656,10 +660,12 @@ public class Client extends JComponent implements Runnable {
         createCalendarPanel.add(calendarBackButtonPanel);
 
         //Import file panel
-        JLabel importFileFormatLabel = new JLabel("Please ensure your file is in this format: ", SwingConstants.CENTER);
-        JLabel exampleFormatLabel1 = new JLabel("[Store Name],[Calendar Name],[Calendar description],[Appointment Title],[Max Attendees]," +
-                "[Approved Bookings],[Start Time],[End Time]");
-        JLabel exampleFormatLabel2 = new JLabel("Multiple appointments can be on the same line separated by commas.");
+        JLabel importFileFormatLabel = new JLabel("Please ensure your file is in this format: ",
+                SwingConstants.CENTER);
+        JLabel exampleFormatLabel1 = new JLabel("[Store Name],[Calendar Name],[Calendar description]," +
+                "[Appointment Title],[Max Attendees]," + "[Approved Bookings],[Start Time],[End Time]");
+        JLabel exampleFormatLabel2 = new JLabel("Multiple appointments can be on the same line separated by " +
+                "commas.");
         JLabel exampleFormatLabel3 = new JLabel("Max Attendees can only be an integer value 0 or 1.");
         JLabel importFileLabel = new JLabel("Please enter the filename: ");
         JTextField importFileText = new JTextField("", 20);
@@ -888,10 +894,12 @@ public class Client extends JComponent implements Runnable {
         deleteCalendarScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         //Seller approve/decline appointment requests panel (pt 1 - choose calendar)
-        JLabel selectApprovalCalendarLabel = new JLabel("<html> <br> </br> Please select an appointment above to approve/decline: " +
-                "<br> </br> Enter the appointment exactly as it appears in the above appointment list. [Calendar name]-" +
-                "[Appointment Title],[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Customer username]</html>");
-        JLabel selectApprovalCustomerUsernameLabel = new JLabel("Enter the customer's username of the requested appointment: ");
+        JLabel selectApprovalCalendarLabel = new JLabel("<html> <br> </br> Please select an appointment " +
+                "above to approve/decline: " + "<br> </br> Enter the appointment exactly as it appears in the above " +
+                "appointment list. [Calendar name]-" + "[Appointment Title],[Max Attendees],[Approved Bookings]," +
+                "[Start Time],[End Time]-[Customer username]</html>");
+        JLabel selectApprovalCustomerUsernameLabel = new JLabel("Enter the customer's username of the " +
+                "requested appointment: ");
         JLabel actionResponse = new JLabel("Select an option:");
         JLabel selectApprovalRequestsLabel = new JLabel();
         JTextField selectApprovalCalendarField = new JTextField("", 400);
@@ -915,17 +923,20 @@ public class Client extends JComponent implements Runnable {
         selectApprovalCustomerUsernameField.setMaximumSize(new Dimension(200, 25));
         selectApprovalCustomerUsernameField.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(selectApprovalCustomerUsernameField);
-        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
+        // Add space under the text field
+        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15)));
         actionResponse.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(actionResponse);
-        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
+        // Add space under the text field
+        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15)));
         sellerActionOptions.setMaximumSize(new Dimension(400, 25));
         sellerActionOptions.setAlignmentX(LEFT_ALIGNMENT);
         sellerActionOptions.addItem("Approve appointment.");
         sellerActionOptions.addItem("Decline appointment.");
         selectApprovalCalendarPanel.add(sellerActionOptions);
 
-        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space under the text field
+        // Add space under the text field
+        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         Box buttonBox = Box.createHorizontalBox();
         buttonBox.add(Box.createHorizontalGlue());
         buttonBox.add(selectApprovalProceedButton);
@@ -1033,9 +1044,11 @@ public class Client extends JComponent implements Runnable {
                     boolean passCheck = false;
 
                     //Presence check on all fields
-                    if (nameText.getText().isEmpty() || emailText.getText().isEmpty() || createPassText.getText().isEmpty()) {
+                    if (nameText.getText().isEmpty() || emailText.getText().isEmpty() ||
+                            createPassText.getText().isEmpty()) {
+                        //Tells user that all fields need to be filled
                         JOptionPane.showMessageDialog(null, "All fields need to be filled!",
-                                "Create Account", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                                "Create Account", JOptionPane.ERROR_MESSAGE);
                     } else {
                         passCheck = true;
                     }
@@ -1048,10 +1061,12 @@ public class Client extends JComponent implements Runnable {
                         String pass = createPassText.getText();
 
                         //Sends info to Server
-                        String validEmail = sendDataToServer(createEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
+                        String validEmail = sendDataToServer(createEnterButton, userOrSeller + "," + name
+                                + "," + email + "," + pass);
                         if (validEmail.equals("true")) {
+                            //Tells user account has been created
                             JOptionPane.showMessageDialog(null, "Account created!",
-                                    "Create Account", JOptionPane.INFORMATION_MESSAGE); //Tells user account has been created
+                                    "Create Account", JOptionPane.INFORMATION_MESSAGE);
 
                             //Resets all text fields
                             nameText.setText("");
@@ -1068,7 +1083,8 @@ public class Client extends JComponent implements Runnable {
                             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             frame.setVisible(true);
                         } else {
-                            JOptionPane.showMessageDialog(null, "Email already exists! Please choose a different email",
+                            JOptionPane.showMessageDialog(null, "Email already exists! " +
+                                            "Please choose a different email",
                                     "Create Account", JOptionPane.ERROR_MESSAGE); //Error message
 
                             //Resets text fields so user can try again
@@ -1079,9 +1095,11 @@ public class Client extends JComponent implements Runnable {
                 } else if (e.getSource() == loginEnterButton) {
                     boolean passCheck = false;
                     //Presence check on all fields
-                    if (nameText.getText().isEmpty() || emailText.getText().isEmpty() || loginPassText.getText().isEmpty()) {
+                    if (nameText.getText().isEmpty() || emailText.getText().isEmpty() ||
+                            loginPassText.getText().isEmpty()) {
+                        //Tells user that all fields need to be filled
                         JOptionPane.showMessageDialog(null, "All fields need to be filled!",
-                                "Create Account", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                                "Create Account", JOptionPane.ERROR_MESSAGE);
                     } else {
                         passCheck = true;
                     }
@@ -1094,7 +1112,8 @@ public class Client extends JComponent implements Runnable {
                         String pass = loginPassText.getText();
 
                         //Sends info to Server
-                        String validLogin = sendDataToServer(loginEnterButton, userOrSeller + "," + name + "," + email + "," + pass);
+                        String validLogin = sendDataToServer(loginEnterButton, userOrSeller + "," + name +
+                                "," + email + "," + pass);
                         if (validLogin.equals("true")) {
                             JOptionPane.showMessageDialog(null, "Login successful!",
                                     "Login", JOptionPane.INFORMATION_MESSAGE); //Tells user login was successful
@@ -1128,7 +1147,8 @@ public class Client extends JComponent implements Runnable {
                                 frame.setVisible(true);
                             }
                         } else { //Invalid login
-                            JOptionPane.showMessageDialog(null, "Either you did not select your correct user type (Seller or Customer)" +
+                            JOptionPane.showMessageDialog(null, "Either you did not " +
+                                            "select your correct user type (Seller or Customer)" +
                                             " or your email or password is incorrect!",
                                     "Login", JOptionPane.ERROR_MESSAGE); //Error message
                         }
@@ -1238,13 +1258,16 @@ public class Client extends JComponent implements Runnable {
                             break;
                         case 6:
                             String temp6 = sendDataToServer(customerProceedButton, "7;temp");
-                            if (temp6.equals("Your file has been exported! Please check your desktop to view the text file.")) {
+                            if (temp6.equals("Your file has been exported! Please check your desktop " +
+                                    "to view the text file.")) {
                                 JOptionPane.showMessageDialog(null,
                                         "Your file has been exported! Please check your desktop to " +
-                                                "view the text file.", "File Export", JOptionPane.INFORMATION_MESSAGE);
+                                                "view the text file.", "File Export",
+                                        JOptionPane.INFORMATION_MESSAGE);
                             } else {
                                 JOptionPane.showMessageDialog(null,
-                                        "You must make an appointment to export your file.", "File Export", JOptionPane.ERROR_MESSAGE);
+                                        "You must make an appointment to export your file.",
+                                        "File Export", JOptionPane.ERROR_MESSAGE);
                             }
                             break;
                         case 7:
@@ -1268,23 +1291,28 @@ public class Client extends JComponent implements Runnable {
                     String appointmentText = customerAppointmentText.getText();
 
                     if (customerAppointmentText.getText().isEmpty()) {
+                        //Tells user that all fields need to be filled
                         JOptionPane.showMessageDialog(null, "Appointment needs to be filled!",
-                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                                "Appointment", JOptionPane.ERROR_MESSAGE);
                     } else if (customerAppointmentText.getText().split("-").length != 2 ||
                             customerAppointmentText.getText().split("-")[1].split(",").length != 5) {
-                        JOptionPane.showMessageDialog(null, "Appointment needs to be in the right format!",
-                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                        //Tells user that all fields need to be filled
+                        JOptionPane.showMessageDialog(null, "Appointment needs to be in the " +
+                                        "right format!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE);
                     } else {
                         passCheck = true;
                     }
 
                     if (passCheck) {
-                        String getAppointmentStatus = sendDataToServer(customerAppointmentButton, "1;" + appointmentText);
+                        String getAppointmentStatus = sendDataToServer(customerAppointmentButton, "1;"
+                                + appointmentText);
                         if (getAppointmentStatus.equals("Appointment request made.")) {
                             JOptionPane.showMessageDialog(null, "Appointment request made.",
                                     "Status", JOptionPane.INFORMATION_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, "Appointment request unsuccessful.",
+                            JOptionPane.showMessageDialog(null, "Appointment request " +
+                                            "unsuccessful.",
                                     "Status", JOptionPane.ERROR_MESSAGE);
                         }
                         content.removeAll(); //Clears the frame
@@ -1321,12 +1349,16 @@ public class Client extends JComponent implements Runnable {
                     String getCancelAppointment = customerCancelText.getText();
 
                     if (customerCancelText.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Appointment needs to be filled!",
-                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                        //Tells user that all fields need to be filled
+                        JOptionPane.showMessageDialog(null, "Appointment needs to " +
+                                        "be filled!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE);
                     } else if (customerCancelText.getText().split("-").length != 3 ||
                             customerCancelText.getText().split("-")[1].split(",").length != 5) {
-                        JOptionPane.showMessageDialog(null, "Appointment needs to be in the right format!",
-                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                        //Tells user that all fields need to be filled
+                        JOptionPane.showMessageDialog(null, "Appointment needs to be in " +
+                                        "the right format!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE);
                     } else {
                         passCheck = true;
                     }
@@ -1338,9 +1370,11 @@ public class Client extends JComponent implements Runnable {
                             viewCancelOption = 2;
                         }
 
-                        String getCancelCalendar = sendDataToServer(customerCancelButton, "2;" + viewCancelOption + ";" + getCancelAppointment);
+                        String getCancelCalendar = sendDataToServer(customerCancelButton, "2;" +
+                                viewCancelOption + ";" + getCancelAppointment);
                         if (getCancelCalendar.equals("Appointment cancelled successfully.")) {
-                            JOptionPane.showMessageDialog(null, "Appointment cancelled successfully.",
+                            JOptionPane.showMessageDialog(null, "Appointment cancelled " +
+                                            "successfully.",
                                     "Status", JOptionPane.INFORMATION_MESSAGE);
                             content.removeAll(); //Clears the frame
                             frame.repaint();
@@ -1352,7 +1386,8 @@ public class Client extends JComponent implements Runnable {
                             updateUI();
                             frame.setVisible(true);
                         } else {
-                            JOptionPane.showMessageDialog(null, "Appointment request unsuccessful.",
+                            JOptionPane.showMessageDialog(null, "Appointment " +
+                                            "request unsuccessful.",
                                     "Status", JOptionPane.ERROR_MESSAGE);
                         }
                     }
@@ -1474,11 +1509,15 @@ public class Client extends JComponent implements Runnable {
                     boolean passCheck = false;
 
                     if (importFileText.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Store name needs to be filled!",
-                                "Seller", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                        //Tells user that all fields need to be filled
+                        JOptionPane.showMessageDialog(null, "Store name needs to " +
+                                        "be filled!",
+                                "Seller", JOptionPane.ERROR_MESSAGE);
                     } else if (importFileText.getText().split(",").length != 8) {
-                        JOptionPane.showMessageDialog(null, "Ensure file name is in the right format!",
-                                "Seller", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be in right format
+                        //Tells user that all fields need to be in right format
+                        JOptionPane.showMessageDialog(null, "Ensure file name is in " +
+                                        "the right format!",
+                                "Seller", JOptionPane.ERROR_MESSAGE);
                     } else {
                         passCheck = true;
                     }
@@ -1486,7 +1525,8 @@ public class Client extends JComponent implements Runnable {
                     if (passCheck) {
                         String sendToServer = storeNameText.getText() + ";2;1;" + importFileText.getText();
                         if (sendDataToServer(sellerProceedButton, sendToServer).equals("Unsuccessful")) {
-                            JOptionPane.showMessageDialog(null, "File was unable to import! Please ensure your file exists.",
+                            JOptionPane.showMessageDialog(null, "File was unable to import! " +
+                                            "Please ensure your file exists.",
                                     "Status", JOptionPane.ERROR_MESSAGE);
                         } else { //Was successful
                             JOptionPane.showMessageDialog(null, "File imported successfully!",
@@ -1509,8 +1549,10 @@ public class Client extends JComponent implements Runnable {
                     boolean passCheck = false;
 
                     if (calendarNameText.getText().isEmpty() || calendarDescriptionText.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Calendar details need to be filled!",
-                                "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                        //Tells user that all fields need to be filled
+                        JOptionPane.showMessageDialog(null, "Calendar details need to " +
+                                        "be filled!",
+                                "Calendar", JOptionPane.ERROR_MESSAGE);
                     } else {
                         passCheck = true;
                     }
@@ -1534,15 +1576,19 @@ public class Client extends JComponent implements Runnable {
                     if (appointmentTitleText.getText().isEmpty() || maxAttendeesText.getText().isEmpty()
                             || approvedBookingsText.getText().isEmpty()
                             || startTimeText.getText().isEmpty() || endTimeText.getText().isEmpty()) {
+                        //Tells user that all fields need to be filled
                         JOptionPane.showMessageDialog(null, "All fields need to be filled!",
-                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                                "Appointment", JOptionPane.ERROR_MESSAGE);
                     } else if (!isInteger(maxAttendeesText.getText()) || !isInteger(approvedBookingsText.getText())) {
-                        JOptionPane.showMessageDialog(null, "Ensure max attendees and approved bookings are integers",
-                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all field needs to be right data type
+                        //Tells user that all field needs to be right data type
+                        JOptionPane.showMessageDialog(null, "Ensure max attendees and " +
+                                        "approved bookings are integers",
+                                "Appointment", JOptionPane.ERROR_MESSAGE);
                         maxAttendeesText.setText("");
                         approvedBookingsText.setText("");
                         //Range check on approved bookings text
-                    } else if (Integer.parseInt(approvedBookingsText.getText()) < 0 || Integer.parseInt(approvedBookingsText.getText()) > 1) {
+                    } else if (Integer.parseInt(approvedBookingsText.getText()) < 0 ||
+                            Integer.parseInt(approvedBookingsText.getText()) > 1) {
                         JOptionPane.showMessageDialog(null, "Approved bookings must be 0 or 1!",
                                 "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user about range
                         approvedBookingsText.setText("");
@@ -1594,9 +1640,11 @@ public class Client extends JComponent implements Runnable {
                         }
 
                         if (appointmentListLabel1.getText().length() > 1) {
-                            appointmentListLabel1.setText(appointmentListLabel1.getText().substring(0, appointmentListLabel1.getText().length() - 7) + "<br/>" + newAppt + "</html>");
+                            appointmentListLabel1.setText(appointmentListLabel1.getText().substring(0,
+                                    appointmentListLabel1.getText().length() - 7) + "<br/>" + newAppt + "</html>");
                         } else {
-                            appointmentListLabel1.setText(appointmentListLabel1.getText() + "<html><br/>" + newAppt + "</html>");
+                            appointmentListLabel1.setText(appointmentListLabel1.getText() + "<html><br/>" +
+                                    newAppt + "</html>");
                         }
 
                         //Bringing user back to calendar page
@@ -1625,7 +1673,8 @@ public class Client extends JComponent implements Runnable {
                         int sellerMenuSelection = sellerOptions.getSelectedIndex();
                         switch (sellerMenuSelection) {
                             case 1: //View current calendars
-                                viewCalendarsLabel.setText("<html>" + sendDataToServer(sellerProceedButton, storeNameLabel.getText() + ";1") + "</html>");
+                                viewCalendarsLabel.setText("<html>" + sendDataToServer(sellerProceedButton,
+                                        storeNameLabel.getText() + ";1") + "</html>");
                                 content.removeAll(); //Clears the frame
                                 frame.repaint();
                                 content.setLayout(new BorderLayout());
@@ -1706,8 +1755,10 @@ public class Client extends JComponent implements Runnable {
                     boolean passCheck = false;
 
                     if (calendarNameText.getText().isEmpty() || calendarDescriptionText.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Calendar details need to be filled!",
-                                "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                        //Tells user that all fields need to be filled
+                        JOptionPane.showMessageDialog(null, "Calendar details need to " +
+                                        "be filled!",
+                                "Calendar", JOptionPane.ERROR_MESSAGE);
                     } else {
                         passCheck = true;
                     }
@@ -1731,7 +1782,8 @@ public class Client extends JComponent implements Runnable {
                             }
 
                             sendDataToServer(sellerProceedButton, sendToServer);
-                            JOptionPane.showMessageDialog(null, "Calendar created successfully!",
+                            JOptionPane.showMessageDialog(null, "Calendar created " +
+                                            "successfully!",
                                     "Status", JOptionPane.INFORMATION_MESSAGE);
 
                             //Clearing text fields
@@ -1795,17 +1847,20 @@ public class Client extends JComponent implements Runnable {
                     // TODO: Approve/decline appointments send to server and display appropriate pop-up message.
                     boolean passCheck = false;
 
-                    if (selectApprovalCalendarField.getText().isEmpty() || selectApprovalCustomerUsernameField.getText().isEmpty()) {
+                    if (selectApprovalCalendarField.getText().isEmpty() ||
+                            selectApprovalCustomerUsernameField.getText().isEmpty()) {
+                        //Tells user that all fields need to be filled
                         JOptionPane.showMessageDialog(null, "All fields need to be filled!",
-                                "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                                "Calendar", JOptionPane.ERROR_MESSAGE);
                     } else {
                         passCheck = true;
                     }
 
                     if (passCheck) {
                         String data = storeNameText.getText() + ";5;" + selectApprovalCalendarField.getText() + ";" +
-                                (sellerActionOptions.getSelectedIndex() + 1) + ";" + selectApprovalCustomerUsernameField.getText();
-                        if (sendDataToServer(sellerProceedButton, data).equals("Appointment approved!")) { //Appointment approved
+                                (sellerActionOptions.getSelectedIndex() + 1) + ";" +
+                                selectApprovalCustomerUsernameField.getText();
+                        if (sendDataToServer(sellerProceedButton, data).equals("Appointment approved!")) {
                             JOptionPane.showMessageDialog(null, "Appointment approved!",
                                     "Appointment", JOptionPane.INFORMATION_MESSAGE);
 
@@ -1847,22 +1902,27 @@ public class Client extends JComponent implements Runnable {
 
                     if (editCalendarTitleField.getText().isEmpty() || editCalendarApptField.getText().isEmpty() ||
                             editCalendarNewApptField.getText().isEmpty() || editCalendarMaxField.getText().isEmpty() ||
-                            editCalendarApprovedBookingsField.getText().isEmpty() || editCalendarNewStartTimeField.getText().isEmpty()
+                            editCalendarApprovedBookingsField.getText().isEmpty() ||
+                            editCalendarNewStartTimeField.getText().isEmpty()
                             || editCalendarNewEndTimeField.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "All details need to be filled!",
                                 "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
-                    } else if (!isInteger(editCalendarMaxField.getText()) || !isInteger(editCalendarApprovedBookingsField.getText())) {
+                    } else if (!isInteger(editCalendarMaxField.getText()) ||
+                            !isInteger(editCalendarApprovedBookingsField.getText())) {
                         JOptionPane.showMessageDialog(null, "Ensure max attendees and " +
                                         "approved bookings are integers!",
-                                "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be right data type
+                                "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be
+                        // right data type
 
                     } else if (!editCalendarNewStartTimeField.getText().matches("\\d{2}:\\d{2}")) {
-                        JOptionPane.showMessageDialog(null, "Ensure the time format is correct!",
+                        JOptionPane.showMessageDialog(null, "Ensure the time format " +
+                                        "is correct!",
                                 "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user about format
                         editCalendarNewStartTimeField.setText("");
 
                     } else if (!editCalendarNewEndTimeField.getText().matches("\\d{2}:\\d{2}")) {
-                        JOptionPane.showMessageDialog(null, "Ensure the time format is correct!",
+                        JOptionPane.showMessageDialog(null, "Ensure the time format " +
+                                        "is correct!",
                                 "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user about format
                         editCalendarNewEndTimeField.setText("");
                     } else {
@@ -1870,10 +1930,11 @@ public class Client extends JComponent implements Runnable {
                     }
 
                     if (passCheck) {
-                        String data = storeNameText.getText() + ";3;" + editCalendarTitleField.getText() + ";" + editCalendarApptField.getText() + ";" +
+                        String data = storeNameText.getText() + ";3;" + editCalendarTitleField.getText() + ";" +
+                                editCalendarApptField.getText() + ";" +
                                 editCalendarNewApptField.getText() + ";" + editCalendarMaxField.getText() + ";" +
-                                editCalendarApprovedBookingsField.getText() + ";" + editCalendarNewStartTimeField.getText()
-                                + ";" + editCalendarNewEndTimeField.getText();
+                                editCalendarApprovedBookingsField.getText() + ";" +
+                                editCalendarNewStartTimeField.getText() + ";" + editCalendarNewEndTimeField.getText();
                         String customerEditedConfirmation = sendDataToServer(sellerProceedButton, data);
 
                         if (customerEditedConfirmation.equals("Success")) {
@@ -1921,8 +1982,9 @@ public class Client extends JComponent implements Runnable {
                     boolean passCheck = false;
 
                     if (deleteCalendarTitleField.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Calendar title needs to be filled!",
-                                "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                        JOptionPane.showMessageDialog(null, "Calendar title needs to be " +
+                                        "filled!",
+                                "Calendar", JOptionPane.ERROR_MESSAGE);
                     } else {
                         passCheck = true;
                     }
@@ -1948,7 +2010,8 @@ public class Client extends JComponent implements Runnable {
                             frame.setVisible(true);
 
                         } else { //Calendar was unable to delete - display error message
-                            JOptionPane.showMessageDialog(null, "Calendar was unable to delete! " +
+                            JOptionPane.showMessageDialog(null, "Calendar was unable " +
+                                            "to delete! " +
                                             "Please ensure the calendar you entered exists!",
                                     "Calendar", JOptionPane.ERROR_MESSAGE);
                         }
@@ -1970,11 +2033,12 @@ public class Client extends JComponent implements Runnable {
 
                     if (selectApprovalCalendarField.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Appointment needs to be filled!",
-                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                                "Appointment", JOptionPane.ERROR_MESSAGE);
                     } else if (selectApprovalCalendarField.getText().split("-").length != 3 ||
                             customerCancelText.getText().split("-")[1].split(",").length != 5) {
-                        JOptionPane.showMessageDialog(null, "Appointment needs to be in the right format!",
-                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                        JOptionPane.showMessageDialog(null, "Appointment needs to be in " +
+                                        "the right format!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE);
                     } else {
                         passCheck = true;
                     }

@@ -113,10 +113,13 @@ public class Server implements Runnable {
                                 writer.flush();
                             }
                         } else if (choice != null && choice.equals("2")) { // Handles create new calendar.
-                            String importChoice = bufferedReader.readLine(); // Indicates to create calendar with file or manually.
+                            String importChoice = bufferedReader.readLine(); // Indicates to create calendar with
+                            // file or manually.
                             if (importChoice.equals("1")) { // Import file
                                 String fileName = bufferedReader.readLine();
-                                writer.println(seller.createCalendarWithFile(System.getProperty("user.home") + "/Desktop/" + fileName)); // Creates calendar with file.
+                                // Creates calendar with file.
+                                writer.println(seller.createCalendarWithFile(
+                                        System.getProperty("user.home") + "/Desktop/" + fileName));
                                 writer.flush();
                             } else if (importChoice.equals("2")) { // Manually create file.
                                 ArrayList<Appointment> apptList = new ArrayList<>(); // Holds the appointments.
@@ -127,8 +130,10 @@ public class Server implements Runnable {
 
                                 for (int i = 0; i < Integer.parseInt(numAppointments); i++) {
                                     String appointmentTile = bufferedReader.readLine(); // Receives appointment title
-                                    int maxAttendees = Integer.parseInt(bufferedReader.readLine()); // Client needs to check if valid input before sending to Server.
-                                    int approvedBookings = Integer.parseInt(bufferedReader.readLine()); // Client needs to check if valid input before sending to Server.
+                                    int maxAttendees = Integer.parseInt(bufferedReader.readLine()); // Client needs
+                                    // to check if valid input before sending to Server.
+                                    int approvedBookings = Integer.parseInt(bufferedReader.readLine()); // Client
+                                    // needs to check if valid input before sending to Server.
                                     String startTime = bufferedReader.readLine(); // Receives start time.
                                     String endTime = bufferedReader.readLine(); // Receives end time.
 
@@ -146,12 +151,15 @@ public class Server implements Runnable {
                             String calendarName = bufferedReader.readLine();
                             String oldApptTitle = bufferedReader.readLine();
                             String apptTitle = bufferedReader.readLine();
-                            int maxAttendee = Integer.parseInt(bufferedReader.readLine()); // Client needs to check if valid before sending to Server.
-                            int approvedBookings = Integer.parseInt(bufferedReader.readLine()); // Client needs to check if valid before sending to Server.
+                            int maxAttendee = Integer.parseInt(bufferedReader.readLine()); // Client needs to check
+                            // if valid before sending to Server.
+                            int approvedBookings = Integer.parseInt(bufferedReader.readLine()); // Client needs to
+                            // check if valid before sending to Server.
                             String startTime = bufferedReader.readLine();
                             String endTime = bufferedReader.readLine();
 
-                            Appointment editedAppt = new Appointment(apptTitle, maxAttendee, approvedBookings, startTime, endTime);
+                            Appointment editedAppt = new Appointment(apptTitle, maxAttendee, approvedBookings,
+                                    startTime, endTime);
                             String temp1 = seller.editCalendar(calendarName, oldApptTitle, editedAppt.toString());
                             writer.println(temp1);
                             writer.flush();
@@ -167,21 +175,24 @@ public class Server implements Runnable {
                                 writer.println("Calendar not deleted!");
                                 writer.flush();
                             }
-                        } else if (choice != null && choice.equals("requests")) { // Sends pending appointment requests to Client.
+                        } else if (choice != null && choice.equals("requests")) { // Sends pending appointment
+                            // requests to Client.
                             writer.println(seller.getCustomerRequest()); // Sends message to Client.
                             writer.flush();
                         } else if (choice != null && choice.equals("5")) { // Handles approve/decline appointments.
                             String requestedAppointment = bufferedReader.readLine();
                             String action = bufferedReader.readLine();
                             String requestUsername = bufferedReader.readLine();
-                            if (seller.handleCustomerRequests(requestedAppointment, requestUsername, action).equals("Approved")) {
+                            if (seller.handleCustomerRequests(requestedAppointment, requestUsername, action).
+                                    equals("Approved")) {
                                 writer.println("Appointment approved!");
                                 writer.flush();
                             } else {
                                 writer.println("Appointment declined!");
                                 writer.flush();
                             }
-                        } else if (choice != null && choice.equals("6")) { // Handles view currently approved appointments.
+                        } else if (choice != null && choice.equals("6")) { // Handles view currently approved
+                            // appointments.
                             String approvedAppointments = seller.viewApprovedAppointments();
                             writer.println(approvedAppointments);
                             writer.flush();
@@ -283,7 +294,8 @@ public class Server implements Runnable {
                                         bufferedWriter.write(line);
                                         bufferedWriter.newLine();
                                     }
-                                    message = "Your file has been exported! Please check your desktop to view the text file.";
+                                    message = "Your file has been exported! Please check your desktop to view the " +
+                                            "text file.";
 
                                     writer.println(message);
                                     writer.flush();

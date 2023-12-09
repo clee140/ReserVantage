@@ -22,7 +22,7 @@ import java.util.Date;
  * appointments that were approved and sort the most popular appointment windows by store.
  *
  * @author Christopher Lee
- * @version November 10, 2023
+ * @version December 9, 2023
  */
 
 public class Seller extends User {
@@ -220,7 +220,8 @@ public class Seller extends User {
         }
 
         if (edited) {
-            String newAppointment = list.replaceAll(appointmentDetails, calendarName + "-" + updatedAppointment);
+            String newAppointment = list.replaceAll(appointmentDetails, calendarName + "-" +
+                    updatedAppointment);
             newAppointment += "Edited: " + formatter.format(date);
 
             FileWriter writer = null;
@@ -429,7 +430,8 @@ public class Seller extends User {
         String appointments = "";
         ArrayList<String> calendarList = readFile(fileName);
         for (int i = 0; i < calendarList.size(); i++) {
-            if (calendarList.get(i).split(",").length == 5 && !calendarList.get(i).contains("Appointment List:")) {
+            if (calendarList.get(i).split(",").length == 5 &&
+                    !calendarList.get(i).contains("Appointment List:")) {
                 String[] list = calendarList.get(i).split("-");
                 if (list.length >= 2) {
                     String[] approvedAppointments = list[1].split(",");
@@ -462,7 +464,8 @@ public class Seller extends User {
 
         if (sortDashboard.equalsIgnoreCase("yes")) {
             for (int i = 0; i < calendarList.size(); i++) {
-                if (calendarList.get(i).split(",").length == 5 && !calendarList.get(i).contains("Appointment List:")) {
+                if (calendarList.get(i).split(",").length == 5 &&
+                        !calendarList.get(i).contains("Appointment List:")) {
                     String[] list = calendarList.get(i).split("-");
 
                     String[] approvedAppointments = list[1].split(",");
