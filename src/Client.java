@@ -1786,10 +1786,12 @@ public class Client extends JComponent implements Runnable {
                     boolean passCheck = false;
 
                     if (editCalendarTitleLabel.getText().isEmpty() || editCalendarApptField.getText().isEmpty() ||
-                            editCalendarNewApptField.getText().isEmpty() || editCalendarMaxField.getText().isEmpty()) {
+                            editCalendarNewApptField.getText().isEmpty() || editCalendarMaxField.getText().isEmpty() ||
+                            editCalendarApprovedBookingsField.getText().isEmpty() || editCalendarNewStartTimeField.getText().isEmpty() ||
+                            editCalendarNewEndTimeField.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Calendar details need to be filled!",
                                 "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
-                    } else if (!isInteger(editCalendarMaxField.getText())) {
+                    } else if (!isInteger(editCalendarMaxField.getText()) || !isInteger(editCalendarApprovedBookingsField.getText())) {
                         JOptionPane.showMessageDialog(null, "Ensure max attendees is an integer!",
                                 "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be right data type
                     } else {
