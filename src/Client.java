@@ -212,6 +212,13 @@ public class Client extends JComponent implements Runnable {
                             output = bfr.readLine();
                             break;
                         case "5":
+                            pw.println(info[2]); //Requested appointment
+                            pw.flush();
+                            pw.println(info[3]); //Seller action: approve/decline
+                            pw.flush();
+                            pw.println(info[4]); //Customer username
+                            pw.flush();
+                            output = bfr.readLine();
                             break;
                         case "6":
                             break;
@@ -229,7 +236,7 @@ public class Client extends JComponent implements Runnable {
                     bfr.readLine();
 
                     //TODO: Where options begin - will need to make a switch statement
-                    String[] temp = data.split(",");
+                    String[] temp = data.split(";");
                     switch (temp[0]) {
                         case ("calendars"): {
                             pw.println("calendars");
@@ -863,7 +870,7 @@ public class Client extends JComponent implements Runnable {
         //Seller approve/decline appointment requests panel (pt 1 - choose calendar)
         JLabel selectApprovalCalendarLabel = new JLabel("<html> <br> </br> Please select an appointment above to approve/decline: " +
                 "<br> </br> Enter the appointment exactly as it appears in the above appointment list. [Calendar name]-" +
-                "[Appointment Title],[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Customer username]<br> </br> <br> </br></html>");
+                "[Appointment Title],[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Customer username]</html>");
         JLabel selectApprovalCustomerUsernameLabel = new JLabel("Enter the customer's username of the requested appointment: ");
         JLabel actionResponse = new JLabel("Select an option:");
         JLabel selectApprovalRequestsLabel = new JLabel();
@@ -875,31 +882,25 @@ public class Client extends JComponent implements Runnable {
         JPanel selectApprovalCalendarPanel = new JPanel();
         selectApprovalCalendarPanel.setLayout(new BoxLayout(selectApprovalCalendarPanel, BoxLayout.PAGE_AXIS));
         selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
-        selectApprovalCalendarLabel.setAlignmentX(Component.LEFT_ALIGNMENT + 0.36f);
-        selectApprovalCalendarField.setMaximumSize(new Dimension(600, 25));
+        selectApprovalRequestsLabel.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(selectApprovalRequestsLabel);
-
-        selectApprovalRequestsLabel.setAlignmentX(Component.LEFT_ALIGNMENT + 0.36f);
+        selectApprovalCalendarLabel.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(selectApprovalCalendarLabel);
-
-        selectApprovalRequestsLabel.setAlignmentX(Component.LEFT_ALIGNMENT + 0.36f);
+        selectApprovalCalendarField.setMaximumSize(new Dimension(500, 25));
+        selectApprovalCalendarField.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(selectApprovalCalendarField);
-
-        selectApprovalCustomerUsernameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+        selectApprovalCustomerUsernameLabel.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(selectApprovalCustomerUsernameLabel);
-
-        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
-        selectApprovalCustomerUsernameField.setMaximumSize(new Dimension(400, 25));
-        selectApprovalCustomerUsernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        selectApprovalCustomerUsernameField.setMaximumSize(new Dimension(200, 25));
+        selectApprovalCustomerUsernameField.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(selectApprovalCustomerUsernameField);
-
         selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
-
-        actionResponse.setAlignmentX(Component.CENTER_ALIGNMENT);
+        actionResponse.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(actionResponse);
         selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
         sellerActionOptions.setMaximumSize(new Dimension(400, 25));
-        sellerActionOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sellerActionOptions.setAlignmentX(LEFT_ALIGNMENT);
         sellerActionOptions.addItem("Approve appointment.");
         sellerActionOptions.addItem("Decline appointment.");
         selectApprovalCalendarPanel.add(sellerActionOptions);
@@ -1107,7 +1108,8 @@ public class Client extends JComponent implements Runnable {
                                 frame.setVisible(true);
                             }
                         } else { //Invalid login
-                            JOptionPane.showMessageDialog(null, "Your email or password is incorrect!",
+                            JOptionPane.showMessageDialog(null, "Either you did not select your correct user type (Seller or Customer)" +
+                                            " or your email or password is incorrect!",
                                     "Login", JOptionPane.ERROR_MESSAGE); //Error message
                         }
 
@@ -1140,7 +1142,7 @@ public class Client extends JComponent implements Runnable {
                     int customerMenuSelection = customerOptions.getSelectedIndex();
                     switch (customerMenuSelection) {
                         case 0:
-                            String temp = sendDataToServer(customerProceedButton, "calendars,temp");
+                            String temp = sendDataToServer(customerProceedButton, "calendars;temp");
                             getAppointments.setText("<html>" + temp + "</html");
                             content.removeAll();
                             frame.repaint();
@@ -1165,7 +1167,7 @@ public class Client extends JComponent implements Runnable {
                             frame.setVisible(true);
                             break;
                         case 2:
-                            String temp2 = sendDataToServer(customerProceedButton, "calendars,temp");
+                            String temp2 = sendDataToServer(customerProceedButton, "calendars;temp");
                             customerViewCalendarsLabel.setText("<html>" + temp2 + "</html>");
                             content.removeAll();
                             frame.repaint();
@@ -1178,7 +1180,7 @@ public class Client extends JComponent implements Runnable {
                             frame.setVisible(true);
                             break;
                         case 3:
-                            String temp3 = sendDataToServer(customerProceedButton, "4,temp");
+                            String temp3 = sendDataToServer(customerProceedButton, "4;temp");
                             customerViewApprovedAppointmentsLabel.setText("<html>" + temp3 + "</html>");
                             content.removeAll();
                             frame.repaint();
@@ -1191,7 +1193,7 @@ public class Client extends JComponent implements Runnable {
                             frame.setVisible(true);
                             break;
                         case 4:
-                            String temp4 = sendDataToServer(customerProceedButton, "5,temp");
+                            String temp4 = sendDataToServer(customerProceedButton, "5;temp");
                             customerViewPendingAppointmentsLabel.setText("<html>" + temp4 + "</html>");
                             content.removeAll();
                             frame.repaint();
@@ -1215,7 +1217,7 @@ public class Client extends JComponent implements Runnable {
                             frame.setVisible(true);
                             break;
                         case 6:
-                            String temp6 = sendDataToServer(customerProceedButton, "7,temp");
+                            String temp6 = sendDataToServer(customerProceedButton, "7;temp");
                             if (temp6.equals("Your file has been exported! Please check your desktop to view the text file.")) {
                                 JOptionPane.showMessageDialog(null,
                                         "Your file has been exported! Please check your desktop to " +
@@ -1226,7 +1228,7 @@ public class Client extends JComponent implements Runnable {
                             }
                             break;
                         case 7:
-                            sendDataToServer(customerProceedButton, "8,temp");
+                            sendDataToServer(customerProceedButton, "8;temp");
                             content.removeAll();
                             content.setLayout(new GridLayout(1, 1));
                             content.add(exitLogOutPanel);
@@ -1257,7 +1259,7 @@ public class Client extends JComponent implements Runnable {
                     }
 
                     if (passCheck) {
-                        String getAppointmentStatus = sendDataToServer(customerAppointmentButton, "1," + appointmentText);
+                        String getAppointmentStatus = sendDataToServer(customerAppointmentButton, "1;" + appointmentText);
                         if (getAppointmentStatus.equals("Appointment request made.")) {
                             JOptionPane.showMessageDialog(null, "Appointment request made.",
                                     "Status", JOptionPane.INFORMATION_MESSAGE);
@@ -1278,9 +1280,9 @@ public class Client extends JComponent implements Runnable {
                     viewCancelOption = customerCancelOptions.getSelectedIndex();
                     String getCancelCalendar = "";
                     if (viewCancelOption == 0) {
-                        getCancelCalendar = sendDataToServer(customerAppointmentButton, "cancel,1");
+                        getCancelCalendar = sendDataToServer(customerAppointmentButton, "cancel;1");
                     } else {
-                        getCancelCalendar = sendDataToServer(customerAppointmentButton, "cancel,2");
+                        getCancelCalendar = sendDataToServer(customerAppointmentButton, "cancel;2");
                     }
 
                     customerCancelLabel.setText("<html>" + getCancelCalendar + "</html>");
@@ -1316,7 +1318,7 @@ public class Client extends JComponent implements Runnable {
                             viewCancelOption = 2;
                         }
 
-                        String getCancelCalendar = sendDataToServer(customerCancelButton, "2," + viewCancelOption + "," + getCancelAppointment);
+                        String getCancelCalendar = sendDataToServer(customerCancelButton, "2;" + viewCancelOption + ";" + getCancelAppointment);
                         if (getCancelCalendar.equals("Appointment cancelled successfully.")) {
                             JOptionPane.showMessageDialog(null, "Appointment cancelled successfully.",
                                     "Status", JOptionPane.INFORMATION_MESSAGE);
@@ -1339,7 +1341,7 @@ public class Client extends JComponent implements Runnable {
                     if (viewSortOption == 0) {
                         viewSortOption = 1;
                     }
-                    String tempSort = sendDataToServer(customerSortButton, "6," + viewSortOption);
+                    String tempSort = sendDataToServer(customerSortButton, "6;" + viewSortOption);
                     customerViewStatsLabel.setText("<html>" + tempSort + "</html>");
 
                     content.removeAll(); //Clears the frame
@@ -1650,7 +1652,7 @@ public class Client extends JComponent implements Runnable {
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
                                 content.add(selectApprovalCalendarPanel);
-                                frame.setSize(1300, 1200);
+                                frame.setSize(900, 500);
                                 frame.setLocationRelativeTo(null);
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                                 frame.setVisible(true);
@@ -1767,6 +1769,7 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == selectApprovalProceedButton) {
+
                     // TODO: Approve/decline appointments send to server and display appropriate pop-up message.
                     boolean passCheck = false;
 
@@ -1782,9 +1785,33 @@ public class Client extends JComponent implements Runnable {
                     }
 
                     if (passCheck) {
+
+                      String data = storeNameText.getText() + ",5," + selectApprovalCalendarField.getText() + "," +
+                              sellerActionOptions.getSelectedIndex() + 1 + "," + selectApprovalCustomerUsernameField.getText();
+                      if (sendDataToServer(sellerProceedButton, data).equals("Appointment approved!")) { //Appointment approved
+                          JOptionPane.showMessageDialog(null, "Appointment approved!",
+                                  "Appointment", JOptionPane.INFORMATION_MESSAGE);
+
+                      } else { //Appointment declined
+                          JOptionPane.showMessageDialog(null, "Appointment declined!",
+                                  "Appointment", JOptionPane.INFORMATION_MESSAGE);
+                      }
                     }
 
+                    //Reset text fields
+                    selectApprovalCalendarField.setText("");
+                    selectApprovalCustomerUsernameField.setText("");
 
+                    //Take user back to main screen
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
                 } else if (e.getSource() == selectApprovalBackButton) {
                     importFileText.setText("");
                     content.removeAll();
@@ -1919,6 +1946,7 @@ public class Client extends JComponent implements Runnable {
                     frame.setVisible(true);
                 } else if (e.getSource() == approveProceedButton) {
 
+
                     boolean passCheck = false;
 
                     if (selectApprovalCalendarField.getText().isEmpty()) {
@@ -1936,6 +1964,8 @@ public class Client extends JComponent implements Runnable {
 
                     }
                     //after requests have been approved, next screen + confirmation message
+
+                    //TODO
                 } else if (e.getSource() == approveBackButton) {
                     content.removeAll();
                     frame.repaint();
