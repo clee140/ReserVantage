@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
  * class to be displayed on the GUI.
  *
  * @author Audrey Lupton, Sruthi Lingam, Christopher Lee, and Sreekar Gudipati
- * @version December 6, 2023
+ * @version December 9, 2023
  */
 
 public class Client extends JComponent implements Runnable {
