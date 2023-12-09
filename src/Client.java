@@ -1662,7 +1662,9 @@ public class Client extends JComponent implements Runnable {
 
                     boolean passCheck = false;
 
-                    if (storeNameText.getText().isEmpty()) {
+                    if (sellerOptions.getSelectedIndex() == 7) {
+                        passCheck = true;
+                    } else if (storeNameText.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Store name needs to be filled!",
                                 "Seller", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
                     } else {
