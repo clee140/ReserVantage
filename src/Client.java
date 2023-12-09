@@ -23,6 +23,7 @@ public class Client extends JComponent implements Runnable {
     private String password;    //Password of the user
     private int viewCancelOption = 0;
     private int viewSortOption = 0;
+    private int customerViewSortOption = 0;
 
     public boolean isInteger(String value) {
         try {
@@ -1357,11 +1358,11 @@ public class Client extends JComponent implements Runnable {
                         }
                     }
                 } else if (e.getSource() == customerSortButton) {
-                    viewSortOption = customerCancelOptions.getSelectedIndex();
-                    if (viewSortOption == 0) {
-                        viewSortOption = 1;
+                    customerViewSortOption = customerCancelOptions.getSelectedIndex();
+                    if (customerViewSortOption == 0) {
+                        customerViewSortOption = 1;
                     }
-                    String tempSort = sendDataToServer(customerSortButton, "6;" + viewSortOption);
+                    String tempSort = sendDataToServer(customerSortButton, "6;" + customerViewSortOption);
                     customerViewStatsLabel.setText("<html>" + tempSort + "</html>");
 
                     content.removeAll(); //Clears the frame
