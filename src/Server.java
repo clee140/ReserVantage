@@ -177,7 +177,6 @@ public class Server implements Runnable {
                             String requestedAppointment = bufferedReader.readLine();
                             String action = bufferedReader.readLine();
                             String requestUsername = bufferedReader.readLine();
-                            seller.handleCustomerRequests(requestedAppointment, requestUsername, action);
                             if (seller.handleCustomerRequests(requestedAppointment, requestUsername, action).equals("Approved")) {
                                 writer.println("Appointment approved!");
                                 writer.flush();

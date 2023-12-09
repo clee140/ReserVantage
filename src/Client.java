@@ -212,6 +212,13 @@ public class Client extends JComponent implements Runnable {
                             output = bfr.readLine();
                             break;
                         case "5":
+                            pw.println(info[2]); //Requested appointment
+                            pw.flush();
+                            pw.println(info[3]); //Seller action: approve/decline
+                            pw.flush();
+                            pw.println(info[4]); //Customer username
+                            pw.flush();
+                            output = bfr.readLine();
                             break;
                         case "6":
                             break;
@@ -863,7 +870,7 @@ public class Client extends JComponent implements Runnable {
         //Seller approve/decline appointment requests panel (pt 1 - choose calendar)
         JLabel selectApprovalCalendarLabel = new JLabel("<html> <br> </br> Please select an appointment above to approve/decline: " +
                 "<br> </br> Enter the appointment exactly as it appears in the above appointment list. [Calendar name]-" +
-                "[Appointment Title],[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Customer username]<br> </br> <br> </br></html>");
+                "[Appointment Title],[Max Attendees],[Approved Bookings],[Start Time],[End Time]-[Customer username]</html>");
         JLabel selectApprovalCustomerUsernameLabel = new JLabel("Enter the customer's username of the requested appointment: ");
         JLabel actionResponse = new JLabel("Select an option:");
         JLabel selectApprovalRequestsLabel = new JLabel();
@@ -875,31 +882,25 @@ public class Client extends JComponent implements Runnable {
         JPanel selectApprovalCalendarPanel = new JPanel();
         selectApprovalCalendarPanel.setLayout(new BoxLayout(selectApprovalCalendarPanel, BoxLayout.PAGE_AXIS));
         selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(20, 20)));
-        selectApprovalCalendarLabel.setAlignmentX(Component.LEFT_ALIGNMENT + 0.36f);
-        selectApprovalCalendarField.setMaximumSize(new Dimension(600, 25));
+        selectApprovalRequestsLabel.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(selectApprovalRequestsLabel);
-
-        selectApprovalRequestsLabel.setAlignmentX(Component.LEFT_ALIGNMENT + 0.36f);
+        selectApprovalCalendarLabel.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(selectApprovalCalendarLabel);
-
-        selectApprovalRequestsLabel.setAlignmentX(Component.LEFT_ALIGNMENT + 0.36f);
+        selectApprovalCalendarField.setMaximumSize(new Dimension(500, 25));
+        selectApprovalCalendarField.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(selectApprovalCalendarField);
-
-        selectApprovalCustomerUsernameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+        selectApprovalCustomerUsernameLabel.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(selectApprovalCustomerUsernameLabel);
-
-        selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
-        selectApprovalCustomerUsernameField.setMaximumSize(new Dimension(400, 25));
-        selectApprovalCustomerUsernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        selectApprovalCustomerUsernameField.setMaximumSize(new Dimension(200, 25));
+        selectApprovalCustomerUsernameField.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(selectApprovalCustomerUsernameField);
-
         selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
-
-        actionResponse.setAlignmentX(Component.CENTER_ALIGNMENT);
+        actionResponse.setAlignmentX(LEFT_ALIGNMENT);
         selectApprovalCalendarPanel.add(actionResponse);
         selectApprovalCalendarPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Add space under the text field
         sellerActionOptions.setMaximumSize(new Dimension(400, 25));
-        sellerActionOptions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sellerActionOptions.setAlignmentX(LEFT_ALIGNMENT);
         sellerActionOptions.addItem("Approve appointment.");
         sellerActionOptions.addItem("Decline appointment.");
         selectApprovalCalendarPanel.add(sellerActionOptions);
@@ -1650,7 +1651,7 @@ public class Client extends JComponent implements Runnable {
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
                                 content.add(selectApprovalCalendarPanel);
-                                frame.setSize(1300, 1200);
+                                frame.setSize(900, 500);
                                 frame.setLocationRelativeTo(null);
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                                 frame.setVisible(true);
@@ -1871,7 +1872,31 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == approveProceedButton) {
-                    //after requests have been approved, next screen + confirmation message
+                    String data = storeNameText.getText() + ",5," + selectApprovalCalendarField.getText() + "," +
+                            sellerActionOptions.getSelectedIndex() + 1 + "," + selectApprovalCustomerUsernameField.getText();
+                    if (sendDataToServer(sellerProceedButton, data).equals("Appointment approved!")) { //Appointment approved
+                        JOptionPane.showMessageDialog(null, "Appointment approved!",
+                                "Appointment", JOptionPane.INFORMATION_MESSAGE);
+
+                    } else { //Appointment declined
+                        JOptionPane.showMessageDialog(null, "Appointment declined!",
+                                "Appointment", JOptionPane.INFORMATION_MESSAGE);
+                    }
+
+                    //Reset text fields
+                    selectApprovalCalendarField.setText("");
+                    selectApprovalCustomerUsernameField.setText("");
+
+                    //Take user back to main screen
+                    content.removeAll();
+                    frame.repaint();
+                    content.setLayout(new GridLayout(2, 1));
+                    content.add(sellerPanel);
+                    frame.setSize(750, 400);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    updateUI();
+                    frame.setVisible(true);
                 } else if (e.getSource() == approveBackButton) {
                     content.removeAll();
                     frame.repaint();
