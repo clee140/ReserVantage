@@ -1769,15 +1769,33 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == selectApprovalProceedButton) {
-                    String data = storeNameText.getText() + ",5," + selectApprovalCalendarField.getText() + "," +
-                            sellerActionOptions.getSelectedIndex() + 1 + "," + selectApprovalCustomerUsernameField.getText();
-                    if (sendDataToServer(sellerProceedButton, data).equals("Appointment approved!")) { //Appointment approved
-                        JOptionPane.showMessageDialog(null, "Appointment approved!",
-                                "Appointment", JOptionPane.INFORMATION_MESSAGE);
 
-                    } else { //Appointment declined
-                        JOptionPane.showMessageDialog(null, "Appointment declined!",
-                                "Appointment", JOptionPane.INFORMATION_MESSAGE);
+                    // TODO: Approve/decline appointments send to server and display appropriate pop-up message.
+                    boolean passCheck = false;
+
+                    if (selectApprovalCalendarField.getText().isEmpty() || selectApprovalCustomerUsernameField.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "All fields need to be filled!",
+                                "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else if (selectApprovalCalendarField.getText().split("-").length != 3 ||
+                            customerCancelText.getText().split("-")[1].split(",").length != 5) {
+                        JOptionPane.showMessageDialog(null, "Calendar needs to be in the right format!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else {
+                        passCheck = true;
+                    }
+
+                    if (passCheck) {
+
+                      String data = storeNameText.getText() + ",5," + selectApprovalCalendarField.getText() + "," +
+                              sellerActionOptions.getSelectedIndex() + 1 + "," + selectApprovalCustomerUsernameField.getText();
+                      if (sendDataToServer(sellerProceedButton, data).equals("Appointment approved!")) { //Appointment approved
+                          JOptionPane.showMessageDialog(null, "Appointment approved!",
+                                  "Appointment", JOptionPane.INFORMATION_MESSAGE);
+
+                      } else { //Appointment declined
+                          JOptionPane.showMessageDialog(null, "Appointment declined!",
+                                  "Appointment", JOptionPane.INFORMATION_MESSAGE);
+                      }
                     }
 
                     //Reset text fields
@@ -1829,7 +1847,7 @@ public class Client extends JComponent implements Runnable {
                     } else if (!editCalendarNewEndTimeField.getText().matches("\\d{2}:\\d{2}")) {
                         JOptionPane.showMessageDialog(null, "Ensure the time format is correct!",
                                 "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user about format
-                        editCalendarNewStartTimeField.setText("");
+                        editCalendarNewEndTimeField.setText("");
                     } else {
                         passCheck = true;
                     }
@@ -1840,29 +1858,30 @@ public class Client extends JComponent implements Runnable {
                                 editCalendarApprovedBookingsField.getText() + "," + editCalendarNewStartTimeField.getText()
                                 + "," + editCalendarNewEndTimeField.getText();
                         sendDataToServer(sellerProceedButton, data);
+
+                        JOptionPane.showMessageDialog(null, "Calendar has been edited!",
+                                "Calendar", JOptionPane.INFORMATION_MESSAGE);
+
+                        //Resetting all text fields
+                        editCalendarTitleField.setText("");
+                        editCalendarApptField.setText("");
+                        editCalendarNewApptField.setText("");
+                        editCalendarMaxField.setText("");
+                        editCalendarApprovedBookingsField.setText("");
+                        editCalendarNewStartTimeField.setText("");
+                        editCalendarNewEndTimeField.setText("");
+
+                        //Taking user back to main panel
+                        content.removeAll();
+                        frame.repaint();
+                        content.setLayout(new GridLayout(2, 1));
+                        content.add(sellerPanel);
+                        frame.setSize(750, 400);
+                        frame.setLocationRelativeTo(null);
+                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        updateUI();
+                        frame.setVisible(true);
                     }
-                    JOptionPane.showMessageDialog(null, "Calendar has been edited!",
-                            "Calendar", JOptionPane.INFORMATION_MESSAGE);
-
-                    //Resetting all text fields
-                    editCalendarTitleField.setText("");
-                    editCalendarApptField.setText("");
-                    editCalendarNewApptField.setText("");
-                    editCalendarMaxField.setText("");
-                    editCalendarApprovedBookingsField.setText("");
-                    editCalendarNewStartTimeField.setText("");
-                    editCalendarNewEndTimeField.setText("");
-
-                    //Taking user back to main panel
-                    content.removeAll();
-                    frame.repaint();
-                    content.setLayout(new GridLayout(2, 1));
-                    content.add(sellerPanel);
-                    frame.setSize(750, 400);
-                    frame.setLocationRelativeTo(null);
-                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    updateUI();
-                    frame.setVisible(true);
                 } else if (e.getSource() == editCalendarBackButton) {
                     importFileText.setText("");
                     content.removeAll();
@@ -1875,28 +1894,45 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == deleteCalendarProceedButton) {
-                    String data = storeNameText.getText() + ",4," + deleteCalendarTitleField.getText();
-                    if (sendDataToServer(sellerProceedButton, data).equals("Calendar deleted!")) {
-                        JOptionPane.showMessageDialog(null, "Calendar has been deleted!",
-                                "Calendar", JOptionPane.INFORMATION_MESSAGE);
 
-                        //Reset text fields
-                        deleteCalendarTitleField.setText("");
+                    boolean passCheck = false;
 
-                        //Take user back to main screen
-                        content.removeAll();
-                        frame.repaint();
-                        content.setLayout(new GridLayout(2, 1));
-                        content.add(sellerPanel);
-                        frame.setSize(750, 400);
-                        frame.setLocationRelativeTo(null);
-                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        updateUI();
-                        frame.setVisible(true);
-                    } else { //Calendar was unable to delete - display error message
-                        JOptionPane.showMessageDialog(null, "Calendar was unable to delete! " +
-                                        "Please ensure the calendar you entered exists!",
-                                "Calendar", JOptionPane.ERROR_MESSAGE);
+                    if (deleteCalendarTitleField.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Calendar title needs to be filled!",
+                                "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else if (customerCancelText.getText().split("-").length != 2 ||
+                            customerCancelText.getText().split("-")[1].split(",").length != 5) {
+                        JOptionPane.showMessageDialog(null, "Calendar needs to be in the right format!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else {
+                        passCheck = true;
+                    }
+
+                    if (passCheck) {
+                        String data = storeNameText.getText() + ",4," + deleteCalendarTitleField.getText();
+                        if (sendDataToServer(sellerProceedButton, data).equals("Calendar deleted!")) {
+                            JOptionPane.showMessageDialog(null, "Calendar has been deleted!",
+                                    "Calendar", JOptionPane.INFORMATION_MESSAGE);
+
+                            //Reset text fields
+                            deleteCalendarTitleField.setText("");
+
+                            //Take user back to main screen
+                            content.removeAll();
+                            frame.repaint();
+                            content.setLayout(new GridLayout(2, 1));
+                            content.add(sellerPanel);
+                            frame.setSize(750, 400);
+                            frame.setLocationRelativeTo(null);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            updateUI();
+                            frame.setVisible(true);
+
+                        } else { //Calendar was unable to delete - display error message
+                            JOptionPane.showMessageDialog(null, "Calendar was unable to delete! " +
+                                            "Please ensure the calendar you entered exists!",
+                                    "Calendar", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 } else if (e.getSource() == deleteCalendarBackButton) {
                     content.removeAll();
@@ -1909,6 +1945,26 @@ public class Client extends JComponent implements Runnable {
                     updateUI();
                     frame.setVisible(true);
                 } else if (e.getSource() == approveProceedButton) {
+
+
+                    boolean passCheck = false;
+
+                    if (selectApprovalCalendarField.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Appointment needs to be filled!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else if (selectApprovalCalendarField.getText().split("-").length != 3 ||
+                            customerCancelText.getText().split("-")[1].split(",").length != 5) {
+                        JOptionPane.showMessageDialog(null, "Appointment needs to be in the right format!",
+                                "Appointment", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
+                    } else {
+                        passCheck = true;
+                    }
+
+                    if (passCheck) {
+
+                    }
+                    //after requests have been approved, next screen + confirmation message
+
                     //TODO
                 } else if (e.getSource() == approveBackButton) {
                     content.removeAll();
