@@ -191,7 +191,7 @@ public class Client extends JComponent implements Runnable {
                             }
                             break;
                         case "3":
-                          //  bfr.readLine();
+                            //  bfr.readLine();
                             pw.println(info[2]); //Calendar name
                             pw.flush();
                             pw.println(info[3]); //Old appt title
@@ -226,6 +226,10 @@ public class Client extends JComponent implements Runnable {
                         case "6":
                             break;
                         case "7":
+                            pw.println("yes");
+                            pw.flush();
+                            pw.println("no");
+                            pw.flush();
                             break;
                     }
                 } else { //User is a customer
@@ -1796,16 +1800,16 @@ public class Client extends JComponent implements Runnable {
 
                     if (passCheck) {
 
-                      String data = storeNameText.getText() + ",5," + selectApprovalCalendarField.getText() + "," +
-                              sellerActionOptions.getSelectedIndex() + 1 + "," + selectApprovalCustomerUsernameField.getText();
-                      if (sendDataToServer(sellerProceedButton, data).equals("Appointment approved!")) { //Appointment approved
-                          JOptionPane.showMessageDialog(null, "Appointment approved!",
-                                  "Appointment", JOptionPane.INFORMATION_MESSAGE);
+                        String data = storeNameText.getText() + ",5," + selectApprovalCalendarField.getText() + "," +
+                                sellerActionOptions.getSelectedIndex() + 1 + "," + selectApprovalCustomerUsernameField.getText();
+                        if (sendDataToServer(sellerProceedButton, data).equals("Appointment approved!")) { //Appointment approved
+                            JOptionPane.showMessageDialog(null, "Appointment approved!",
+                                    "Appointment", JOptionPane.INFORMATION_MESSAGE);
 
-                      } else { //Appointment declined
-                          JOptionPane.showMessageDialog(null, "Appointment declined!",
-                                  "Appointment", JOptionPane.INFORMATION_MESSAGE);
-                      }
+                        } else { //Appointment declined
+                            JOptionPane.showMessageDialog(null, "Appointment declined!",
+                                    "Appointment", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
 
                     //Reset text fields
@@ -1841,7 +1845,7 @@ public class Client extends JComponent implements Runnable {
                     if (editCalendarTitleField.getText().isEmpty() || editCalendarApptField.getText().isEmpty() ||
                             editCalendarNewApptField.getText().isEmpty() || editCalendarMaxField.getText().isEmpty() ||
                             editCalendarApprovedBookingsField.getText().isEmpty() || editCalendarNewStartTimeField.getText().isEmpty()
-                                    || editCalendarNewEndTimeField.getText().isEmpty()) {
+                            || editCalendarNewEndTimeField.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "All details need to be filled!",
                                 "Calendar", JOptionPane.ERROR_MESSAGE); //Tells user that all fields need to be filled
                     } else if (!isInteger(editCalendarMaxField.getText()) || !isInteger(editCalendarApprovedBookingsField.getText())) {
