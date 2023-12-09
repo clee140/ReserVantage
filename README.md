@@ -22,7 +22,7 @@ Sruthi Lingam will submit the report on Brightspace and Christopher Lee will sub
 and the video presentation on Brightspace.
 
 ## Errors fixed from Project 4
-* All invalid inputs are handled within the GUI.
+* All invalid inputs are handled within the GUI with an appropriate error pop-up message.
 * The Seller approve/decline appointment requests allow the Seller to choose whether to approve or decline an appointment.
 It also asks for the Customer information before asking for the appointment.
 * The deleted calendars are deleted from the Seller's view. If the Seller has one calendar, only the Seller's name, 
