@@ -23,7 +23,6 @@ public class Client extends JComponent implements Runnable {
     private String password;    //Password of the user
     private int viewCancelOption = 0;
     private int viewSortOption = 0;
-    private int customerViewSortOption = 0;
 
     public boolean isInteger(String value) {
         try {
@@ -1358,11 +1357,11 @@ public class Client extends JComponent implements Runnable {
                         }
                     }
                 } else if (e.getSource() == customerSortButton) {
-                    customerViewSortOption = customerCancelOptions.getSelectedIndex();
-                    if (customerViewSortOption == 0) {
-                        customerViewSortOption = 1;
+                    viewSortOption = customerCancelOptions.getSelectedIndex();
+                    if (viewSortOption == 0) {
+                        viewSortOption = 1;
                     }
-                    String tempSort = sendDataToServer(customerSortButton, "6;" + customerViewSortOption);
+                    String tempSort = sendDataToServer(customerSortButton, "6;" + viewSortOption);
                     customerViewStatsLabel.setText("<html>" + tempSort + "</html>");
 
                     content.removeAll(); //Clears the frame
@@ -1684,7 +1683,7 @@ public class Client extends JComponent implements Runnable {
                                 content.removeAll();
                                 content.setLayout(new BorderLayout());
                                 content.add(sellerViewStatistics);
-                                frame.setSize(600, 400);
+                                frame.setSize(1000, 800);
                                 frame.setLocationRelativeTo(null);
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                                 frame.setVisible(true);
@@ -2009,7 +2008,7 @@ public class Client extends JComponent implements Runnable {
                     frame.repaint();
                     content.setLayout(new GridLayout(2, 1));
                     content.add(sellerSortedStatisticsPanel);
-                    frame.setSize(750, 400);
+                    frame.setSize(1000, 800);
                     frame.setLocationRelativeTo(null);
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     updateUI();
