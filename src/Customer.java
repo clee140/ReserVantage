@@ -214,7 +214,23 @@ public class Customer extends User {
     //and returns it for the customer to view.
     public String viewDashboard(int sort) {
         String dashboard = "";
-        ArrayList<String> storeFiles = readFile("hotels.txt");
+        ArrayList<String> storeFiles = new ArrayList<>();
+
+        try {
+            FileReader fileReader = new FileReader("hotels.txt");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String user = bufferedReader.readLine();
+
+            while (user != null) {
+                storeFiles.add(user);
+                user = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            return "No appointments made by the Seller.";
+        }
+
+
         ArrayList<String> sellers = new ArrayList<String>();
 
 
