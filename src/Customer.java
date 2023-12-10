@@ -46,7 +46,20 @@ public class Customer extends User {
     //Goes through all the hotel's calendars and prints them out for the customer to see.
     public String viewCalendars() {
         String calendars = "";
-        ArrayList<String> sellerCalendars = readFile("hotels.txt");
+        ArrayList<String> sellerCalendars = new ArrayList<>();
+        try {
+            FileReader fileReader = new FileReader("hotels.txt");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String user = bufferedReader.readLine();
+
+            while (user != null) {
+                sellerCalendars.add(user);
+                user = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            return "No appointments made by the Seller.";
+        }
         for (int i = 0; i < sellerCalendars.size(); i++) {
             String[] calendarFile = sellerCalendars.get(i).split(",");
             ArrayList<String> sellerFile = readFile(calendarFile[1]);
@@ -106,7 +119,21 @@ public class Customer extends User {
     public String viewAppointmentsWaitingApproval() {
         String appointment = "";
 
-        ArrayList<String> lines = readFile("awaitingApproval.txt");
+        ArrayList<String> lines = new ArrayList<>();
+        try {
+            FileReader fileReader = new FileReader("awaitingApproval.txt");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String user = bufferedReader.readLine();
+
+            while (user != null) {
+                lines.add(user);
+                user = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            return "No appointments made by the Seller.";
+        }
+
         for (int i = 0; i < lines.size(); i++) {
             String[] splitter = lines.get(i).split("-");
             if (splitter[2].equals(userName)) {

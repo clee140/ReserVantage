@@ -10,7 +10,7 @@ This program implements a marketplace calendar. The calendar allows for booking 
 sellers and customers.
 
 This program can be run by first compiling and running Server.java and then Client.java. To have multiple users, run
-Client.java again, but Server.java MUST always be running.
+Client.java again, but Server.java MUST always be running. It is recommended to create a Seller user before creating a Customer user.
 
 * Program Functionality
   * The program saves all application data once the User exit and logs out of the program. 
