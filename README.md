@@ -20,7 +20,7 @@ Client.java again, but Server.java MUST always be running. It is recommended to 
 example, if the User is currently in the "View Store Calendars" option, they must go to a different page ("View statistics" or "View Pending Appointments", etc)
 and then back to the "View Store Calendars" page.
 
-Christopher Lee will submit the repository on Vocareum workspace, the project report, and the video presentation on Brightspace.
+Christopher Lee will submit the repository on Vocareum workspace. Sruthi Lingham will submit the project report. Sreekar Gudipati will submit the video presentation on Brightspace.
 
 ## Errors fixed from Project 4
 * All invalid inputs are handled within the GUI with an appropriate error pop-up message.
