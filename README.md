@@ -1,10 +1,4 @@
-# CS180 Project 5 README
-## Authors
-- Audrey Lupton
-- Sruthi Lingam
-- Christopher Lee
-- Sreekar Gudipati
-
+# README
 ## Overview
 This program implements a marketplace calendar. The calendar allows for booking and managing appointments between
 sellers and customers.
@@ -19,15 +13,6 @@ Client.java again, but Server.java MUST always be running. It is recommended to 
   to see the update, the User MUST navigate to a different page in their action ceneter then back to their original page. For
 example, if the User is currently in the "View Store Calendars" option, they must go to a different page ("View statistics" or "View Pending Appointments", etc)
 and then back to the "View Store Calendars" page.
-
-Christopher Lee will submit the repository on Vocareum workspace. Sruthi Lingham will submit the project report. Sreekar Gudipati will submit the video presentation on Brightspace.
-
-## Errors fixed from Project 4
-* All invalid inputs are handled within the GUI with an appropriate error pop-up message.
-* The Seller approve/decline appointment requests allow the Seller to choose whether to approve or decline an appointment.
-It also asks for the Customer information before asking for the appointment.
-* The deleted calendars are deleted from the Seller's view. If the Seller has one calendar, only the Seller's name, 
-store name, and a time-stamped edit message will remain in the Seller's view once it has been deleted. 
 
 ## Client.java
 The Client class handles the creation of the complex GUI for both the Seller and Customer and sending the appropriate
